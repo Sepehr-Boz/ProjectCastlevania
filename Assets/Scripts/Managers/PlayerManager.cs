@@ -33,11 +33,6 @@ public class PlayerManager : MonoBehaviour
 	}
 	#endregion
 
-	public void Start()
-	{
-		virtualCamera.m_Lens.OrthographicSize = 10;
-	}
-
 	#region spawning players
 	public void FirstSpawn()
 	{
@@ -74,9 +69,15 @@ public class PlayerManager : MonoBehaviour
 
 		//get random positions of the players and spawn them at the locations
 		SpawnPlayer(GameManager.Instance.playerData.playerA, pos[0]);
+		GameManager.Instance.SetRoom(0);
 		SpawnPlayer(GameManager.Instance.playerData.playerB, pos[1]);
+		GameManager.Instance.SetRoom(1);
 		SpawnPlayer(GameManager.Instance.playerData.playerC, pos[2]);
+		GameManager.Instance.SetRoom(2);
 		SpawnPlayer(GameManager.Instance.playerData.playerD, pos[3]);
+		GameManager.Instance.SetRoom(3);
+
+		GameManager.Instance.SetInbetweenRooms(pos);
 
 		pos.Clear();
 	}
@@ -89,11 +90,8 @@ public class PlayerManager : MonoBehaviour
 		while (pos.Count < 4)
 		{
 			Vector2 newPos = new(Random.Range(-range, range) * 10, Random.Range(-range, range) * 10);
-			print(newPos);
-			print(pos.Contains(newPos));
 			if (!pos.Contains(newPos))
 			{
-				print("has already");
 				pos.Add(newPos);
 			}
 		}

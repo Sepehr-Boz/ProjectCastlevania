@@ -41,30 +41,49 @@ public class PlayerController : MonoBehaviour
 		//PlayerManager.Instance.SetCamera(transform);
 	}
 
-	private void OnDisable()
-	{
-		//playerInputActions.Disable();
-		playerInputActions.Player.Move.performed -= Move;
-		playerInputActions.Player.Move.canceled -= MoveStop;
-		playerInputActions.Player.Die.performed -= DecreaseHealth;
-	}
+	//private void OnDisable()
+	//{
+	//	//playerInputActions.Disable();
+	//	playerInputActions.Player.Move.performed -= Move;
+	//	playerInputActions.Player.Move.canceled -= MoveStop;
+	//	playerInputActions.Player.Die.performed -= DecreaseHealth;
+	//}
 
 	private void OnEnable()
 	{
-		//playerInputActions.Enable();
-		playerInputActions.Player.Move.performed += Move;
-		playerInputActions.Player.Move.canceled += MoveStop;
-		playerInputActions.Player.Die.performed += DecreaseHealth;
-
-
 		//set health to max health
 		health = maxHealth;
 
 		//add checking to see if a player is in a new area
 		//find the closest 10s to the player and get the spawn point
 		Vector2 centre = GameManager.Instance.GetClosestCentre(transform.position);
-		print(centre);
-		Collider2D collider = Physics2D.OverlapPoint(centre);
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(centre, 1f);
+		GameObject room = null;
+		foreach (Collider2D collider in colliders)
+		{
+			if (collider.name == "FOCUS")
+			{
+				room = collider.transform.parent.gameObject;
+			}
+		}
+
+		if (room == null)
+		{
+			GameManager.Instance.DestroyArea(PlayerManager.Instance.roomsIndex);
+			GameManager.Instance.GenerateArea();
+			return;
+		}
+
+		Area currentArea = room.GetComponent<AddRoom>().area;
+		if (currentArea != area && (currentArea == Area.RED || currentArea == Area.BLUE || currentArea == Area.GREEN || currentArea == Area.YELLOW))
+		{
+			return;
+		}
+
+		GameManager.Instance.DestroyArea(PlayerManager.Instance.roomsIndex);
+		GameManager.Instance.GenerateArea();
+
+		//Collider2D[] collider = Physics2D.OverlapPoint(centre);
 		//if (collider == null)
 		//{
 		//	GameManager.Instance.DestroyArea(PlayerManager.Instance.roomsIndex);
@@ -72,11 +91,11 @@ public class PlayerController : MonoBehaviour
 		//	return;
 		//}
 		//Collider2D collider = Physics2D.OverlapCircle(transform.position, 11f);
-		GameObject room = null;
-		if (collider.gameObject.GetComponent<Destroyer>() != null)
-		{
-			room = collider.transform.parent.parent.gameObject;
-		}
+		//GameObject room = null;
+		//if (collider.gameObject.GetComponent<Destroyer>() != null)
+		//{
+		//	room = collider.transform.parent.parent.gameObject;
+		//}
 		//foreach (Collider collider in colliders)
 		//{
 		//	if (collider.gameObject.GetComponent<Destroyer>() != null)
@@ -86,18 +105,24 @@ public class PlayerController : MonoBehaviour
 		//}
 
 		//get the room from the spawn point if the spawn point has a destroyer ( to check that its the centre of a room )
+		//if (room == null)
+		//{
+		//	GameManager.Instance.DestroyArea(PlayerManager.Instance.roomsIndex);
+		//	GameManager.Instance.GenerateArea();
+		//	return;
+		//}
 
-		//compare the room colour with the player colour
-		if (room.GetComponent<AddRoom>().area != area)
-		{
-			return;
-		}
+		////compare the room colour with the player colour
+		//if (room.GetComponent<AddRoom>().area != area)
+		//{
+		//	return;
+		//}
 		//if the colours are the same then destroy and generate a new set of rooms
 		//otherwise dont
 
 		//whenever a new player is active get rid of their rooms and generate a new set of rooms
-		GameManager.Instance.DestroyArea(PlayerManager.Instance.roomsIndex);
-		GameManager.Instance.GenerateArea();
+		//GameManager.Instance.DestroyArea(PlayerManager.Instance.roomsIndex);
+		//GameManager.Instance.GenerateArea();
 	}
 
 	#region enable/disable inputs

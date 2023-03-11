@@ -19,7 +19,7 @@ public class RoomTemplates : MonoBehaviour
 
 	[Header("Script Variables")]
 	public float waitTime;
-	[SerializeField]public int maxRoomLength = 50;
+	public int maxRoomLength = 50;
 
 	private void Start()
 	{
@@ -27,49 +27,49 @@ public class RoomTemplates : MonoBehaviour
 
 		//InvokeRepeating("CheckRoomLengths", 0f, 0.05f);
 
-		Invoke("SpawnBosses", 10f);
+		Invoke(nameof(SpawnBosses), 10f);
 	}
 
 	#region depreceated
 	//depreceated as the room lengths are checked in room spawner so the list lengths never exceed the maxroomlength
-	private void CheckRoomLengths()
-	{
-		if (roomData.roomsA.Count > maxRoomLength + 1)
-		{
-			roomData.roomsA[maxRoomLength].SetActive(false);
-			//Destroy(roomData.roomsA[maxRoomLength]);
-			roomData.roomsA.RemoveAt(maxRoomLength);
-			return;
-		}
-		if (roomData.roomsB.Count > maxRoomLength + 1)
-		{
-			roomData.roomsB[maxRoomLength].SetActive(false);
-			//Destroy(roomData.roomsB[maxRoomLength]);
-			roomData.roomsB.RemoveAt(maxRoomLength);
-			return;
-		}
-		if (roomData.roomsC.Count > maxRoomLength + 1)
-		{
-			roomData.roomsC[maxRoomLength].SetActive(false);
-			//Destroy(roomData.roomsC[maxRoomLength]);
-			roomData.roomsC.RemoveAt(maxRoomLength);
-			return;
-		}
-		if (roomData.roomsD.Count > maxRoomLength + 1)
-		{
-			roomData.roomsD[maxRoomLength].SetActive(false);
-			//Destroy(roomData.roomsD[maxRoomLength]);
-			roomData.roomsD.RemoveAt(maxRoomLength);
-			return;
-		}
-		if (roomData.roomsA.Count < maxRoomLength || roomData.roomsB.Count < maxRoomLength || roomData.roomsC.Count < maxRoomLength || roomData.roomsD.Count < maxRoomLength)
-		{
-			return;
-		}
+	//private void CheckRoomLengths()
+	//{
+	//	if (roomData.roomsA.Count > maxRoomLength + 1)
+	//	{
+	//		roomData.roomsA[maxRoomLength].SetActive(false);
+	//		//Destroy(roomData.roomsA[maxRoomLength]);
+	//		roomData.roomsA.RemoveAt(maxRoomLength);
+	//		return;
+	//	}
+	//	if (roomData.roomsB.Count > maxRoomLength + 1)
+	//	{
+	//		roomData.roomsB[maxRoomLength].SetActive(false);
+	//		//Destroy(roomData.roomsB[maxRoomLength]);
+	//		roomData.roomsB.RemoveAt(maxRoomLength);
+	//		return;
+	//	}
+	//	if (roomData.roomsC.Count > maxRoomLength + 1)
+	//	{
+	//		roomData.roomsC[maxRoomLength].SetActive(false);
+	//		//Destroy(roomData.roomsC[maxRoomLength]);
+	//		roomData.roomsC.RemoveAt(maxRoomLength);
+	//		return;
+	//	}
+	//	if (roomData.roomsD.Count > maxRoomLength + 1)
+	//	{
+	//		roomData.roomsD[maxRoomLength].SetActive(false);
+	//		//Destroy(roomData.roomsD[maxRoomLength]);
+	//		roomData.roomsD.RemoveAt(maxRoomLength);
+	//		return;
+	//	}
+	//	if (roomData.roomsA.Count < maxRoomLength || roomData.roomsB.Count < maxRoomLength || roomData.roomsC.Count < maxRoomLength || roomData.roomsD.Count < maxRoomLength)
+	//	{
+	//		return;
+	//	}
 
-		CancelInvoke("CheckRoomLengths");
+	//	CancelInvoke("CheckRoomLengths");
 		
-	}
+	//}
 	#endregion
 
 

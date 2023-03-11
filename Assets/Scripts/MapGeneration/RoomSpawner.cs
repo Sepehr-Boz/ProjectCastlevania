@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.MapGeneration;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -24,7 +25,7 @@ public class RoomSpawner : MonoBehaviour {
 
 	void Start(){
 		//must destroy instead of setting inactive as the rooms will continue to spawn on top of each other even when set inactive
-		StartCoroutine(Delay());
+		//StartCoroutine(Delay());
 		//Destroy(gameObject, waitTime);
 
 		objectPool = ObjectPooling.Instance;
@@ -56,8 +57,30 @@ public class RoomSpawner : MonoBehaviour {
 					return;
 				}
 				break;
-			default:
-				return;
+			case Area.A:
+				if (templates.roomData.roomsE.Count >= templates.maxRoomLength)
+				{
+					return;
+				}
+				break;
+			case Area.B:
+				if (templates.roomData.roomsF.Count >= templates.maxRoomLength)
+				{
+					return;
+				}
+				break;
+			case Area.C:
+				if (templates.roomData.roomsG.Count >= templates.maxRoomLength)
+				{
+					return;
+				}
+				break;
+			case Area.D:
+				if (templates.roomData.roomsH.Count >= templates.maxRoomLength)
+				{
+					return;
+				}
+				break;
 		}
 		//only spawn a room if the room lengths is not exceeded
 		Invoke(nameof(Spawn), 0.1f);
@@ -78,7 +101,9 @@ public class RoomSpawner : MonoBehaviour {
 		//check each direction for if there're openings in both rooms
 		if (dir == 1)
 		{
-			//BOTTOM
+			//UP
+			//aWalls.Find("North").gameObject.SetActive(false);
+			//bWalls.Find("South").gameObject.SetActive(false);
 			if (aPoints.Find("UP").gameObject.activeInHierarchy && bPoints.Find("DOWN").gameObject.activeInHierarchy)
 			{
 				//set the walls between the 2 rooms inactive so that the player can move through
@@ -97,7 +122,9 @@ public class RoomSpawner : MonoBehaviour {
 		}
 		else if (dir == 2)
 		{
-			//UP
+			//BOTTOM
+			//aWalls.Find("South").gameObject.SetActive(false);
+			//bWalls.Find("North").gameObject.SetActive(false);
 			if (aPoints.Find("DOWN").gameObject.activeInHierarchy && bPoints.Find("UP").gameObject.activeInHierarchy)
 			{
 				aWalls.Find("South").gameObject.SetActive(false);
@@ -113,7 +140,9 @@ public class RoomSpawner : MonoBehaviour {
 		}
 		else if (dir == 3)
 		{
-			//LEFT
+			//RIGHT
+			//aWalls.Find("East").gameObject.SetActive(false);
+			//bWalls.Find("West").gameObject.SetActive(false);
 			if (aPoints.Find("RIGHT").gameObject.activeInHierarchy && bPoints.Find("LEFT").gameObject.activeInHierarchy)
 			{
 				aWalls.Find("East").gameObject.SetActive(false);
@@ -129,7 +158,9 @@ public class RoomSpawner : MonoBehaviour {
 		}
 		else if (dir == 4)
 		{
-			//RIGHT
+			//LEFT
+			//aWalls.Find("West").gameObject.SetActive(false);
+			//bWalls.Find("East").gameObject.SetActive(false);
 			if (aPoints.Find("LEFT").gameObject.activeInHierarchy && bPoints.Find("RIGHT").gameObject.activeInHierarchy)
 			{
 				aWalls.Find("West").gameObject.SetActive(false);
@@ -212,12 +243,15 @@ public class RoomSpawner : MonoBehaviour {
 				SetRoomDetails(room);
 
 				//random chance to compare and extend the rooms
-				if (rand <= 1)
+				if (rand <= 3)
 				{
 					CompareRooms(currentRoom, room, openingDirection);
 				}
 			}
 			spawned = true;
+
+			Destroy(gameObject.GetComponent<RoomSpawner>());
+			gameObject.SetActive(false);
 		}
 	}
 
@@ -248,10 +282,24 @@ public class RoomSpawner : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if(other.CompareTag("SpawnPoint")){
+		//occurs when 2 rooms attempt to spawn a room at the same area
+		if(other.CompareTag("SpawnPoint") && other.name != "Room"){
 			try
 			{
-				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
+				//print(other.name);
+				//if ((other.transform.GetComponentInParent<AddRoom>().area != transform.GetComponentInParent<AddRoom>().area) && other.name == "CENTRE")
+				//{
+				//	Debug.Log(other.transform.GetComponentInParent<AddRoom>().area.ToString() + transform.GetComponentInParent<AddRoom>().area.ToString());
+				//	//if theyre different areas
+				//	//get the dir to determine which direction to delete
+				//	CompareRoomsB(transform.parent.parent.gameObject, other.transform.parent.parent.gameObject, openingDirection);
+				//	spawned = true;
+				//	return;
+				//}
+
+
+
+				if (other.GetComponent<RoomSpawner>() != null && other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
 					room = objectPool.GetPooledObject(templates.closedRoom);
 					room.transform.SetPositionAndRotation(transform.position, transform.rotation);
@@ -260,9 +308,22 @@ public class RoomSpawner : MonoBehaviour {
 
 					Destroy(gameObject.GetComponent<RoomSpawner>());
 					gameObject.SetActive(false);
-					//Destroy(gameObject);
 				}
 				spawned = true;
+
+
+				//if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
+				//{
+				//	room = objectPool.GetPooledObject(templates.closedRoom);
+				//	room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+				//	//GameObject room = Instantiate(templates.closedRoom);
+				//	SetRoomDetails(room);
+
+				//	Destroy(gameObject.GetComponent<RoomSpawner>());
+				//	gameObject.SetActive(false);
+				//	//Destroy(gameObject);
+				//}
+				//spawned = true;
 			}
 			catch
 			{

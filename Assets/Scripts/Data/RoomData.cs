@@ -15,6 +15,11 @@ public class RoomData : ScriptableObject
 	public List<GameObject> roomsB;
 	public List<GameObject> roomsC;
 	public List<GameObject> roomsD;
+
+	public List<GameObject> roomsE;
+	public List<GameObject> roomsF;
+	public List<GameObject> roomsG;
+	public List<GameObject> roomsH;
 }
 
 
@@ -24,5 +29,9 @@ public enum Area
 	GREEN,
 	BLUE,
 	YELLOW,
+	A,
+	B,
+	C,
+	D,
 	NONE
 }

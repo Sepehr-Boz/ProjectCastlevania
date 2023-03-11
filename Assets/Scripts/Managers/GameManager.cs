@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 		PlayerManager.Instance.FirstSpawn();
 
 		//move the entry rooms to the player positions
-		Invoke(nameof(SetRooms), 4f);
+		//Invoke(nameof(SetRooms), 4f);
 
 		//check is rooms are pooled and if theyre then set the entry rooms active
 
@@ -62,10 +62,10 @@ public class GameManager : MonoBehaviour
 
 	private void SetRooms()
 	{
-		SetRoom(0);
-		SetRoom(1);
-		SetRoom(2);
-		SetRoom(3);
+		//SetRoom(0);
+		//SetRoom(1);
+		//SetRoom(2);
+		//SetRoom(3);
 
 		foreach (GameObject obj in startRooms)
 		{
@@ -74,9 +74,26 @@ public class GameManager : MonoBehaviour
 
 	}
 
-	private void SetRoom(int index)
+	public void SetRoom(int index)
 	{
 		startRooms[index].transform.position = PlayerManager.Instance.transform.GetChild(index).transform.position;
+	}
+
+	public void SetInbetweenRooms(List<Vector2> pos)
+	{
+		Vector2 a = GetClosestCentre((pos[0] + pos[1]) / 2);
+		startRooms[4].transform.position = a;
+		Vector2 b = GetClosestCentre((pos[1] + pos[2]) / 2);
+		startRooms[5].transform.position = b;
+		Vector2 c = GetClosestCentre((pos[2] + pos[3]) / 2);
+		startRooms[6].transform.position = c;
+		Vector2 d = GetClosestCentre((pos[3] + pos[0]) / 2);
+		startRooms[7].transform.position = d;
+
+		foreach (GameObject obj in startRooms)
+		{
+			obj.SetActive(true);
+		}
 	}
 
 	//empty the rooms lists on game end

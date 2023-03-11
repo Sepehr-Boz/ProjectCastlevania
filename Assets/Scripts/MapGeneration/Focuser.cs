@@ -20,8 +20,8 @@ public class Focuser : MonoBehaviour
 			//}
 
 			//if the room hasnt been extended focus the camera to the room
-			PlayerManager.Instance.virtualCamera.LookAt = transform.parent.parent;
-			PlayerManager.Instance.virtualCamera.Follow = transform.parent.parent;
+			PlayerManager.Instance.virtualCamera.LookAt = transform.parent;
+			PlayerManager.Instance.virtualCamera.Follow = transform.parent;
 		}
 	}
 
