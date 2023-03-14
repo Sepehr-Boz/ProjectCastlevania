@@ -16,7 +16,7 @@ namespace Assets.Scripts.Data
 		public List<GameObject> objects; //list of objects that CAN BE SPAWNED //NOT THE ONES THAT HAVE BEEN SPAWNED
 
 		public List<GameObject> rooms;
-		public List<RoomData> roomsData;
+		[SerializeField]public List<RoomData> roomsData;
 
 	}
 }
@@ -30,7 +30,8 @@ public enum Area
 	AREAC
 }
 
-public struct RoomData
+//[System.Serializable] makes the struct visible in the inspector
+[System.Serializable]public struct RoomData
 {
 	public Vector3 position;
 	public Quaternion rotation;

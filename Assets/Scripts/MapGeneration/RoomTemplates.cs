@@ -33,7 +33,13 @@ public class RoomTemplates : MonoBehaviour
 		//InvokeRepeating("CheckRoomLengths", 0f, 0.05f);
 
 
-		//Invoke(nameof(SpawnBosses), 10f);
+		Invoke(nameof(SpawnBosses), 10f);
+	}
+
+	private void OnApplicationQuit()
+	{
+		GameManager.Instance.thisArea.rooms.Clear();
+
 	}
 
 	#region depreceated
@@ -74,7 +80,7 @@ public class RoomTemplates : MonoBehaviour
 	//	}
 
 	//	CancelInvoke("CheckRoomLengths");
-		
+
 	//}
 	#endregion
 

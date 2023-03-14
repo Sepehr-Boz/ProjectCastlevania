@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,9 +39,19 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+		//load the scene the current player is in
+		LoadScene(PlayerManager.Instance.currentPlayer);
+
 		//set target fps
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = targetFPS;
+	}
+
+	//load the correct scene
+	//called whenever the player is switched
+	public void LoadScene(PlayerData currentPlayer)
+	{
+		SceneManager.LoadScene(currentPlayer.currentArea.ToString());
 	}
 
 

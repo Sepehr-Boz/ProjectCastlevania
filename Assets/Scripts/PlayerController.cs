@@ -33,12 +33,18 @@ public class PlayerController : MonoBehaviour
 
 		playerInputActions = new PlayerInputActions();
 
-		//playerInputActions.Enable();
-		//playerInputActions.Player.Move.performed += Move;
-		//playerInputActions.Player.Move.canceled += MoveStop;
-		//playerInputActions.Player.Die.performed += DecreaseHealth;
+		playerInputActions.Enable();
+		playerInputActions.Player.Move.performed += Move;
+		playerInputActions.Player.Move.canceled += MoveStop;
+		playerInputActions.Player.Die.performed += DecreaseHealth;
 
 		//PlayerManager.Instance.SetCamera(transform);
+	}
+
+	private void OnEnable()
+	{
+		//set health back to max health
+		health = maxHealth;
 	}
 
 	//private void OnDisable()
@@ -145,32 +151,32 @@ public class PlayerController : MonoBehaviour
 	////}
 	//#endregion
 
-	//private void FixedUpdate()
-	//{
-	//	if (health <= 0)
-	//	{
-	//		NextPlayer();
-	//	}
-	//	rigidBody.velocity = velocity * moveForce;
-	//}
+	private void FixedUpdate()
+	{
+		if (health <= 0)
+		{
+			PlayerManager.Instance.SwitchPlayer();
+		}
+		rigidBody.velocity = velocity * moveForce;
+	}
 
-	//public void DecreaseHealth(InputAction.CallbackContext context)
-	//{
-	//	health -= 10;
-	//}
+	public void DecreaseHealth(InputAction.CallbackContext context)
+	{
+		health -= 10;
+	}
 
-	//#region movements
-	////move functions alter the velocity int the script - dont apply the velocity in the functions themselves
-	//public void Move(InputAction.CallbackContext context)
-	//{
-	//	velocity = context.ReadValue<Vector2>();
-	//}
+	#region movements
+	//move functions alter the velocity int the script - dont apply the velocity in the functions themselves
+	public void Move(InputAction.CallbackContext context)
+	{
+		velocity = context.ReadValue<Vector2>();
+	}
 
-	//public void MoveStop(InputAction.CallbackContext context)
-	//{
-	//	velocity = Vector2.zero;
-	//}
-	//#endregion
+	public void MoveStop(InputAction.CallbackContext context)
+	{
+		velocity = Vector2.zero;
+	}
+	#endregion
 
 	//public void NextPlayer()
 	//{

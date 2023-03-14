@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class PlayerManager : MonoBehaviour
 {
 	public List<PlayerData> players;
-	public GameObject currentPlayer;
+	public PlayerData currentPlayer;
 
 
 	#region singleton
@@ -28,6 +28,26 @@ public class PlayerManager : MonoBehaviour
 		_instance = this;
 	}
 	#endregion
+
+	private void Start()
+	{
+		currentPlayer = players[0];
+	}
+
+	//switching the current active player
+	public void SwitchPlayer()
+	{
+		if (currentPlayer == players[0])
+		{
+			currentPlayer = players[1];
+		}
+		else
+		{
+			currentPlayer = players[0];
+		}
+
+		GameManager.Instance.LoadScene(currentPlayer);
+	}
 
 
 	//public Transform currentPlayer;

@@ -15,8 +15,8 @@ public class RoomSpawner : MonoBehaviour {
 	// 4 --> need right door
 
 	private RoomPool roomPool;
-
 	private RoomTemplates templates;
+
 	private int rand;
 	public bool spawned = false;
 
@@ -204,6 +204,7 @@ public class RoomSpawner : MonoBehaviour {
 				rand = Random.Range(0, templates.bottomRooms.Length);
 				room = roomPool.GetPooledObject(templates.bottomRooms[rand]);
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+				GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
 
 				//CompareRooms(currentRoom, room, openingDirection);
 				//room = Instantiate(templates.bottomRooms[rand], transform.position, templates.bottomRooms[rand].transform.rotation);
@@ -213,6 +214,7 @@ public class RoomSpawner : MonoBehaviour {
 				rand = Random.Range(0, templates.topRooms.Length);
 				room = roomPool.GetPooledObject(templates.topRooms[rand]);
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+				GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
 
 				//CompareRooms(currentRoom, room, openingDirection);
 				//room = Instantiate(templates.topRooms[rand], transform.position, templates.topRooms[rand].transform.rotation);
@@ -222,6 +224,7 @@ public class RoomSpawner : MonoBehaviour {
 				rand = Random.Range(0, templates.leftRooms.Length);
 				room = roomPool.GetPooledObject(templates.leftRooms[rand]);
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+				GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
 
 				//CompareRooms(currentRoom, room, openingDirection);
 				//room = Instantiate(templates.leftRooms[rand], transform.position, templates.leftRooms[rand].transform.rotation);
@@ -231,6 +234,7 @@ public class RoomSpawner : MonoBehaviour {
 				rand = Random.Range(0, templates.rightRooms.Length);
 				room = roomPool.GetPooledObject(templates.rightRooms[rand]);
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+				GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
 
 				//CompareRooms(currentRoom, room, openingDirection);
 				//room = Instantiate(templates.rightRooms[rand], transform.position, templates.rightRooms[rand].transform.rotation);
@@ -310,12 +314,19 @@ public class RoomSpawner : MonoBehaviour {
 				if (other.GetComponent<RoomSpawner>() != null && other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
 					room = roomPool.GetPooledObject(templates.closedRoom);
+					//room = roomPool.GetPooledObject(templates.connectRooms[Random.Range(0, templates.connectRooms.Length)]);
 					room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+					GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
+
 					//GameObject room = Instantiate(templates.closedRoom);
 					//SetRoomDetails(room);
 
 					Destroy(gameObject.GetComponent<RoomSpawner>());
 					gameObject.SetActive(false);
+				}
+				else
+				{
+					CompareRooms(gameObject, other.gameObject, openingDirection);
 				}
 				spawned = true;
 
