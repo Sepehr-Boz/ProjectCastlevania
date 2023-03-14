@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.MapGeneration;
+using Assets.Scripts.Pools;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ public class RoomSpawner : MonoBehaviour {
 	// 3 --> need left door
 	// 4 --> need right door
 
-	private ObjectPooling objectPool;
+	private RoomPool roomPool;
 
 	private RoomTemplates templates;
 	private int rand;
@@ -28,60 +29,67 @@ public class RoomSpawner : MonoBehaviour {
 		//StartCoroutine(Delay());
 		//Destroy(gameObject, waitTime);
 
-		objectPool = ObjectPooling.Instance;
-		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
+		roomPool = RoomPool.Instance;
+		templates = GameManager.Instance.templates;
 
-		switch (transform.GetComponentInParent<AddRoom>().area)
+		//dont spawn a new room if the max length has been reached
+		if (GameManager.Instance.thisArea.rooms.Count >= templates.maxRoomLength)
 		{
-			case Area.RED:
-				if (templates.roomData.roomsA.Count >= templates.maxRoomLength)
-				{
-					return;
-				}
-				break;
-			case Area.GREEN:
-				if (templates.roomData.roomsB.Count >= templates.maxRoomLength)
-				{
-					return;
-				}
-				break;
-			case Area.BLUE:
-				if (templates.roomData.roomsC.Count >= templates.maxRoomLength)
-				{
-					return;
-				}
-				break;
-			case Area.YELLOW:
-				if (templates.roomData.roomsD.Count >= templates.maxRoomLength)
-				{
-					return;
-				}
-				break;
-			case Area.A:
-				if (templates.roomData.roomsE.Count >= templates.maxRoomLength)
-				{
-					return;
-				}
-				break;
-			case Area.B:
-				if (templates.roomData.roomsF.Count >= templates.maxRoomLength)
-				{
-					return;
-				}
-				break;
-			case Area.C:
-				if (templates.roomData.roomsG.Count >= templates.maxRoomLength)
-				{
-					return;
-				}
-				break;
-			case Area.D:
-				if (templates.roomData.roomsH.Count >= templates.maxRoomLength)
-				{
-					return;
-				}
-				break;
+			return;
 		}
+		//templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
+
+		//switch (transform.GetComponentInParent<AddRoom>().area)
+		//{
+		//	case Area.RED:
+		//		if (templates.roomData.roomsA.Count >= templates.maxRoomLength)
+		//		{
+		//			return;
+		//		}
+		//		break;
+		//	case Area.GREEN:
+		//		if (templates.roomData.roomsB.Count >= templates.maxRoomLength)
+		//		{
+		//			return;
+		//		}
+		//		break;
+		//	case Area.BLUE:
+		//		if (templates.roomData.roomsC.Count >= templates.maxRoomLength)
+		//		{
+		//			return;
+		//		}
+		//		break;
+		//	case Area.YELLOW:
+		//		if (templates.roomData.roomsD.Count >= templates.maxRoomLength)
+		//		{
+		//			return;
+		//		}
+		//		break;
+		//	case Area.A:
+		//		if (templates.roomData.roomsE.Count >= templates.maxRoomLength)
+		//		{
+		//			return;
+		//		}
+		//		break;
+		//	case Area.B:
+		//		if (templates.roomData.roomsF.Count >= templates.maxRoomLength)
+		//		{
+		//			return;
+		//		}
+		//		break;
+		//	case Area.C:
+		//		if (templates.roomData.roomsG.Count >= templates.maxRoomLength)
+		//		{
+		//			return;
+		//		}
+		//		break;
+		//	case Area.D:
+		//		if (templates.roomData.roomsH.Count >= templates.maxRoomLength)
+		//		{
+		//			return;
+		//		}
+		//		break;
+		//}
 		//only spawn a room if the room lengths is not exceeded
 		Invoke(nameof(Spawn), 0.1f);
 	}
@@ -194,7 +202,7 @@ public class RoomSpawner : MonoBehaviour {
 			if(openingDirection == 1){
 				// Need to spawn a room with a BOTTOM door.
 				rand = Random.Range(0, templates.bottomRooms.Length);
-				room = objectPool.GetPooledObject(templates.bottomRooms[rand]);
+				room = roomPool.GetPooledObject(templates.bottomRooms[rand]);
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
 				//CompareRooms(currentRoom, room, openingDirection);
@@ -203,7 +211,7 @@ public class RoomSpawner : MonoBehaviour {
 			} else if(openingDirection == 2){
 				// Need to spawn a room with a TOP door.
 				rand = Random.Range(0, templates.topRooms.Length);
-				room = objectPool.GetPooledObject(templates.topRooms[rand]);
+				room = roomPool.GetPooledObject(templates.topRooms[rand]);
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
 				//CompareRooms(currentRoom, room, openingDirection);
@@ -212,7 +220,7 @@ public class RoomSpawner : MonoBehaviour {
 			} else if(openingDirection == 3){
 				// Need to spawn a room with a LEFT door.
 				rand = Random.Range(0, templates.leftRooms.Length);
-				room = objectPool.GetPooledObject(templates.leftRooms[rand]);
+				room = roomPool.GetPooledObject(templates.leftRooms[rand]);
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
 				//CompareRooms(currentRoom, room, openingDirection);
@@ -221,7 +229,7 @@ public class RoomSpawner : MonoBehaviour {
 			} else if(openingDirection == 4){
 				// Need to spawn a room with a RIGHT door.
 				rand = Random.Range(0, templates.rightRooms.Length);
-				room = objectPool.GetPooledObject(templates.rightRooms[rand]);
+				room = roomPool.GetPooledObject(templates.rightRooms[rand]);
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
 				//CompareRooms(currentRoom, room, openingDirection);
@@ -240,7 +248,7 @@ public class RoomSpawner : MonoBehaviour {
 			if (room != null)
 			{
 				//set the room details of the next room - should always occur when a room is spawned
-				SetRoomDetails(room);
+				//SetRoomDetails(room);
 
 				//random chance to compare and extend the rooms
 				if (rand <= 3)
@@ -255,31 +263,31 @@ public class RoomSpawner : MonoBehaviour {
 		}
 	}
 
-	private Color GetSelfColour()
-	{
-		var colour = transform.parent.parent.GetChild(0).GetChild(0).GetComponent<Tilemap>().color;
-		return colour;
-	}
+	//private Color GetSelfColour()
+	//{
+	//	var colour = transform.parent.parent.GetChild(0).GetChild(0).GetComponent<Tilemap>().color;
+	//	return colour;
+	//}
 
-	private Area GetSelfArea()
-	{
-		var area = transform.parent.parent.GetComponent<AddRoom>().area;
-		return area;
-	}
+	//private Area GetSelfArea()
+	//{
+	//	var area = transform.parent.parent.GetComponent<AddRoom>().area;
+	//	return area;
+	//}
 
-	private void SetRoomDetails(GameObject room)
-	{
-		Color color = GetSelfColour();
+	//private void SetRoomDetails(GameObject room)
+	//{
+	//	Color color = GetSelfColour();
 
-		Tilemap[] tilemaps = room.transform.GetChild(0).GetComponentsInChildren<Tilemap>();
+	//	Tilemap[] tilemaps = room.transform.GetChild(0).GetComponentsInChildren<Tilemap>();
 
-		foreach (Tilemap tilemap in tilemaps)
-		{
-			tilemap.color = color;
-		}
+	//	foreach (Tilemap tilemap in tilemaps)
+	//	{
+	//		tilemap.color = color;
+	//	}
 
-		room.GetComponent<AddRoom>().area = GetSelfArea();
-	}
+	//	room.GetComponent<AddRoom>().area = GetSelfArea();
+	//}
 
 	void OnTriggerEnter2D(Collider2D other){
 		//occurs when 2 rooms attempt to spawn a room at the same area
@@ -301,10 +309,10 @@ public class RoomSpawner : MonoBehaviour {
 
 				if (other.GetComponent<RoomSpawner>() != null && other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
-					room = objectPool.GetPooledObject(templates.closedRoom);
+					room = roomPool.GetPooledObject(templates.closedRoom);
 					room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 					//GameObject room = Instantiate(templates.closedRoom);
-					SetRoomDetails(room);
+					//SetRoomDetails(room);
 
 					Destroy(gameObject.GetComponent<RoomSpawner>());
 					gameObject.SetActive(false);

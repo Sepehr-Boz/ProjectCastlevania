@@ -15,19 +15,25 @@ public class RoomTemplates : MonoBehaviour
 
 	public GameObject boss;
 
-	[SerializeField]public RoomData roomData;
+	//[SerializeField]public RoomData roomData;
 
 	[Header("Script Variables")]
-	public float waitTime;
-	public int maxRoomLength = 50;
+	//public float waitTime;
+	public int maxRoomLength = 50; //accessed from roomspawner also
+	public int numBosses = 1; //how many bosses to spawn
+
+
+	private List<GameObject> rooms = GameManager.Instance.thisArea.rooms;
+	private List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;
 
 	private void Start()
 	{
-		roomData = GameManager.Instance.roomData;
+		//roomData = GameManager.Instance.roomData;
 
 		//InvokeRepeating("CheckRoomLengths", 0f, 0.05f);
 
-		Invoke(nameof(SpawnBosses), 10f);
+
+		//Invoke(nameof(SpawnBosses), 10f);
 	}
 
 	#region depreceated
@@ -76,24 +82,31 @@ public class RoomTemplates : MonoBehaviour
 	//should be called when the rooms have been generated
 	public void SpawnBosses()
 	{
-		GameObject roomBoss;
-		int rand;
 
-		//rand should be between half roomsA length not max room length as the length of the rooms does not always reach max room lengths so may be shorter
-		rand = Random.Range(Mathf.RoundToInt(roomData.roomsA.Count / 2), roomData.roomsA.Count);
-		roomBoss = Instantiate(boss, roomData.roomsA[rand].transform.position, Quaternion.identity);
-		roomData.roomsA.Add(roomBoss);
+		////rand should be between half roomsA length not max room length as the length of the rooms does not always reach max room lengths so may be shorter
+		//rand = Random.Range(Mathf.RoundToInt(roomData.roomsA.Count / 2), roomData.roomsA.Count);
+		//roomBoss = Instantiate(boss, roomData.roomsA[rand].transform.position, Quaternion.identity);
+		//roomData.roomsA.Add(roomBoss);
 
-		rand = Random.Range(Mathf.RoundToInt(roomData.roomsB.Count / 2), roomData.roomsB.Count);
-		roomBoss = Instantiate(boss, roomData.roomsB[rand].transform.position, Quaternion.identity);
-		roomData.roomsB.Add(roomBoss);
+		//rand = Random.Range(Mathf.RoundToInt(roomData.roomsB.Count / 2), roomData.roomsB.Count);
+		//roomBoss = Instantiate(boss, roomData.roomsB[rand].transform.position, Quaternion.identity);
+		//roomData.roomsB.Add(roomBoss);
 
-		rand = Random.Range(Mathf.RoundToInt(roomData.roomsC.Count / 2), roomData.roomsC.Count);
-		roomBoss = Instantiate(boss, roomData.roomsC[rand].transform.position, Quaternion.identity);
-		roomData.roomsC.Add(roomBoss);
+		//rand = Random.Range(Mathf.RoundToInt(roomData.roomsC.Count / 2), roomData.roomsC.Count);
+		//roomBoss = Instantiate(boss, roomData.roomsC[rand].transform.position, Quaternion.identity);
+		//roomData.roomsC.Add(roomBoss);
 
-		rand = Random.Range(Mathf.RoundToInt(roomData.roomsD.Count / 2), roomData.roomsD.Count);
-		roomBoss = Instantiate(boss, roomData.roomsD[rand].transform.position, Quaternion.identity);
-		roomData.roomsD.Add(roomBoss);
+		//rand = Random.Range(Mathf.RoundToInt(roomData.roomsD.Count / 2), roomData.roomsD.Count);
+		//roomBoss = Instantiate(boss, roomData.roomsD[rand].transform.position, Quaternion.identity);
+		//roomData.roomsD.Add(roomBoss);
+
+
+		for (int i = 0; i < numBosses; i++)
+		{
+			int rand = Random.Range(Mathf.RoundToInt(rooms.Count / 2), rooms.Count);
+			GameObject areaBoss = Instantiate(boss, rooms[rand].transform.position, Quaternion.identity);
+			roomsData[rand].AddEnemy(areaBoss);
+		}
+
 	}
 }
