@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		//load the scene the current player is in
-		LoadScene(PlayerManager.Instance.currentPlayer);
+		//LoadScene(PlayerManager.Instance.currentPlayer);
 
 		//set target fps
 		QualitySettings.vSyncCount = 0;

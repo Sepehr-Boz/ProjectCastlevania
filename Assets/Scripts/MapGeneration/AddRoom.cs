@@ -6,6 +6,7 @@ namespace Assets.Scripts.MapGeneration
 	{
 		private void Start()
 		{
+			//add self to rooms
 			GameManager.Instance.thisArea.rooms.Add(this.gameObject);
 		}
 	}

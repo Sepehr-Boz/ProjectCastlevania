@@ -21,5 +21,10 @@ namespace Assets.Scripts.Pools
 			_instance = this;
 		}
 		#endregion
+
+		private void Start()
+		{
+			base.Start();
+		}
 	}
 }

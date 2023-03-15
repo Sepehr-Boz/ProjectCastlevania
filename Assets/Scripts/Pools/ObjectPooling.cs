@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Pools
 {
-	public class ObjectPooling : MonoBehaviour
+	public abstract class ObjectPooling : MonoBehaviour
 	{
 		public List<GameObject> pooledObjects;
 		public GameObject[] objectsToPool;
@@ -14,7 +14,7 @@ namespace Assets.Scripts.Pools
 
 		public bool objectsPooled = false;
 
-		void Start()
+		public void Start()
 		{
 			GameObject tmp;
 			int n = objectsToPool.Length;
@@ -25,6 +25,8 @@ namespace Assets.Scripts.Pools
 			{
 				//pool objects
 				tmp = Instantiate(objectsToPool[i % n]);
+				//sets the name to not have "(Clone)"
+				tmp.name = objectsToPool[i % n].name;
 				tmp.transform.parent = transform;
 				tmp.SetActive(false);
 				pooledObjects.Add(tmp);

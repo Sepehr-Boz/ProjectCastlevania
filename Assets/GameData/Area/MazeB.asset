@@ -17,4 +17,24 @@ MonoBehaviour:
   enemies: []
   objects: []
   rooms: []
-  roomsData: []
+  roomsData:
+  - position: {x: 0, y: 100, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 0, y: 50, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 0, y: 0, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 0, y: -50, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    name: UDLR
+    enemies: []
+    objects: []

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Pools;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
@@ -23,14 +24,96 @@ public class RoomTemplates : MonoBehaviour
 	public int numBosses = 1; //how many bosses to spawn
 
 
-	private List<GameObject> rooms = GameManager.Instance.thisArea.rooms;
-	private List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;
+	private List<GameObject> rooms;
+	private List<RoomData> roomsData;
 
 	private void Start()
 	{
 		//roomData = GameManager.Instance.roomData;
 
 		//InvokeRepeating("CheckRoomLengths", 0f, 0.05f);
+
+		//check if rooms are empty
+		if (AreRoomsEmpty())
+		{
+			print("rooms are empty");
+
+			rooms = GameManager.Instance.thisArea.rooms;
+
+			for (int i = 0; i < 4; i++)
+			{
+				//set the start rooms active if the rooms data are empty
+				rooms[i].transform.Find("SpawnPoints").gameObject.SetActive(true);
+				foreach (Transform child in rooms[i].transform.Find("SpawnPoints"))
+				{
+					child.gameObject.SetActive(true);
+				}
+				//GameManager.Instance.thisArea.rooms[i].SetActive(true);
+			}
+		}
+		else
+		{
+			print("rooms arent empty");
+
+			//if the rooms arent empty then set all spawnpoints inactive so rooms dont keep spawning
+			//List<GameObject> rooms = GameManager.Instance.thisArea.rooms;
+			//int n = GameManager.Instance.thisArea.roomsData.Count;
+			List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;
+			//print(n);
+			GameObject tmp;
+
+			foreach (RoomData data in roomsData)
+			{
+				print(data);
+				tmp = RoomPool.Instance.GetPooledRoom(data.name);
+				//set the SpawnPoints parent false so that the points stop spawning rooms
+				tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
+				tmp.transform.SetPositionAndRotation(data.position, data.rotation);
+
+				GameManager.Instance.thisArea.rooms.Add(tmp);
+
+				tmp.SetActive(true);
+			}
+
+			//for (int i = 0; i < n; i++)
+			//{
+			//	//get a pooled object with the same name
+			//	tmp = RoomPool.Instance.GetPooledObject(null, roomsData[i].name);
+			//	//tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
+			//	//Destroy(tmp.transform.Find("SpawnPoints").gameObject);
+			//	//tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
+			//	print("a");
+			//	tmp.transform.SetPositionAndRotation(roomsData[i].position, roomsData[i].rotation);
+			//	print("b");
+			//	//tmp.transform.position = roomsData[i].position;
+			//	//tmp.transform.rotation = roomsData[i].rotation;
+
+			//	tmp.SetActive(true);
+			//	print("e");
+			//	GameManager.Instance.thisArea.rooms.Add(tmp);
+			//	print("f");
+
+
+			//	//set the spawn points of the room inactive
+			//	//rooms[i].transform.Find("SpawnPoints").gameObject.SetActive(false);
+			//	//foreach (Transform child in rooms[i].transform.Find("SpawnPoints"))
+			//	//{
+			//	//	Destroy(child.gameObject);
+			//	//}
+			//	////move the room to the position in roomsdata
+			//	//GameManager.Instance.thisArea.rooms[i].transform.position = GameManager.Instance.thisArea.roomsData[i].position;
+			//	//GameManager.Instance.thisArea.rooms[i].transform.rotation = GameManager.Instance.thisArea.roomsData[i].rotation;
+			//	////rooms[i].transform.position = roomsData[i].position;
+			//	////rooms[i].transform.rotation = roomsData[i].rotation;
+
+			//	////spawn enemies and objects into room IF ROOM ISNT AN ENTRY ONE
+			//}
+
+			////foreach (GameObject room in GameManager.Instance.thisArea.rooms)
+			////{
+			////	room.transform.Find("SpawnPoints").gameObject.SetActive(false);
+			////}
+		}
 
 
 		Invoke(nameof(SpawnBosses), 10f);
@@ -40,6 +123,13 @@ public class RoomTemplates : MonoBehaviour
 	{
 		GameManager.Instance.thisArea.rooms.Clear();
 
+	}
+
+	//check if room data in the area isnt empty
+	private bool AreRoomsEmpty()
+	{
+		return GameManager.Instance.thisArea.roomsData.Count < 5;
+		//returns true if empty, false if not empty
 	}
 
 	#region depreceated

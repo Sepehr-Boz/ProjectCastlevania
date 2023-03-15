@@ -18,8 +18,10 @@ public class Destroyer : MonoBehaviour {
 		//}
 
 
-		Destroy(other.gameObject.GetComponent<RoomSpawner>());
-		other.gameObject.SetActive(false);
+		//Destroy(other.gameObject.GetComponent<RoomSpawner>());
+		//other.gameObject.SetActive(false);
+
+		other.transform.parent.gameObject.SetActive(false);
 
 	}
 

@@ -33,10 +33,10 @@ public class RoomSpawner : MonoBehaviour {
 		templates = GameManager.Instance.templates;
 
 		//dont spawn a new room if the max length has been reached
-		if (GameManager.Instance.thisArea.rooms.Count >= templates.maxRoomLength)
-		{
-			return;
-		}
+		//if (GameManager.Instance.thisArea.roomsData.Count >= templates.maxRoomLength)
+		//{
+		//	return;
+		//}
 		//templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
 
 		//switch (transform.GetComponentInParent<AddRoom>().area)
@@ -95,103 +95,106 @@ public class RoomSpawner : MonoBehaviour {
 	}
 
 	//should only be called at a random chance
-	private void CompareRooms(GameObject a, GameObject b, int dir)
-	{
-		//DIR: 1=UP, 2=BOTTOM, 3=RIGHT, 4=LEFT
+	//private void CompareRooms(GameObject a, GameObject b, int dir)
+	//{
+	//	//DIR: 1=UP, 2=BOTTOM, 3=RIGHT, 4=LEFT
 
-		Transform aPoints = a.transform.Find("SpawnPoints").transform;
-		Transform bPoints = b.transform.Find("SpawnPoints").transform;
+	//	Transform aPoints = a.transform.Find("SpawnPoints").transform;
+	//	Transform bPoints = b.transform.Find("SpawnPoints").transform;
 
 
-		Transform aWalls = a.transform.Find("Walls").transform;
-		Transform bWalls = b.transform.Find("Walls").transform;
+	//	Transform aWalls = a.transform.Find("Walls").transform;
+	//	Transform bWalls = b.transform.Find("Walls").transform;
 
-		//check each direction for if there're openings in both rooms
-		if (dir == 1)
-		{
-			//UP
-			//aWalls.Find("North").gameObject.SetActive(false);
-			//bWalls.Find("South").gameObject.SetActive(false);
-			if (aPoints.Find("UP").gameObject.activeInHierarchy && bPoints.Find("DOWN").gameObject.activeInHierarchy)
-			{
-				//set the walls between the 2 rooms inactive so that the player can move through
-				aWalls.Find("North").gameObject.SetActive(false);
-				bWalls.Find("South").gameObject.SetActive(false);
+	//	//check each direction for if there're openings in both rooms
+	//	if (dir == 1)
+	//	{
+	//		//UP
+	//		//aWalls.Find("North").gameObject.SetActive(false);
+	//		//bWalls.Find("South").gameObject.SetActive(false);
+	//		if (aPoints.Find("UP").gameObject.activeInHierarchy && bPoints.Find("DOWN").gameObject.activeInHierarchy)
+	//		{
+	//			//set the walls between the 2 rooms inactive so that the player can move through
+	//			aWalls.Find("North").gameObject.SetActive(false);
+	//			bWalls.Find("South").gameObject.SetActive(false);
 
-				////set the extended variables true so that the camera works according to what the code should in an extended region
-				////as the other room is included in the extended region both changed rooms should be set to true
-				//a.GetComponent<AddRoom>().extended = true;
-				//b.GetComponent<AddRoom>().extended = true;
-			}
-			else
-			{
-				return;
-			}
-		}
-		else if (dir == 2)
-		{
-			//BOTTOM
-			//aWalls.Find("South").gameObject.SetActive(false);
-			//bWalls.Find("North").gameObject.SetActive(false);
-			if (aPoints.Find("DOWN").gameObject.activeInHierarchy && bPoints.Find("UP").gameObject.activeInHierarchy)
-			{
-				aWalls.Find("South").gameObject.SetActive(false);
-				bWalls.Find("North").gameObject.SetActive(false);
+	//			////set the extended variables true so that the camera works according to what the code should in an extended region
+	//			////as the other room is included in the extended region both changed rooms should be set to true
+	//			//a.GetComponent<AddRoom>().extended = true;
+	//			//b.GetComponent<AddRoom>().extended = true;
+	//		}
+	//		else
+	//		{
+	//			return;
+	//		}
+	//	}
+	//	else if (dir == 2)
+	//	{
+	//		//BOTTOM
+	//		//aWalls.Find("South").gameObject.SetActive(false);
+	//		//bWalls.Find("North").gameObject.SetActive(false);
+	//		if (aPoints.Find("DOWN").gameObject.activeInHierarchy && bPoints.Find("UP").gameObject.activeInHierarchy)
+	//		{
+	//			aWalls.Find("South").gameObject.SetActive(false);
+	//			bWalls.Find("North").gameObject.SetActive(false);
 
-				//a.GetComponent<AddRoom>().extended = true;
-				//b.GetComponent<AddRoom>().extended = true;
-			}
-			else
-			{
-				return;
-			}
-		}
-		else if (dir == 3)
-		{
-			//RIGHT
-			//aWalls.Find("East").gameObject.SetActive(false);
-			//bWalls.Find("West").gameObject.SetActive(false);
-			if (aPoints.Find("RIGHT").gameObject.activeInHierarchy && bPoints.Find("LEFT").gameObject.activeInHierarchy)
-			{
-				aWalls.Find("East").gameObject.SetActive(false);
-				bWalls.Find("West").gameObject.SetActive(false);
+	//			//a.GetComponent<AddRoom>().extended = true;
+	//			//b.GetComponent<AddRoom>().extended = true;
+	//		}
+	//		else
+	//		{
+	//			return;
+	//		}
+	//	}
+	//	else if (dir == 3)
+	//	{
+	//		//RIGHT
+	//		//aWalls.Find("East").gameObject.SetActive(false);
+	//		//bWalls.Find("West").gameObject.SetActive(false);
+	//		if (aPoints.Find("RIGHT").gameObject.activeInHierarchy && bPoints.Find("LEFT").gameObject.activeInHierarchy)
+	//		{
+	//			aWalls.Find("East").gameObject.SetActive(false);
+	//			bWalls.Find("West").gameObject.SetActive(false);
 
-				//a.GetComponent<AddRoom>().extended = true;
-				//b.GetComponent<AddRoom>().extended = true;
-			}
-			else
-			{
-				return;
-			}
-		}
-		else if (dir == 4)
-		{
-			//LEFT
-			//aWalls.Find("West").gameObject.SetActive(false);
-			//bWalls.Find("East").gameObject.SetActive(false);
-			if (aPoints.Find("LEFT").gameObject.activeInHierarchy && bPoints.Find("RIGHT").gameObject.activeInHierarchy)
-			{
-				aWalls.Find("West").gameObject.SetActive(false);
-				bWalls.Find("East").gameObject.SetActive(false);
+	//			//a.GetComponent<AddRoom>().extended = true;
+	//			//b.GetComponent<AddRoom>().extended = true;
+	//		}
+	//		else
+	//		{
+	//			return;
+	//		}
+	//	}
+	//	else if (dir == 4)
+	//	{
+	//		//LEFT
+	//		//aWalls.Find("West").gameObject.SetActive(false);
+	//		//bWalls.Find("East").gameObject.SetActive(false);
+	//		if (aPoints.Find("LEFT").gameObject.activeInHierarchy && bPoints.Find("RIGHT").gameObject.activeInHierarchy)
+	//		{
+	//			aWalls.Find("West").gameObject.SetActive(false);
+	//			bWalls.Find("East").gameObject.SetActive(false);
 
-				//a.GetComponent<AddRoom>().extended = true;
-				//b.GetComponent<AddRoom>().extended = true;
-			}
-			else
-			{
-				return;
-			}
-		}
+	//			//a.GetComponent<AddRoom>().extended = true;
+	//			//b.GetComponent<AddRoom>().extended = true;
+	//		}
+	//		else
+	//		{
+	//			return;
+	//		}
+	//	}
 
-	}
+	//}
 
 	private IEnumerator Delay()
 	{
 		yield return new WaitForSeconds(waitTime);
 		//destroy room spawner so it doesnt keep spawning rooms
 		//set the gameobject inactive
-		Destroy(gameObject.GetComponent<RoomSpawner>());
-		gameObject.SetActive(false);
+		//Destroy(gameObject.GetComponent<RoomSpawner>());
+		//gameObject.SetActive(false);
+
+		//set the parent SpawnPoints inactive
+		transform.parent.gameObject.SetActive(false);
 	}
 
 	//spawning the next room
@@ -202,7 +205,7 @@ public class RoomSpawner : MonoBehaviour {
 			if(openingDirection == 1){
 				// Need to spawn a room with a BOTTOM door.
 				rand = Random.Range(0, templates.bottomRooms.Length);
-				room = roomPool.GetPooledObject(templates.bottomRooms[rand]);
+				room = RoomPool.Instance.GetPooledRoom(templates.bottomRooms[rand].name);
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
 
@@ -212,7 +215,7 @@ public class RoomSpawner : MonoBehaviour {
 			} else if(openingDirection == 2){
 				// Need to spawn a room with a TOP door.
 				rand = Random.Range(0, templates.topRooms.Length);
-				room = roomPool.GetPooledObject(templates.topRooms[rand]);
+				room = RoomPool.Instance.GetPooledRoom(templates.topRooms[rand].name);
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
 
@@ -222,7 +225,7 @@ public class RoomSpawner : MonoBehaviour {
 			} else if(openingDirection == 3){
 				// Need to spawn a room with a LEFT door.
 				rand = Random.Range(0, templates.leftRooms.Length);
-				room = roomPool.GetPooledObject(templates.leftRooms[rand]);
+				room = RoomPool.Instance.GetPooledRoom(templates.leftRooms[rand].name);
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
 
@@ -232,7 +235,7 @@ public class RoomSpawner : MonoBehaviour {
 			} else if(openingDirection == 4){
 				// Need to spawn a room with a RIGHT door.
 				rand = Random.Range(0, templates.rightRooms.Length);
-				room = roomPool.GetPooledObject(templates.rightRooms[rand]);
+				room = RoomPool.Instance.GetPooledRoom(templates.rightRooms[rand].name);
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
 
@@ -257,13 +260,14 @@ public class RoomSpawner : MonoBehaviour {
 				//random chance to compare and extend the rooms
 				if (rand <= 3)
 				{
-					CompareRooms(currentRoom, room, openingDirection);
+					//CompareRooms(currentRoom, room, openingDirection);
 				}
 			}
 			spawned = true;
 
-			Destroy(gameObject.GetComponent<RoomSpawner>());
-			gameObject.SetActive(false);
+			//Destroy(gameObject.GetComponent<RoomSpawner>());
+			//gameObject.SetActive(false);
+			transform.parent.gameObject.SetActive(false);
 		}
 	}
 
@@ -313,7 +317,7 @@ public class RoomSpawner : MonoBehaviour {
 
 				if (other.GetComponent<RoomSpawner>() != null && other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
-					room = roomPool.GetPooledObject(templates.closedRoom);
+					room = roomPool.GetPooledRoom(templates.closedRoom.name);
 					//room = roomPool.GetPooledObject(templates.connectRooms[Random.Range(0, templates.connectRooms.Length)]);
 					room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 					GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
@@ -321,12 +325,13 @@ public class RoomSpawner : MonoBehaviour {
 					//GameObject room = Instantiate(templates.closedRoom);
 					//SetRoomDetails(room);
 
-					Destroy(gameObject.GetComponent<RoomSpawner>());
-					gameObject.SetActive(false);
+					//Destroy(gameObject.GetComponent<RoomSpawner>());
+					//gameObject.SetActive(false);
+					transform.parent.gameObject.SetActive(false);
 				}
 				else
 				{
-					CompareRooms(gameObject, other.gameObject, openingDirection);
+					//CompareRooms(gameObject, other.gameObject, openingDirection);
 				}
 				spawned = true;
 
