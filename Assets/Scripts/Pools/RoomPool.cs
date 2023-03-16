@@ -33,7 +33,9 @@ namespace Assets.Scripts.Pools
 				foreach (GameObject start in pooledObjects)
 				{
 					//GameManager.Instance.thisArea.rooms.Add(start);
-					GameManager.Instance.thisArea.roomsData.Add(new RoomData(start.transform.position, start.transform.rotation, start.name, null, null));
+					//add all walls when starting
+					Wall[] walls = new Wall[] { Wall.NORTH, Wall.SOUTH, Wall.EAST, Wall.EAST };
+					GameManager.Instance.thisArea.roomsData.Add(new RoomData(start.transform.position, start.transform.rotation, walls, start.name, null, null));
 					//set them inactive - RoomTemplates will either enable or keep them disabled
 					start.SetActive(false);
 				}

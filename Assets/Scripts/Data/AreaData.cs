@@ -30,20 +30,31 @@ public enum Area
 	AREAC
 }
 
+public enum Wall
+{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST
+}
+
 //[System.Serializable] makes the struct visible in the inspector
 [System.Serializable]public struct RoomData
 {
 	public Vector3 position;
 	public Quaternion rotation;
+	public Wall[] activeWalls;
+
 	public string name;
 
 	public List<GameObject> enemies; //enemies spawned in the room
 	public List<GameObject> objects; //objects spawned in the room
 
-	public RoomData(Vector3 pos, Quaternion rot, string name, List<GameObject> enemies, List<GameObject> objects)
+	public RoomData(Vector3 pos, Quaternion rot, Wall[] walls, string name, List<GameObject> enemies, List<GameObject> objects)
 	{
 		this.position = pos;
 		this.rotation = rot;
+		this.activeWalls = walls;
 		this.name = name;
 
 		this.enemies = enemies;

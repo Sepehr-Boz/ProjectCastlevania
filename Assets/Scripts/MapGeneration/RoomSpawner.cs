@@ -94,7 +94,7 @@ public class RoomSpawner : MonoBehaviour {
 		Invoke(nameof(Spawn), 0.1f);
 	}
 
-	//should only be called at a random chance
+	////should only be called at a random chance
 	//private void CompareRooms(GameObject a, GameObject b, int dir)
 	//{
 	//	//DIR: 1=UP, 2=BOTTOM, 3=RIGHT, 4=LEFT
@@ -188,6 +188,7 @@ public class RoomSpawner : MonoBehaviour {
 	private IEnumerator Delay()
 	{
 		yield return new WaitForSeconds(waitTime);
+		Destroy(gameObject);
 		//destroy room spawner so it doesnt keep spawning rooms
 		//set the gameobject inactive
 		//Destroy(gameObject.GetComponent<RoomSpawner>());
@@ -248,29 +249,34 @@ public class RoomSpawner : MonoBehaviour {
 			//check that the room isnt null
 
 
-			room.transform.SetPositionAndRotation(transform.position, transform.rotation);
-			room.SetActive(true);
-			GameManager.Instance.thisArea.roomsData.Add(new RoomData(room.transform.position, room.transform.rotation, room.name, null, null));
+			if (room != null)
+			{
+				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+				room.SetActive(true);
+				Wall[] walls = new Wall[] { Wall.NORTH, Wall.SOUTH, Wall.EAST, Wall.EAST };
+				GameManager.Instance.thisArea.roomsData.Add(new RoomData(room.transform.position, room.transform.rotation, walls, room.name, null, null));
+			}
 
 
 
 			//rand = Random.Range(0, 10);
 
-			//if (room != null)
-			//{
-			//	//set the room details of the next room - should always occur when a room is spawned
-			//	//SetRoomDetails(room);
+			////if (room != null)
+			////{
+			////	//set the room details of the next room - should always occur when a room is spawned
+			////	//SetRoomDetails(room);
 
-			//	//random chance to compare and extend the rooms
-			//	if (rand <= 3)
-			//	{
-			//		//CompareRooms(currentRoom, room, openingDirection);
-			//	}
+			////random chance to compare and extend the rooms
+			//if (rand <= 3)
+			//{
+			//	CompareRooms(transform.parent.parent.gameObject, room, openingDirection);
+			//}
 			//}
 			spawned = true;
 
 			//Destroy(gameObject.GetComponent<RoomSpawner>());
-			gameObject.SetActive(false);
+			//gameObject.SetActive(false);
+			Destroy(gameObject);
 			//transform.parent.gameObject.SetActive(false);
 		}
 	}
@@ -319,13 +325,14 @@ public class RoomSpawner : MonoBehaviour {
 
 
 
-				if (other.GetComponent<RoomSpawner>() != null && other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
+				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
 					room = roomPool.GetPooledRoom(templates.closedRoom.name);
 					//room = roomPool.GetPooledObject(templates.connectRooms[Random.Range(0, templates.connectRooms.Length)]);
 					room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 					room.SetActive(true);
-					GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
+					Wall[] walls = new Wall[] { Wall.NORTH, Wall.SOUTH, Wall.EAST, Wall.EAST };
+					GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, null, null));
 
 					//GameObject room = Instantiate(templates.closedRoom);
 					//SetRoomDetails(room);
@@ -348,6 +355,7 @@ public class RoomSpawner : MonoBehaviour {
 				//	room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				//	//GameObject room = Instantiate(templates.closedRoom);
 				//	SetRoomDetails(room);
+
 
 				//	Destroy(gameObject.GetComponent<RoomSpawner>());
 				//	gameObject.SetActive(false);

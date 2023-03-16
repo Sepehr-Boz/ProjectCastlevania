@@ -1,8 +1,10 @@
-﻿using Assets.Scripts.Pools;
+﻿using Assets.Scripts.MapGeneration;
+using Assets.Scripts.Pools;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class RoomTemplates : MonoBehaviour 
 {
@@ -25,8 +27,28 @@ public class RoomTemplates : MonoBehaviour
 	public int numBosses = 1; //how many bosses to spawn
 
 
+	[Header("Room data")]
 	private List<GameObject> rooms;
 	private List<RoomData> roomsData;
+
+	private int i = 0; //used when spawning rooms from roomsdata
+	private Vector2[] directions =
+	{
+		new Vector2(-10, 10),
+		new Vector2(0, 10),
+		new Vector2(10, 10),
+		new Vector2(10, 0),
+		new Vector2(10, -10),
+		new Vector2(0, -10),
+		new Vector2(-10, -10),
+		new Vector2(-10, 0),
+	};
+
+	[SerializeField]private int horizontalChance = 3;
+	[SerializeField]private int verticalChance = 5;
+	[SerializeField]private int enlargeChance = 7;
+
+
 
 	private void Start()
 	{
@@ -81,21 +103,23 @@ public class RoomTemplates : MonoBehaviour
 			//int n = GameManager.Instance.thisArea.roomsData.Count;
 			List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;
 			//print(n);
-			GameObject tmp;
 
-			foreach (RoomData data in roomsData)
-			{
-				print(data);
-				tmp = RoomPool.Instance.GetPooledRoom(data.name);
-				//set the SpawnPoints parent false so that the points stop spawning rooms
-				tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
-				tmp.transform.SetPositionAndRotation(data.position, data.rotation);
+			InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.1f);
 
-				//when rooms are set active they are added to rooms because of the code in AddRoom.cs Start()
-				//GameManager.Instance.thisArea.rooms.Add(tmp);
+			//foreach (RoomData data in roomsData)
+			//{
+			//	print(data.name);
+			//	tmp = RoomPool.Instance.GetPooledRoom(data.name);
+			//	//set the SpawnPoints parent false so that the points stop spawning rooms
+			//	tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
+			//	tmp.transform.SetPositionAndRotation(data.position, data.rotation);
 
-				tmp.SetActive(true);
-			}
+			//	//when rooms are set active they are added to rooms because of the code in AddRoom.cs Start()
+			//	//GameManager.Instance.thisArea.rooms.Add(tmp);
+
+			//	tmp.SetActive(true);
+			//	//GameManager.Instance.thisArea.rooms.Add(tmp);
+			//}
 
 			//for (int i = 0; i < n; i++)
 			//{
@@ -138,8 +162,26 @@ public class RoomTemplates : MonoBehaviour
 		}
 
 
-		Invoke(nameof(SpawnBosses), 10f);
+		Invoke(nameof(ExtendRooms), 10f);
+		Invoke(nameof(SpawnBosses), 30f);
 	}
+
+	private void SpawnRoomFromRoomData()
+	{
+		GameObject tmp = RoomPool.Instance.GetPooledRoom(GameManager.Instance.thisArea.roomsData[i].name);
+		//set the SpawnPoints parent false so that the points stop spawning rooms
+		tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
+		tmp.transform.SetPositionAndRotation(GameManager.Instance.thisArea.roomsData[i].position, GameManager.Instance.thisArea.roomsData[i].rotation);
+
+		//when rooms are set active they are added to rooms because of the code in AddRoom.cs Start()
+		//GameManager.Instance.thisArea.rooms.Add(tmp);
+
+		tmp.SetActive(true);
+
+		i++;
+	}
+
+
 
 	private void OnApplicationQuit()
 	{
@@ -154,6 +196,156 @@ public class RoomTemplates : MonoBehaviour
 		return GameManager.Instance.thisArea.roomsData.Count < 5;
 		//returns true if empty, false if not empty
 	}
+
+	#region extending rooms
+
+	//function that loops through rooms and extends them
+	private void ExtendRooms()
+	{
+		rooms = GameManager.Instance.thisArea.rooms;
+		int rand = Random.Range(0, 10);
+		List<GameObject> adjacentRooms;
+
+		foreach (GameObject room in rooms)
+		{
+			adjacentRooms = GetAdjacentRooms(room);
+
+			if (rand < horizontalChance)
+			{
+				HorizontalExtend(room, adjacentRooms);
+			}
+			else if (horizontalChance < rand && rand < verticalChance)
+			{
+				VerticalExtend(room, adjacentRooms);
+			}
+			else if (verticalChance < rand && rand < enlargeChance)
+			{
+				EnlargeRoom(room, adjacentRooms);
+			}
+			else
+			{
+				continue;
+			}
+
+
+			//switch (rand)
+			//{
+			//	case 0:
+			//		//extend a - Long horizontal room
+			//		HorizontalExtend(room, adjacentRooms);
+			//		break;
+			//	case 1:
+			//		//extend a
+			//		HorizontalExtend(room, adjacentRooms);
+			//		break;
+			//	case 2:
+			//		//extend a
+			//		HorizontalExtend(room, adjacentRooms);
+			//		break;
+			//	case 3:
+			//		//extend b - long vertical room
+			//		VerticalExtend(room, adjacentRooms);
+			//		break;
+			//	case 4:
+			//		//extend b
+			//		VerticalExtend(room, adjacentRooms);
+			//		break;
+			//	case 5:
+			//		//extend c - big square room
+			//		EnlargeRoom(room, adjacentRooms);
+			//		break;
+			//	case 6:
+			//		//extend c
+			//		EnlargeRoom(room, adjacentRooms);
+			//		break;
+			//	case 7:
+			//		//no extend
+			//		break;
+			//	case 8:
+			//		//no extend
+			//		break;
+			//	case 9:
+			//		//no extend
+			//		break;
+			//	case 10:
+			//		//no extend
+			//		break;
+			//}
+		}
+	}
+
+	private List<GameObject> GetAdjacentRooms(GameObject currentRoom)
+	{
+		//check if currentroom has already been extended and if it has then return
+		if (currentRoom.GetComponent<AddRoom>().extended)
+		{
+			return null;
+		}
+		rooms = new List<GameObject>(); //max number of adjascent rooms is 8
+		//check for any rooms above, below, to the right, left, and diagonally of the current room
+		Vector2 newPos;
+		GameObject room = null;
+		for (int i = 0; i < 8; i++)
+		{
+			newPos = (Vector2)currentRoom.transform.position + directions[i];
+			try
+			{
+				room = Physics2D.OverlapCircle(newPos, 1f).transform.parent.gameObject;
+			}
+			catch
+			{
+				print("no room present at position");
+			}
+
+			if (!room.GetComponent<AddRoom>().extended)
+			{
+				rooms.Add(room);
+				room.GetComponent<AddRoom>().extended = true;
+			}
+		}
+		//to see if there are any active rooms, check for any FOCUS gameobject and if there is then get the parent room
+		//check in the AddRoom component for the variable extended, if its false add to rooms, otherwise dont as it will have already been extended
+		//for every room returned set the extended value in addroom to true so theyre not extended again
+
+
+
+		return rooms;
+	}
+
+	private void HorizontalExtend(GameObject currentRoom, List<GameObject> connectedRooms)
+	{
+		//need rooms east and west
+		//find if any rooms are horizontal to the currentroom
+		//pass the valid rooms to the correct DisableWalls function
+	}
+	private void VerticalExtend(GameObject currentRoom, List<GameObject> connectedRooms)
+	{
+		//need rooms north and south
+	}
+	private void EnlargeRoom(GameObject currentRoom, List<GameObject> connectedRooms)
+	{
+		//need rooms in every direction including diagonally
+	}
+
+	private void DisableNorthWalls(GameObject a, GameObject b)
+	{
+		//disable the north walls between the 2 rooms
+		//remove the walls enum from each room
+	}
+	private void DisableEastWalls(GameObject a, GameObject b)
+	{
+
+	}
+	private void DisableSouthWalls(GameObject a, GameObject b)
+	{
+
+	}
+	private void DisableWestWalls(GameObject a, GameObject b)
+	{
+
+	}
+
+	#endregion
 
 	#region depreceated
 	//depreceated as the room lengths are checked in room spawner so the list lengths never exceed the maxroomlength
