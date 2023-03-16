@@ -13,6 +13,7 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject[] leftRooms;
 	public GameObject[] rightRooms;
 	public GameObject closedRoom;
+	public GameObject openRoom;
 
 	public GameObject boss;
 
@@ -36,20 +37,40 @@ public class RoomTemplates : MonoBehaviour
 		//check if rooms are empty
 		if (AreRoomsEmpty())
 		{
+			//if empty then generate a new map
 			print("rooms are empty");
 
-			rooms = GameManager.Instance.thisArea.rooms;
+			roomsData = GameManager.Instance.thisArea.roomsData;
 
-			for (int i = 0; i < 4; i++)
+			//getting and spawning start rooms onto the map
+			GameObject tmp;
+			foreach (RoomData data in roomsData)
 			{
-				//set the start rooms active if the rooms data are empty
-				rooms[i].transform.Find("SpawnPoints").gameObject.SetActive(true);
-				foreach (Transform child in rooms[i].transform.Find("SpawnPoints"))
-				{
-					child.gameObject.SetActive(true);
-				}
-				//GameManager.Instance.thisArea.rooms[i].SetActive(true);
+				//get pooled object
+				tmp = RoomPool.Instance.GetPooledRoom(data.name);
+				//keep spawn points active
+				//tmp.transform.Find("SpawnPoints").gameObject.SetActive(true);
+				//foreach (Transform child in tmp.transform.Find("SpawnPoints"))
+				//{
+				//	child.GetComponent<RoomSpawner>().spawned = false;
+				//}
+				//move room to the correct position
+				tmp.transform.SetPositionAndRotation(data.position, data.rotation);
+				//set the room active
+				tmp.SetActive(true);
 			}
+
+
+			//for (int i = 0; i < 4; i++)
+			//{
+			//	//set the start rooms active if the rooms data are empty
+			//	rooms[i].transform.Find("SpawnPoints").gameObject.SetActive(true);
+			//	foreach (Transform child in rooms[i].transform.Find("SpawnPoints"))
+			//	{
+			//		child.gameObject.SetActive(true);
+			//	}
+			//	//GameManager.Instance.thisArea.rooms[i].SetActive(true);
+			//}
 		}
 		else
 		{
@@ -70,7 +91,8 @@ public class RoomTemplates : MonoBehaviour
 				tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
 				tmp.transform.SetPositionAndRotation(data.position, data.rotation);
 
-				GameManager.Instance.thisArea.rooms.Add(tmp);
+				//when rooms are set active they are added to rooms because of the code in AddRoom.cs Start()
+				//GameManager.Instance.thisArea.rooms.Add(tmp);
 
 				tmp.SetActive(true);
 			}
@@ -122,6 +144,7 @@ public class RoomTemplates : MonoBehaviour
 	private void OnApplicationQuit()
 	{
 		GameManager.Instance.thisArea.rooms.Clear();
+		//GameManager.Instance.thisArea.roomsData.Clear(); //for testing
 
 	}
 

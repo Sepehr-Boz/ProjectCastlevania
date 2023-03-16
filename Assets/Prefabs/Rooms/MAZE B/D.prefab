@@ -1129,7 +1129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingDirection: 2
   spawned: 0
-  waitTime: 4
+  waitTime: 10
 --- !u!1 &7289422100793448187
 GameObject:
   m_ObjectHideFlags: 0

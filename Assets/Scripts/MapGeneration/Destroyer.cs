@@ -11,7 +11,7 @@ public class Destroyer : MonoBehaviour {
 			return;
 		}
 
-		//Destroy(other.gameObject);
+		Destroy(other.gameObject);
 		//if (other.GetComponentInParent<AddRoom>().area != transform.GetComponentInParent<AddRoom>().area)
 		//{
 		//	CompareRoomsB(other.transform.parent.parent.gameObject, transform.parent.parent.gameObject, other.GetComponent<RoomSpawner>().openingDirection);
@@ -21,7 +21,7 @@ public class Destroyer : MonoBehaviour {
 		//Destroy(other.gameObject.GetComponent<RoomSpawner>());
 		//other.gameObject.SetActive(false);
 
-		other.transform.parent.gameObject.SetActive(false);
+		//other.transform.parent.gameObject.SetActive(false);
 
 	}
 

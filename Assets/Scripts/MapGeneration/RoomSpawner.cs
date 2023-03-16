@@ -27,9 +27,9 @@ public class RoomSpawner : MonoBehaviour {
 	void Start(){
 		//must destroy instead of setting inactive as the rooms will continue to spawn on top of each other even when set inactive
 		//StartCoroutine(Delay());
-		//Destroy(gameObject, waitTime);
+		Destroy(gameObject, waitTime);
 
-		roomPool = RoomPool.Instance;
+		//roomPool = RoomPool.Instance;
 		templates = GameManager.Instance.templates;
 
 		//dont spawn a new room if the max length has been reached
@@ -194,20 +194,19 @@ public class RoomSpawner : MonoBehaviour {
 		//gameObject.SetActive(false);
 
 		//set the parent SpawnPoints inactive
-		transform.parent.gameObject.SetActive(false);
+		//transform.parent.gameObject.SetActive(false);
 	}
 
 	//spawning the next room
 	void Spawn(){
 		if(spawned == false){
-			GameObject currentRoom = transform.parent.parent.gameObject;
+			//GameObject currentRoom = transform.parent.parent.gameObject;
 
 			if(openingDirection == 1){
 				// Need to spawn a room with a BOTTOM door.
 				rand = Random.Range(0, templates.bottomRooms.Length);
 				room = RoomPool.Instance.GetPooledRoom(templates.bottomRooms[rand].name);
-				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
-				GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
+				//room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
 				//CompareRooms(currentRoom, room, openingDirection);
 				//room = Instantiate(templates.bottomRooms[rand], transform.position, templates.bottomRooms[rand].transform.rotation);
@@ -216,8 +215,7 @@ public class RoomSpawner : MonoBehaviour {
 				// Need to spawn a room with a TOP door.
 				rand = Random.Range(0, templates.topRooms.Length);
 				room = RoomPool.Instance.GetPooledRoom(templates.topRooms[rand].name);
-				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
-				GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
+				//room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
 				//CompareRooms(currentRoom, room, openingDirection);
 				//room = Instantiate(templates.topRooms[rand], transform.position, templates.topRooms[rand].transform.rotation);
@@ -226,8 +224,7 @@ public class RoomSpawner : MonoBehaviour {
 				// Need to spawn a room with a LEFT door.
 				rand = Random.Range(0, templates.leftRooms.Length);
 				room = RoomPool.Instance.GetPooledRoom(templates.leftRooms[rand].name);
-				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
-				GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
+				//room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
 				//CompareRooms(currentRoom, room, openingDirection);
 				//room = Instantiate(templates.leftRooms[rand], transform.position, templates.leftRooms[rand].transform.rotation);
@@ -236,8 +233,7 @@ public class RoomSpawner : MonoBehaviour {
 				// Need to spawn a room with a RIGHT door.
 				rand = Random.Range(0, templates.rightRooms.Length);
 				room = RoomPool.Instance.GetPooledRoom(templates.rightRooms[rand].name);
-				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
-				GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
+				//room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
 				//CompareRooms(currentRoom, room, openingDirection);
 				//room = Instantiate(templates.rightRooms[rand], transform.position, templates.rightRooms[rand].transform.rotation);
@@ -250,24 +246,32 @@ public class RoomSpawner : MonoBehaviour {
 			//	CompareRooms(currentRoom, room, openingDirection);
 			//}
 			//check that the room isnt null
-			rand = Random.Range(0, 10);
 
-			if (room != null)
-			{
-				//set the room details of the next room - should always occur when a room is spawned
-				//SetRoomDetails(room);
 
-				//random chance to compare and extend the rooms
-				if (rand <= 3)
-				{
-					//CompareRooms(currentRoom, room, openingDirection);
-				}
-			}
+			room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+			room.SetActive(true);
+			GameManager.Instance.thisArea.roomsData.Add(new RoomData(room.transform.position, room.transform.rotation, room.name, null, null));
+
+
+
+			//rand = Random.Range(0, 10);
+
+			//if (room != null)
+			//{
+			//	//set the room details of the next room - should always occur when a room is spawned
+			//	//SetRoomDetails(room);
+
+			//	//random chance to compare and extend the rooms
+			//	if (rand <= 3)
+			//	{
+			//		//CompareRooms(currentRoom, room, openingDirection);
+			//	}
+			//}
 			spawned = true;
 
 			//Destroy(gameObject.GetComponent<RoomSpawner>());
-			//gameObject.SetActive(false);
-			transform.parent.gameObject.SetActive(false);
+			gameObject.SetActive(false);
+			//transform.parent.gameObject.SetActive(false);
 		}
 	}
 
@@ -320,6 +324,7 @@ public class RoomSpawner : MonoBehaviour {
 					room = roomPool.GetPooledRoom(templates.closedRoom.name);
 					//room = roomPool.GetPooledObject(templates.connectRooms[Random.Range(0, templates.connectRooms.Length)]);
 					room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+					room.SetActive(true);
 					GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, room.name, null, null));
 
 					//GameObject room = Instantiate(templates.closedRoom);
@@ -327,13 +332,14 @@ public class RoomSpawner : MonoBehaviour {
 
 					//Destroy(gameObject.GetComponent<RoomSpawner>());
 					//gameObject.SetActive(false);
-					transform.parent.gameObject.SetActive(false);
+					//transform.parent.gameObject.SetActive(false);
 				}
 				else
 				{
 					//CompareRooms(gameObject, other.gameObject, openingDirection);
 				}
 				spawned = true;
+				Destroy(gameObject);
 
 
 				//if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
