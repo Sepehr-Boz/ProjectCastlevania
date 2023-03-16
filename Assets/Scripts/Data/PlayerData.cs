@@ -5,8 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerData")]
 public class PlayerData : ScriptableObject
 {
-	public GameObject playerA;
-	public GameObject playerB;
-	public GameObject playerC;
-	public GameObject playerD;
+	public new string name;
+
+	public GameObject player;
+	public float moveSpeed;
+
+	public Vector3 position;
+	public Quaternion rotation;
+	public Area currentArea;
+
 }

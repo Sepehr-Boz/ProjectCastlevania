@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UI;
 using UnityEngine;
 
+//depreceated
 public class Singleton : MonoBehaviour
 {
 	private static Singleton _instance;

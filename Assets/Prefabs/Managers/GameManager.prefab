@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7907278173403121275}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.4228656, y: 28.706028, z: -9.952026}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1b12ad030ff9f40b6f9479b993821c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisArea: {fileID: 0}
   templates: {fileID: 0}
-  playerManager: {fileID: 0}
-  waitTime: 2
+  virtualCamera: {fileID: 0}
+  targetFPS: 60
