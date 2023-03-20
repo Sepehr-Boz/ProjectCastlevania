@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -43,14 +44,14 @@ public enum Wall
 {
 	public Vector3 position;
 	public Quaternion rotation;
-	public Wall[] activeWalls;
+	public List<Wall> activeWalls;
 
 	public string name;
 
 	public List<GameObject> enemies; //enemies spawned in the room
 	public List<GameObject> objects; //objects spawned in the room
 
-	public RoomData(Vector3 pos, Quaternion rot, Wall[] walls, string name, List<GameObject> enemies, List<GameObject> objects)
+	public RoomData(Vector3 pos, Quaternion rot, List<Wall> walls, string name, List<GameObject> enemies, List<GameObject> objects)
 	{
 		this.position = pos;
 		this.rotation = rot;
@@ -68,6 +69,10 @@ public enum Wall
 	public Quaternion GetRotation()
 	{
 		return this.rotation;
+	}
+	public List<Wall> GetActiveWalls()
+	{
+		return this.activeWalls;
 	}
 	public string GetName()
 	{
@@ -90,6 +95,31 @@ public enum Wall
 		this.enemies.Add(enemy);
 	}
 
+	public void RemoveInactiveWall(string wall)
+	{
+		Debug.Log(wall);
+
+		if (wall == "North")
+		{
+			this.activeWalls.Remove(Wall.NORTH);
+		}
+		else if (wall == "East")
+		{
+			this.activeWalls.Remove(Wall.EAST);
+		}
+		else if (wall == "South")
+		{
+			this.activeWalls.Remove(Wall.SOUTH);
+		}
+		else if (wall == "West")
+		{
+			this.activeWalls.Remove(Wall.WEST);
+		}
+		else
+		{
+			Debug.Log("an error has occurred deleting walls");
+		}
+	}
 
 	#endregion
 }

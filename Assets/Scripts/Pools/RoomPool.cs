@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Pools
@@ -32,19 +33,12 @@ namespace Assets.Scripts.Pools
 				////add the entry rooms to room data before adding the new instantiates room clones
 				foreach (GameObject start in pooledObjects)
 				{
-					//GameManager.Instance.thisArea.rooms.Add(start);
 					//add all walls when starting
-					Wall[] walls = new Wall[] { Wall.NORTH, Wall.SOUTH, Wall.EAST, Wall.EAST };
-					GameManager.Instance.thisArea.roomsData.Add(new RoomData(start.transform.position, start.transform.rotation, walls, start.name, null, null));
+					List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+					GameManager.Instance.thisArea.roomsData.Add(new RoomData(start.transform.position, start.transform.rotation, walls, start.name, new List<GameObject>(), new List<GameObject>()));
 					//set them inactive - RoomTemplates will either enable or keep them disabled
 					start.SetActive(false);
 				}
-
-				//while (pooledObjects.Count > 0)
-				//{
-				//	GameManager.Instance.thisArea.roomsData.Add(new RoomData(pooledObjects[0].transform.position, pooledObjects[0].transform.rotation, pooledObjects[0].name, null, null));
-				//	pooledObjects.RemoveAt(0);
-				//}
 			}
 
 			base.Start();
@@ -58,8 +52,7 @@ namespace Assets.Scripts.Pools
 			{
 				if (roomName.Equals(room.name) && !room.activeInHierarchy)
 				{
-					//room.SetActive(true);
-					room.transform.Find("SpawnPoints").gameObject.SetActive(true);
+					//room.transform.Find("SpawnPoints").gameObject.SetActive(true);
 					return room;
 				}
 			}
