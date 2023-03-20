@@ -41,7 +41,22 @@ namespace Assets.Scripts.Pools
 				}
 			}
 
-			base.Start();
+			int n = amountToPool / objectsToPool.Length;
+			GameObject tmp;
+			foreach (GameObject room in objectsToPool)
+			{
+				for (int i = 0; i < n; i++)
+				{
+					tmp = Instantiate(room);
+					tmp.name = room.name;
+					tmp.SetActive(false);
+
+
+					pooledObjects.Add(tmp);
+				}
+			}
+
+			//base.Start();
 		}
 
 		public GameObject GetPooledRoom(string roomName = null)

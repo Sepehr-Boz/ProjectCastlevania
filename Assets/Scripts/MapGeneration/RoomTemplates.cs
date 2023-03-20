@@ -95,7 +95,7 @@ public class RoomTemplates : MonoBehaviour
 	{
 		GameObject tmp = RoomPool.Instance.GetPooledRoom(GameManager.Instance.thisArea.roomsData[i].name);
 		//set the SpawnPoints parent false so that the points stop spawning rooms
-		Destroy(tmp.transform.Find("SpawnPoints").gameObject, 0.1f);
+		Destroy(tmp.transform.Find("SpawnPoints").gameObject);
 		//tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
 		tmp.transform.SetPositionAndRotation(GameManager.Instance.thisArea.roomsData[i].position, GameManager.Instance.thisArea.roomsData[i].rotation);
 		//set all walls inactive first
@@ -139,19 +139,17 @@ public class RoomTemplates : MonoBehaviour
 		i++;
 	}
 
+	//private void OnApplicationQuit()
+	//{
+	//	GameManager.Instance.thisArea.rooms.Clear();
 
-
-	private void OnApplicationQuit()
-	{
-		GameManager.Instance.thisArea.rooms.Clear();
-
-		if (GameManager.Instance.thisArea.area == Area.MAZEA || GameManager.Instance.thisArea.area == Area.MAZEB)
-		{
-			GameManager.Instance.thisArea.roomsData.Clear();
-			//get rid of all data so a new map generates every time for each maze
-		}
-		//areas other than the mazes will only generate once however
-	}
+	//	if (GameManager.Instance.thisArea.area == Area.MAZEA || GameManager.Instance.thisArea.area == Area.MAZEB)
+	//	{
+	//		GameManager.Instance.thisArea.roomsData.Clear();
+	//		//get rid of all data so a new map generates every time for each maze
+	//	}
+	//	//areas other than the mazes will only generate once however
+	//}
 
 	//check if room data in the area isnt empty
 	private bool AreRoomsEmpty()

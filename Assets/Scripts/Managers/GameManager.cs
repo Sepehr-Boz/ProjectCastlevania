@@ -36,13 +36,62 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		//load the scene the current player is in
-		//LoadScene(PlayerManager.Instance.currentPlayer);
+		//delay setting templates active so that rooms can be pooled before having to be accessed
+		StartCoroutine(TemplateDelay());
+
+		SceneManager.activeSceneChanged += SceneChanged;
+
 
 		//set target fps
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = targetFPS;
 	}
+
+	private IEnumerator TemplateDelay()
+	{
+		yield return new WaitForSeconds(1);
+		templates.gameObject.SetActive(true);
+	}
+
+	private void SceneChanged(Scene current, Scene next)
+	{
+		if (current.name == "MazeA" || current.name == "MazeB")
+		{
+			//deletes room data before moving to the next scene
+			thisArea.roomsData.Clear();
+		}
+		thisArea.rooms.Clear();
+	}
+
+
+	private void Update()
+	{
+		//FOR TESTING
+		if (Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			SceneManager.LoadScene("MazeA");
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			SceneManager.LoadScene("MazeB");
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			SceneManager.LoadScene("AreaA");
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha4))
+		{
+			SceneManager.LoadScene("AreaB");
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha5))
+		{
+			SceneManager.LoadScene("AreaC");
+		}
+
+
+		
+	}
+
 
 	//load the correct scene
 	//called whenever the player is switched
@@ -50,4 +99,11 @@ public class GameManager : MonoBehaviour
 	{
 		SceneManager.LoadScene(currentPlayer.currentArea.ToString());
 	}
+
+
+
+
+
+
+
 }
