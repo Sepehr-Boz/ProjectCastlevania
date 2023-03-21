@@ -103,6 +103,16 @@ public class RoomSpawner : MonoBehaviour {
 		}
 	}
 
+	private void SpawnClosedRoom()
+	{
+		room = RoomPool.Instance.GetPooledRoom(templates.closedRoom.name);
+		room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+		room.SetActive(true);
+		List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+		GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
+		Destroy(gameObject);
+	}
+
 	void OnTriggerEnter2D(Collider2D other){
 		//occurs when 2 rooms attempt to spawn a room at the same area
 		if(other.CompareTag("SpawnPoint")){
@@ -111,13 +121,13 @@ public class RoomSpawner : MonoBehaviour {
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
 					print(transform.root.gameObject.name + " has collided with " + other.name);
-
-					room = RoomPool.Instance.GetPooledRoom(templates.closedRoom.name);
-					room.transform.SetPositionAndRotation(transform.position, transform.rotation);
-					room.SetActive(true);
-					List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-					GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
-					Destroy(gameObject);
+					Invoke(nameof(SpawnClosedRoom), 0.1f);
+					//room = RoomPool.Instance.GetPooledRoom(templates.closedRoom.name);
+					//room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+					//room.SetActive(true);
+					//List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+					//GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
+					//Destroy(gameObject);
 				}
 				spawned = true;
 				//gameObject.SetActive(false);
@@ -129,13 +139,6 @@ public class RoomSpawner : MonoBehaviour {
 				print("the other rooms name is " + other.name);
 				print("exception");
 			}
-		}
-		else
-		{
-			print("the other name is" + other.name);
-
-			//will occur will hitting FOCUS or CENTRE
-			//Destroy(gameObject);
 		}
 	}
 }
