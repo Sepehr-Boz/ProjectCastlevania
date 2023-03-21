@@ -77,7 +77,7 @@ public class RoomTemplates : MonoBehaviour
 			}
 
 			Invoke(nameof(ExtendRooms), 5f);
-			Invoke(nameof(CopyWallsData), 15f);
+			Invoke(nameof(CopyWallsData), 10f);
 		}
 		else
 		{
@@ -95,8 +95,18 @@ public class RoomTemplates : MonoBehaviour
 	{
 		GameObject tmp = RoomPool.Instance.GetPooledRoom(GameManager.Instance.thisArea.roomsData[i].name);
 		//set the SpawnPoints parent false so that the points stop spawning rooms
-		Destroy(tmp.transform.Find("SpawnPoints").gameObject);
+		//Destroy(tmp.transform.Find("SpawnPoints").gameObject);
 		//tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
+		foreach (Transform point in tmp.transform.Find("SpawnPoints"))
+		{
+			if (point.name == "CENTRE")
+			{
+				continue;
+			}
+
+			point.gameObject.SetActive(false);
+		}
+
 		tmp.transform.SetPositionAndRotation(GameManager.Instance.thisArea.roomsData[i].position, GameManager.Instance.thisArea.roomsData[i].rotation);
 		//set all walls inactive first
 		foreach (Transform wall in tmp.transform.Find("Walls"))
@@ -188,6 +198,14 @@ public class RoomTemplates : MonoBehaviour
 			else if (verticalChance < rand && rand < enlargeChance)
 			{
 				StartCoroutine(EnlargeRoom(adjacentRooms));
+
+				for (int j = 0; j < 9; j++)
+				{
+					if (j == 0 || j == 1 || j == 2 || j == 5 || j == 8)
+					{
+						adjacentRooms[j].GetComponent<AddRoom>().extended = adjacentRooms[j] != null ? true : false;
+					}
+				}
 			}
 			else
 			{
@@ -301,6 +319,7 @@ public class RoomTemplates : MonoBehaviour
 		DisableVerticalWalls(rooms[0], rooms[2]);
 		yield return new WaitForSeconds(0.1f);
 		DisableVerticalWalls(rooms[1], rooms[3]);
+		yield return new WaitForSeconds(0.1f);
 	}
 
 	private void DisableVerticalWalls(GameObject a, GameObject b)

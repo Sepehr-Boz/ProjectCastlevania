@@ -11,5 +11,11 @@ namespace Assets.Scripts.MapGeneration
 			//add self to rooms
 			GameManager.Instance.thisArea.rooms.Add(this.gameObject);
 		}
+
+
+		//public void OnCollisionEnter2D(Collision2D collision)
+		//{
+		//	print(gameObject.name + " has collided with " + collision.gameObject.name);
+		//}
 	}
 }

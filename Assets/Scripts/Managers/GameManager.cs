@@ -55,6 +55,9 @@ public class GameManager : MonoBehaviour
 
 	private void SceneChanged(Scene current, Scene next)
 	{
+		print(current.name);
+		print(next.name);
+
 		if (current.name == "MazeA" || current.name == "MazeB")
 		{
 			//deletes room data before moving to the next scene
@@ -63,10 +66,17 @@ public class GameManager : MonoBehaviour
 		thisArea.rooms.Clear();
 	}
 
+	private void OnApplicationQuit()
+	{
+		thisArea.rooms.Clear();
+	}
+
 
 	private void Update()
 	{
 		//FOR TESTING
+		Application.targetFrameRate = targetFPS;
+
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			SceneManager.LoadScene("MazeA");

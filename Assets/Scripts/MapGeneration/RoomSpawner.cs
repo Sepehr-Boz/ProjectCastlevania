@@ -27,18 +27,41 @@ public class RoomSpawner : MonoBehaviour {
 	void Start(){
 		//must destroy instead of setting inactive as the rooms will continue to spawn on top of each other even when set inactive
 		Destroy(gameObject, waitTime);
+		//StartCoroutine(Delay());
 
 		templates = GameManager.Instance.templates;
 
 		//only spawn a room if the room lengths is not exceeded
+		//Invoke(nameof(Spawn), 0.1f);
+
 		if (GameManager.Instance.thisArea.roomsData.Count < templates.maxRoomLength)
 		{
+			//Spawn();
 			Invoke(nameof(Spawn), 0.1f);
 		}
+		//else
+		//{
+		//	//gameObject.SetActive(false);
+		//	//Destroy(gameObject);
+		//}
+	}
+
+	private IEnumerator Delay()
+	{
+		yield return new WaitForSeconds(waitTime);
+		gameObject.SetActive(false);
 	}
 
 	//spawning the next room
 	void Spawn(){
+		//if (GameManager.Instance.thisArea.roomsData.Count >= templates.maxRoomLength)
+		//{
+
+		//	return;
+		//}
+
+
+
 		if(spawned == false){
 			//GameObject currentRoom = transform.parent.parent.gameObject;
 
@@ -74,7 +97,9 @@ public class RoomSpawner : MonoBehaviour {
 			}
 
 			spawned = true;
-			Destroy(gameObject);
+			//spawned = true;
+			//Destroy(gameObject);
+			//gameObject.SetActive(false);
 		}
 	}
 
@@ -85,20 +110,32 @@ public class RoomSpawner : MonoBehaviour {
 			{
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
-					room = roomPool.GetPooledRoom(templates.closedRoom.name);
+					print(transform.root.gameObject.name + " has collided with " + other.name);
+
+					room = RoomPool.Instance.GetPooledRoom(templates.closedRoom.name);
 					room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 					room.SetActive(true);
 					List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
 					GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
-
+					Destroy(gameObject);
 				}
 				spawned = true;
-				Destroy(gameObject);
+				//gameObject.SetActive(false);
 			}
 			catch
 			{
+				print("other rooms spawener: " + other.GetComponent<RoomSpawner>().spawned);
+				print("self room spawner is : " + spawned);
+				print("the other rooms name is " + other.name);
 				print("exception");
 			}
+		}
+		else
+		{
+			print("the other name is" + other.name);
+
+			//will occur will hitting FOCUS or CENTRE
+			//Destroy(gameObject);
 		}
 	}
 }
