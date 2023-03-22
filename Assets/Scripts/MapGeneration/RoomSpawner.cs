@@ -13,6 +13,7 @@ public class RoomSpawner : MonoBehaviour {
 	// 2 --> need top door
 	// 3 --> need left door
 	// 4 --> need right door
+	public int extendChance = 10;
 
 	private RoomPool roomPool;
 	private RoomTemplates templates;
@@ -37,7 +38,8 @@ public class RoomSpawner : MonoBehaviour {
 		if (GameManager.Instance.thisArea.roomsData.Count < templates.maxRoomLength)
 		{
 			//Spawn();
-			Invoke(nameof(Spawn), 0.1f);
+			//spawn the room after a different time for each direction so that the processor maaaybe has a lower burden as it needs to do less operations every second?
+			Invoke(nameof(Spawn), openingDirection / 10f);
 		}
 		//else
 		//{
@@ -69,27 +71,40 @@ public class RoomSpawner : MonoBehaviour {
 				// Need to spawn a room with a BOTTOM door.
 				rand = Random.Range(0, templates.bottomRooms.Length);
 				room = RoomPool.Instance.GetPooledRoom(templates.bottomRooms[rand].name);
+				//room = Instantiate(templates.bottomRooms[rand]);
 
 			} else if(openingDirection == 2){
 				// Need to spawn a room with a TOP door.
 				rand = Random.Range(0, templates.topRooms.Length);
 				room = RoomPool.Instance.GetPooledRoom(templates.topRooms[rand].name);
+				//room = Instantiate(templates.topRooms[rand]);
 
 			} else if(openingDirection == 3){
 				// Need to spawn a room with a LEFT door.
 				rand = Random.Range(0, templates.leftRooms.Length);
 				room = RoomPool.Instance.GetPooledRoom(templates.leftRooms[rand].name);
+				//room = Instantiate(templates.leftRooms[rand]);
 
 			} else if(openingDirection == 4){
 				// Need to spawn a room with a RIGHT door.
 				rand = Random.Range(0, templates.rightRooms.Length);
 				room = RoomPool.Instance.GetPooledRoom(templates.rightRooms[rand].name);
+				//room = Instantiate(templates.rightRooms[rand]);
 
 			}
+
 
 			//check that the room isnt null
 			if (room != null)
 			{
+				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
+				int rand = Random.Range(0, 100);
+				if (rand <= extendChance)
+				{
+					print("open room has replaced da room");
+					room = RoomPool.Instance.GetPooledRoom(templates.openRoom.name);
+				}
+
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				room.SetActive(true);
 				List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
@@ -106,6 +121,8 @@ public class RoomSpawner : MonoBehaviour {
 	private void SpawnClosedRoom()
 	{
 		room = RoomPool.Instance.GetPooledRoom(templates.closedRoom.name);
+		//room = Instantiate(templates.closedRoom);
+
 		room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 		room.SetActive(true);
 		List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
@@ -121,7 +138,7 @@ public class RoomSpawner : MonoBehaviour {
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
 					print(transform.root.gameObject.name + " has collided with " + other.name);
-					Invoke(nameof(SpawnClosedRoom), 0.1f);
+					Invoke(nameof(SpawnClosedRoom), openingDirection / 10f);
 					//room = RoomPool.Instance.GetPooledRoom(templates.closedRoom.name);
 					//room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 					//room.SetActive(true);

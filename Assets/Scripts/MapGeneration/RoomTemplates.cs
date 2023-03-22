@@ -68,6 +68,7 @@ public class RoomTemplates : MonoBehaviour
 			{
 				//get pooled object
 				tmp = RoomPool.Instance.GetPooledRoom(data.name);
+				//tmp = Instantiate(openRoom);
 				//set the spawn points active
 				tmp.transform.Find("SpawnPoints").gameObject.SetActive(true);
 				//move room to the correct position
@@ -77,7 +78,7 @@ public class RoomTemplates : MonoBehaviour
 			}
 
 			Invoke(nameof(ExtendRooms), 5f);
-			Invoke(nameof(CopyWallsData), 10f);
+			Invoke(nameof(CopyWallsData), 6f);
 		}
 		else
 		{
@@ -88,7 +89,20 @@ public class RoomTemplates : MonoBehaviour
 			InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.05f);
 		}
 
-		Invoke(nameof(SpawnBosses), 20f);
+		Invoke(nameof(SpawnBosses), 7f);
+
+		Invoke(nameof(DeleteUnusedRooms), 8f);
+	}
+
+	private void DeleteUnusedRooms()
+	{
+		foreach (GameObject pooledRoom in RoomPool.Instance.pooledObjects)
+		{
+			if (!pooledRoom.activeInHierarchy)
+			{
+				Destroy(pooledRoom, 0.1f);
+			}
+		}
 	}
 
 	private void SpawnRoomFromRoomData()
@@ -147,6 +161,11 @@ public class RoomTemplates : MonoBehaviour
 		tmp.SetActive(true);
 
 		i++;
+
+		if (i >= rooms.Count)
+		{
+			CancelInvoke(nameof(SpawnRoomFromRoomData));
+		}
 	}
 
 	//private void OnApplicationQuit()
@@ -353,13 +372,41 @@ public class RoomTemplates : MonoBehaviour
 	//should be called when the rooms have been generated
 	public void SpawnBosses()
 	{
+		int count = 0;
+		GameObject areaBoss;
+		//loop through room data
 		for (int i = 0; i < numBosses; i++)
 		{
-			int rand = Random.Range(Mathf.RoundToInt(rooms.Count / 2), rooms.Count);
-			GameObject areaBoss = Instantiate(boss, rooms[rand].transform.position, Quaternion.identity);
-			print(rand);
-			GameManager.Instance.thisArea.roomsData[rand].AddEnemy(areaBoss);
+			//find if any room data have enemies
+			//if they do then spawn and increment local count
+			if (GameManager.Instance.thisArea.roomsData[i].enemies.Contains(boss))
+			{
+				print("boss has been found");
+				count += 1;
+				areaBoss = Instantiate(boss, GameManager.Instance.thisArea.rooms[i].transform.position, Quaternion.identity);
+			}
+			continue;
 		}
+
+		while (count < numBosses)
+		{
+			print("new bosses being spawned");
+			int rand = Random.Range(Mathf.RoundToInt(GameManager.Instance.thisArea.rooms.Count / 2), GameManager.Instance.thisArea.rooms.Count);
+			areaBoss = Instantiate(boss, GameManager.Instance.thisArea.rooms[rand].transform.position, Quaternion.identity);
+			GameManager.Instance.thisArea.roomsData[rand].AddEnemy(areaBoss);
+			print(rand);
+			count += 1;
+		}
+		//if the local count is less than numBosses then spawn bosses at random indexes and add to the roomdata
+
+
+		//for (int i = 0; i < numBosses; i++)
+		//{
+		//	int rand = Random.Range(Mathf.RoundToInt(rooms.Count / 2), rooms.Count);
+		//	GameObject areaBoss = Instantiate(boss, rooms[rand].transform.position, Quaternion.identity);
+		//	print(rand);
+		//	GameManager.Instance.thisArea.roomsData[rand].AddEnemy(areaBoss);
+		//}
 
 	}
 }
