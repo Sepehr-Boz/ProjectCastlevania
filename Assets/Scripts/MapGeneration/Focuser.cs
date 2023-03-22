@@ -11,14 +11,6 @@ public class Focuser : MonoBehaviour
 		//focus the camera to the room that this is attached to
 		if (other.CompareTag("Player"))
 		{
-			////if the room has been extended set the focus to the player
-			//if (transform.parent.parent.GetComponent<AddRoom>().extended)
-			//{
-			//	PlayerManager.Instance.virtualCamera.LookAt = other.transform;
-			//	PlayerManager.Instance.virtualCamera.Follow = other.transform;
-			//	return;
-			//}
-
 			//if the room hasnt been extended focus the camera to the room
 			GameManager.Instance.virtualCamera.LookAt = transform.parent;
 			GameManager.Instance.virtualCamera.Follow = transform.parent;

@@ -1,8 +1,11 @@
 ﻿using Assets.Scripts.MapGeneration;
 using Assets.Scripts.Pools;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using System.Runtime.CompilerServices;
+using Random = UnityEngine.Random;
 using UnityEngine;
 using static Unity.Burst.Intrinsics.X86.Avx;
 
@@ -25,6 +28,7 @@ public class RoomTemplates : MonoBehaviour
 	//public float waitTime;
 	public int maxRoomLength = 50; //accessed from roomspawner also
 	public int numBosses = 1; //how many bosses to spawn
+	public int numStartRooms = 4;
 
 
 	[Header("Room data")]
@@ -34,27 +38,23 @@ public class RoomTemplates : MonoBehaviour
 	private int i = 0; //used when spawning rooms from roomsdata
 	private Vector2[] directions =
 	{
-		new Vector2(-10, 10),
-		new Vector2(0, 10),
-		new Vector2(10, 10),
-		new Vector2(10, 0),
-		new Vector2(10, -10),
-		new Vector2(0, -10),
-		new Vector2(-10, -10),
-		new Vector2(-10, 0),
+		new Vector2(-10, 10),new Vector2(0, 10),new Vector2(10, 10),
+		new Vector2(-10, 0),new Vector2(0, 0),new Vector2(10, 0),
+		new Vector2(-10, -10),new Vector2(0, -10),new Vector2(10, -10),
 	};
 
+	[Range(0, 10)]
 	[SerializeField]private int horizontalChance = 3;
+	[Range(0, 10)]
 	[SerializeField]private int verticalChance = 5;
+	[Range(0, 10)]
 	[SerializeField]private int enlargeChance = 7;
 
 
 
 	private void Start()
 	{
-		//roomData = GameManager.Instance.roomData;
-
-		//InvokeRepeating("CheckRoomLengths", 0f, 0.05f);
+		List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;
 
 		//check if rooms are empty
 		if (AreRoomsEmpty())
@@ -62,116 +62,98 @@ public class RoomTemplates : MonoBehaviour
 			//if empty then generate a new map
 			print("rooms are empty");
 
-			roomsData = GameManager.Instance.thisArea.roomsData;
-
 			//getting and spawning start rooms onto the map
 			GameObject tmp;
 			foreach (RoomData data in roomsData)
 			{
 				//get pooled object
 				tmp = RoomPool.Instance.GetPooledRoom(data.name);
-				//keep spawn points active
-				//tmp.transform.Find("SpawnPoints").gameObject.SetActive(true);
-				//foreach (Transform child in tmp.transform.Find("SpawnPoints"))
-				//{
-				//	child.GetComponent<RoomSpawner>().spawned = false;
-				//}
+				//tmp = Instantiate(openRoom);
+				//set the spawn points active
+				tmp.transform.Find("SpawnPoints").gameObject.SetActive(true);
 				//move room to the correct position
 				tmp.transform.SetPositionAndRotation(data.position, data.rotation);
 				//set the room active
 				tmp.SetActive(true);
 			}
 
-
-			//for (int i = 0; i < 4; i++)
-			//{
-			//	//set the start rooms active if the rooms data are empty
-			//	rooms[i].transform.Find("SpawnPoints").gameObject.SetActive(true);
-			//	foreach (Transform child in rooms[i].transform.Find("SpawnPoints"))
-			//	{
-			//		child.gameObject.SetActive(true);
-			//	}
-			//	//GameManager.Instance.thisArea.rooms[i].SetActive(true);
-			//}
+			Invoke(nameof(ExtendRooms), 5f);
+			Invoke(nameof(CopyWallsData), 6f);
 		}
 		else
 		{
 			print("rooms arent empty");
 
 			//if the rooms arent empty then set all spawnpoints inactive so rooms dont keep spawning
-			//List<GameObject> rooms = GameManager.Instance.thisArea.rooms;
-			//int n = GameManager.Instance.thisArea.roomsData.Count;
-			List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;
-			//print(n);
 
-			InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.1f);
-
-			//foreach (RoomData data in roomsData)
-			//{
-			//	print(data.name);
-			//	tmp = RoomPool.Instance.GetPooledRoom(data.name);
-			//	//set the SpawnPoints parent false so that the points stop spawning rooms
-			//	tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
-			//	tmp.transform.SetPositionAndRotation(data.position, data.rotation);
-
-			//	//when rooms are set active they are added to rooms because of the code in AddRoom.cs Start()
-			//	//GameManager.Instance.thisArea.rooms.Add(tmp);
-
-			//	tmp.SetActive(true);
-			//	//GameManager.Instance.thisArea.rooms.Add(tmp);
-			//}
-
-			//for (int i = 0; i < n; i++)
-			//{
-			//	//get a pooled object with the same name
-			//	tmp = RoomPool.Instance.GetPooledObject(null, roomsData[i].name);
-			//	//tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
-			//	//Destroy(tmp.transform.Find("SpawnPoints").gameObject);
-			//	//tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
-			//	print("a");
-			//	tmp.transform.SetPositionAndRotation(roomsData[i].position, roomsData[i].rotation);
-			//	print("b");
-			//	//tmp.transform.position = roomsData[i].position;
-			//	//tmp.transform.rotation = roomsData[i].rotation;
-
-			//	tmp.SetActive(true);
-			//	print("e");
-			//	GameManager.Instance.thisArea.rooms.Add(tmp);
-			//	print("f");
-
-
-			//	//set the spawn points of the room inactive
-			//	//rooms[i].transform.Find("SpawnPoints").gameObject.SetActive(false);
-			//	//foreach (Transform child in rooms[i].transform.Find("SpawnPoints"))
-			//	//{
-			//	//	Destroy(child.gameObject);
-			//	//}
-			//	////move the room to the position in roomsdata
-			//	//GameManager.Instance.thisArea.rooms[i].transform.position = GameManager.Instance.thisArea.roomsData[i].position;
-			//	//GameManager.Instance.thisArea.rooms[i].transform.rotation = GameManager.Instance.thisArea.roomsData[i].rotation;
-			//	////rooms[i].transform.position = roomsData[i].position;
-			//	////rooms[i].transform.rotation = roomsData[i].rotation;
-
-			//	////spawn enemies and objects into room IF ROOM ISNT AN ENTRY ONE
-			//}
-
-			////foreach (GameObject room in GameManager.Instance.thisArea.rooms)
-			////{
-			////	room.transform.Find("SpawnPoints").gameObject.SetActive(false);
-			////}
+			InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.05f);
 		}
 
+		Invoke(nameof(SpawnBosses), 7f);
 
-		Invoke(nameof(ExtendRooms), 10f);
-		Invoke(nameof(SpawnBosses), 30f);
+		Invoke(nameof(DeleteUnusedRooms), 8f);
+	}
+
+	private void DeleteUnusedRooms()
+	{
+		foreach (GameObject pooledRoom in RoomPool.Instance.pooledObjects)
+		{
+			if (!pooledRoom.activeInHierarchy)
+			{
+				Destroy(pooledRoom, 0.1f);
+			}
+		}
 	}
 
 	private void SpawnRoomFromRoomData()
 	{
 		GameObject tmp = RoomPool.Instance.GetPooledRoom(GameManager.Instance.thisArea.roomsData[i].name);
 		//set the SpawnPoints parent false so that the points stop spawning rooms
-		tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
+		//Destroy(tmp.transform.Find("SpawnPoints").gameObject);
+		//tmp.transform.Find("SpawnPoints").gameObject.SetActive(false);
+		foreach (Transform point in tmp.transform.Find("SpawnPoints"))
+		{
+			if (point.name == "CENTRE")
+			{
+				continue;
+			}
+
+			point.gameObject.SetActive(false);
+		}
+
 		tmp.transform.SetPositionAndRotation(GameManager.Instance.thisArea.roomsData[i].position, GameManager.Instance.thisArea.roomsData[i].rotation);
+		//set all walls inactive first
+		foreach (Transform wall in tmp.transform.Find("Walls"))
+		{
+			wall.gameObject.SetActive(false);
+		}
+
+
+		//set active walls active
+		List<Wall> activeWalls = GameManager.Instance.thisArea.roomsData[i].GetActiveWalls();
+		foreach (Wall activeWall in activeWalls)
+		{
+			if (activeWall == Wall.NORTH)
+			{
+				tmp.transform.Find("Walls").Find("North").gameObject.SetActive(true);
+			}
+			else if (activeWall == Wall.EAST)
+			{
+				tmp.transform.Find("Walls").Find("East").gameObject.SetActive(true);
+			}
+			else if (activeWall == Wall.SOUTH)
+			{
+				tmp.transform.Find("Walls").Find("South").gameObject.SetActive(true);
+			}
+			else if (activeWall == Wall.WEST)
+			{
+				tmp.transform.Find("Walls").Find("West").gameObject.SetActive(true);
+			}
+			else
+			{
+				print("error has occurred");
+			}
+		}
 
 		//when rooms are set active they are added to rooms because of the code in AddRoom.cs Start()
 		//GameManager.Instance.thisArea.rooms.Add(tmp);
@@ -179,21 +161,29 @@ public class RoomTemplates : MonoBehaviour
 		tmp.SetActive(true);
 
 		i++;
+
+		if (i >= rooms.Count)
+		{
+			CancelInvoke(nameof(SpawnRoomFromRoomData));
+		}
 	}
 
+	//private void OnApplicationQuit()
+	//{
+	//	GameManager.Instance.thisArea.rooms.Clear();
 
-
-	private void OnApplicationQuit()
-	{
-		GameManager.Instance.thisArea.rooms.Clear();
-		//GameManager.Instance.thisArea.roomsData.Clear(); //for testing
-
-	}
+	//	if (GameManager.Instance.thisArea.area == Area.MAZEA || GameManager.Instance.thisArea.area == Area.MAZEB)
+	//	{
+	//		GameManager.Instance.thisArea.roomsData.Clear();
+	//		//get rid of all data so a new map generates every time for each maze
+	//	}
+	//	//areas other than the mazes will only generate once however
+	//}
 
 	//check if room data in the area isnt empty
 	private bool AreRoomsEmpty()
 	{
-		return GameManager.Instance.thisArea.roomsData.Count < 5;
+		return GameManager.Instance.thisArea.roomsData.Count < numStartRooms + 1;
 		//returns true if empty, false if not empty
 	}
 
@@ -202,104 +192,107 @@ public class RoomTemplates : MonoBehaviour
 	//function that loops through rooms and extends them
 	private void ExtendRooms()
 	{
+		print("extending rooms");
 		rooms = GameManager.Instance.thisArea.rooms;
-		int rand = Random.Range(0, 10);
-		List<GameObject> adjacentRooms;
+		GameObject[] adjacentRooms;
 
 		foreach (GameObject room in rooms)
 		{
 			adjacentRooms = GetAdjacentRooms(room);
+			if (adjacentRooms == null)
+			{
+				continue;
+			}
+
+			int rand = Random.Range(0, 10);
 
 			if (rand < horizontalChance)
 			{
-				HorizontalExtend(room, adjacentRooms);
+				StartCoroutine(HorizontalExtend(adjacentRooms));
 			}
 			else if (horizontalChance < rand && rand < verticalChance)
 			{
-				VerticalExtend(room, adjacentRooms);
+				StartCoroutine(VerticalExtend(adjacentRooms));
 			}
 			else if (verticalChance < rand && rand < enlargeChance)
 			{
-				EnlargeRoom(room, adjacentRooms);
+				StartCoroutine(EnlargeRoom(adjacentRooms));
+
+				for (int j = 0; j < 9; j++)
+				{
+					if (j == 0 || j == 1 || j == 2 || j == 5 || j == 8)
+					{
+						adjacentRooms[j].GetComponent<AddRoom>().extended = adjacentRooms[j] != null ? true : false;
+					}
+				}
 			}
 			else
 			{
 				continue;
 			}
-
-
-			//switch (rand)
-			//{
-			//	case 0:
-			//		//extend a - Long horizontal room
-			//		HorizontalExtend(room, adjacentRooms);
-			//		break;
-			//	case 1:
-			//		//extend a
-			//		HorizontalExtend(room, adjacentRooms);
-			//		break;
-			//	case 2:
-			//		//extend a
-			//		HorizontalExtend(room, adjacentRooms);
-			//		break;
-			//	case 3:
-			//		//extend b - long vertical room
-			//		VerticalExtend(room, adjacentRooms);
-			//		break;
-			//	case 4:
-			//		//extend b
-			//		VerticalExtend(room, adjacentRooms);
-			//		break;
-			//	case 5:
-			//		//extend c - big square room
-			//		EnlargeRoom(room, adjacentRooms);
-			//		break;
-			//	case 6:
-			//		//extend c
-			//		EnlargeRoom(room, adjacentRooms);
-			//		break;
-			//	case 7:
-			//		//no extend
-			//		break;
-			//	case 8:
-			//		//no extend
-			//		break;
-			//	case 9:
-			//		//no extend
-			//		break;
-			//	case 10:
-			//		//no extend
-			//		break;
-			//}
 		}
 	}
 
-	private List<GameObject> GetAdjacentRooms(GameObject currentRoom)
+	private void CopyWallsData()
+	{
+		List<GameObject> rooms = GameManager.Instance.thisArea.rooms;
+
+		for (int i = 0; i < rooms.Count; i++)
+		{
+			//get the current room
+			GameObject room = rooms[i];
+
+			//get the inactive walls
+			//List<string> inactiveWalls = new List<string>();
+			foreach (Transform wall in room.transform.Find("Walls").transform)
+			{
+				if (!wall.gameObject.activeInHierarchy)
+				{
+					print("wall is inactive");
+					GameManager.Instance.thisArea.roomsData[i].RemoveInactiveWall(wall.name);
+					//inactiveWalls.Add(wall.name);
+				}
+			}
+
+			//print(inactiveWalls);
+			//remove the inactive walls from the roomsdata enum at the i index
+			//GameManager.Instance.thisArea.roomsData[i].RemoveInactiveWalls(inactiveWalls);
+
+		}
+	}
+
+	private GameObject[] GetAdjacentRooms(GameObject currentRoom)
 	{
 		//check if currentroom has already been extended and if it has then return
 		if (currentRoom.GetComponent<AddRoom>().extended)
 		{
 			return null;
 		}
-		rooms = new List<GameObject>(); //max number of adjascent rooms is 8
+		GameObject[] rooms = new GameObject[9]; //max number of adjascent rooms is 8
 		//check for any rooms above, below, to the right, left, and diagonally of the current room
 		Vector2 newPos;
 		GameObject room = null;
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 9; i++)
 		{
 			newPos = (Vector2)currentRoom.transform.position + directions[i];
 			try
 			{
-				room = Physics2D.OverlapCircle(newPos, 1f).transform.parent.gameObject;
+				room = Physics2D.OverlapCircle(newPos, 1f).transform.root.gameObject;
+				print(room.name);
 			}
 			catch
 			{
-				print("no room present at position");
+				print("no room found");
+			}
+			if (room == null)
+			{
+				rooms[i] = null;
+				continue;
 			}
 
 			if (!room.GetComponent<AddRoom>().extended)
 			{
-				rooms.Add(room);
+				rooms[i] = room;
 				room.GetComponent<AddRoom>().extended = true;
 			}
 		}
@@ -312,112 +305,108 @@ public class RoomTemplates : MonoBehaviour
 		return rooms;
 	}
 
-	private void HorizontalExtend(GameObject currentRoom, List<GameObject> connectedRooms)
+	private IEnumerator HorizontalExtend(GameObject[] connectedRooms)
 	{
+		//current room is middle index
 		//need rooms east and west
+		GameObject[] rooms = new GameObject[3] { connectedRooms[3], connectedRooms[4], connectedRooms[5] };
+		yield return new WaitForSeconds(0.1f);
+		DisableHorizontalWalls(rooms[0], rooms[1]);
+		yield return new WaitForSeconds(0.1f);
+		DisableHorizontalWalls(rooms[1], rooms[2]);
 		//find if any rooms are horizontal to the currentroom
 		//pass the valid rooms to the correct DisableWalls function
 	}
-	private void VerticalExtend(GameObject currentRoom, List<GameObject> connectedRooms)
+	private IEnumerator VerticalExtend(GameObject[] connectedRooms)
 	{
 		//need rooms north and south
+		GameObject[] rooms = new GameObject[3] { connectedRooms[1], connectedRooms[4], connectedRooms[7] };
+		yield return new WaitForSeconds(0.1f);
+		DisableVerticalWalls(rooms[0], rooms[1]);
+		yield return new WaitForSeconds(0.1f);
+		DisableVerticalWalls(rooms[1], rooms[2]);
 	}
-	private void EnlargeRoom(GameObject currentRoom, List<GameObject> connectedRooms)
+	private IEnumerator EnlargeRoom(GameObject[] connectedRooms)
 	{
 		//need rooms in every direction including diagonally
+		GameObject[] rooms = new GameObject[4] { connectedRooms[3], connectedRooms[4], connectedRooms[6], connectedRooms[7] };
+		yield return new WaitForSeconds(0.1f);
+		DisableHorizontalWalls(rooms[0], rooms[1]);
+		yield return new WaitForSeconds(0.1f);
+		DisableHorizontalWalls(rooms[2], rooms[3]);
+		yield return new WaitForSeconds(0.1f);
+		DisableVerticalWalls(rooms[0], rooms[2]);
+		yield return new WaitForSeconds(0.1f);
+		DisableVerticalWalls(rooms[1], rooms[3]);
+		yield return new WaitForSeconds(0.1f);
 	}
 
-	private void DisableNorthWalls(GameObject a, GameObject b)
+	private void DisableVerticalWalls(GameObject a, GameObject b)
 	{
+		if (a == null || b == null)
+		{
+			return;
+		}
+
 		//disable the north walls between the 2 rooms
 		//remove the walls enum from each room
+		a.transform.Find("Walls").Find("South").gameObject.SetActive(false);
+		b.transform.Find("Walls").Find("North").gameObject.SetActive(false);
 	}
-	private void DisableEastWalls(GameObject a, GameObject b)
+	private void DisableHorizontalWalls(GameObject a, GameObject b)
 	{
+		if (a == null || b == null)
+		{
+			return;
+		}
 
-	}
-	private void DisableSouthWalls(GameObject a, GameObject b)
-	{
 
-	}
-	private void DisableWestWalls(GameObject a, GameObject b)
-	{
+		a.transform.Find("Walls").Find("East").gameObject.SetActive(false);
+		b.transform.Find("Walls").Find("West").gameObject.SetActive(false);
+
 
 	}
 
 	#endregion
-
-	#region depreceated
-	//depreceated as the room lengths are checked in room spawner so the list lengths never exceed the maxroomlength
-	//private void CheckRoomLengths()
-	//{
-	//	if (roomData.roomsA.Count > maxRoomLength + 1)
-	//	{
-	//		roomData.roomsA[maxRoomLength].SetActive(false);
-	//		//Destroy(roomData.roomsA[maxRoomLength]);
-	//		roomData.roomsA.RemoveAt(maxRoomLength);
-	//		return;
-	//	}
-	//	if (roomData.roomsB.Count > maxRoomLength + 1)
-	//	{
-	//		roomData.roomsB[maxRoomLength].SetActive(false);
-	//		//Destroy(roomData.roomsB[maxRoomLength]);
-	//		roomData.roomsB.RemoveAt(maxRoomLength);
-	//		return;
-	//	}
-	//	if (roomData.roomsC.Count > maxRoomLength + 1)
-	//	{
-	//		roomData.roomsC[maxRoomLength].SetActive(false);
-	//		//Destroy(roomData.roomsC[maxRoomLength]);
-	//		roomData.roomsC.RemoveAt(maxRoomLength);
-	//		return;
-	//	}
-	//	if (roomData.roomsD.Count > maxRoomLength + 1)
-	//	{
-	//		roomData.roomsD[maxRoomLength].SetActive(false);
-	//		//Destroy(roomData.roomsD[maxRoomLength]);
-	//		roomData.roomsD.RemoveAt(maxRoomLength);
-	//		return;
-	//	}
-	//	if (roomData.roomsA.Count < maxRoomLength || roomData.roomsB.Count < maxRoomLength || roomData.roomsC.Count < maxRoomLength || roomData.roomsD.Count < maxRoomLength)
-	//	{
-	//		return;
-	//	}
-
-	//	CancelInvoke("CheckRoomLengths");
-
-	//}
-	#endregion
-
 
 	//should be called when the rooms have been generated
 	public void SpawnBosses()
 	{
-
-		////rand should be between half roomsA length not max room length as the length of the rooms does not always reach max room lengths so may be shorter
-		//rand = Random.Range(Mathf.RoundToInt(roomData.roomsA.Count / 2), roomData.roomsA.Count);
-		//roomBoss = Instantiate(boss, roomData.roomsA[rand].transform.position, Quaternion.identity);
-		//roomData.roomsA.Add(roomBoss);
-
-		//rand = Random.Range(Mathf.RoundToInt(roomData.roomsB.Count / 2), roomData.roomsB.Count);
-		//roomBoss = Instantiate(boss, roomData.roomsB[rand].transform.position, Quaternion.identity);
-		//roomData.roomsB.Add(roomBoss);
-
-		//rand = Random.Range(Mathf.RoundToInt(roomData.roomsC.Count / 2), roomData.roomsC.Count);
-		//roomBoss = Instantiate(boss, roomData.roomsC[rand].transform.position, Quaternion.identity);
-		//roomData.roomsC.Add(roomBoss);
-
-		//rand = Random.Range(Mathf.RoundToInt(roomData.roomsD.Count / 2), roomData.roomsD.Count);
-		//roomBoss = Instantiate(boss, roomData.roomsD[rand].transform.position, Quaternion.identity);
-		//roomData.roomsD.Add(roomBoss);
-
-
+		int count = 0;
+		GameObject areaBoss;
+		//loop through room data
 		for (int i = 0; i < numBosses; i++)
 		{
-			int rand = Random.Range(Mathf.RoundToInt(rooms.Count / 2), rooms.Count);
-			GameObject areaBoss = Instantiate(boss, rooms[rand].transform.position, Quaternion.identity);
-			roomsData[rand].AddEnemy(areaBoss);
+			//find if any room data have enemies
+			//if they do then spawn and increment local count
+			if (GameManager.Instance.thisArea.roomsData[i].enemies.Contains(boss))
+			{
+				print("boss has been found");
+				count += 1;
+				areaBoss = Instantiate(boss, GameManager.Instance.thisArea.rooms[i].transform.position, Quaternion.identity);
+			}
+			continue;
 		}
+
+		while (count < numBosses)
+		{
+			print("new bosses being spawned");
+			int rand = Random.Range(Mathf.RoundToInt(GameManager.Instance.thisArea.rooms.Count / 2), GameManager.Instance.thisArea.rooms.Count);
+			areaBoss = Instantiate(boss, GameManager.Instance.thisArea.rooms[rand].transform.position, Quaternion.identity);
+			GameManager.Instance.thisArea.roomsData[rand].AddEnemy(areaBoss);
+			print(rand);
+			count += 1;
+		}
+		//if the local count is less than numBosses then spawn bosses at random indexes and add to the roomdata
+
+
+		//for (int i = 0; i < numBosses; i++)
+		//{
+		//	int rand = Random.Range(Mathf.RoundToInt(rooms.Count / 2), rooms.Count);
+		//	GameObject areaBoss = Instantiate(boss, rooms[rand].transform.position, Quaternion.identity);
+		//	print(rand);
+		//	GameManager.Instance.thisArea.roomsData[rand].AddEnemy(areaBoss);
+		//}
 
 	}
 }

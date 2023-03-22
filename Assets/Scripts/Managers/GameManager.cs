@@ -14,10 +14,7 @@ public class GameManager : MonoBehaviour
 
 	public Cinemachine.CinemachineVirtualCamera virtualCamera;
 
-
 	public int targetFPS;
-
-
 
 	#region singleton
 	private static GameManager _instance;
@@ -39,13 +36,72 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		//load the scene the current player is in
-		//LoadScene(PlayerManager.Instance.currentPlayer);
+		//delay setting templates active so that rooms can be pooled before having to be accessed
+		StartCoroutine(TemplateDelay());
+
+		SceneManager.activeSceneChanged += SceneChanged;
+
 
 		//set target fps
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = targetFPS;
 	}
+
+	private IEnumerator TemplateDelay()
+	{
+		yield return new WaitForSeconds(1);
+		templates.gameObject.SetActive(true);
+	}
+
+	private void SceneChanged(Scene current, Scene next)
+	{
+		print(current.name);
+		print(next.name);
+
+		if (current.name == "MazeA" || current.name == "MazeB")
+		{
+			//deletes room data before moving to the next scene
+			thisArea.roomsData.Clear();
+		}
+		thisArea.rooms.Clear();
+	}
+
+	private void OnApplicationQuit()
+	{
+		thisArea.rooms.Clear();
+	}
+
+
+	private void Update()
+	{
+		//FOR TESTING
+		Application.targetFrameRate = targetFPS;
+
+		if (Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			SceneManager.LoadScene("MazeA");
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			SceneManager.LoadScene("MazeB");
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			SceneManager.LoadScene("AreaA");
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha4))
+		{
+			SceneManager.LoadScene("AreaB");
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha5))
+		{
+			SceneManager.LoadScene("AreaC");
+		}
+
+
+		
+	}
+
 
 	//load the correct scene
 	//called whenever the player is switched
@@ -55,146 +111,9 @@ public class GameManager : MonoBehaviour
 	}
 
 
-	//   [Space(2)]
-	//   public RoomTemplates templates;
-
-	//   public float waitTime;
-	//public int targetFPS;
-
-	////public RoomData roomData;
-	////public PlayerData playerData;
 
 
-	//public GameObject[] startRooms;
 
 
-	//private void Start()
-	//{
-	//	//set the entry rooms inactive until the players are spawned
-	//	foreach (GameObject obj in startRooms)
-	//	{
-	//		obj.SetActive(false);
-	//	}
 
-	//	//spawn the players
-	//	PlayerManager.Instance.FirstSpawn();
-
-	//	//move the entry rooms to the player positions
-	//	//Invoke(nameof(SetRooms), 4f);
-
-	//	//check is rooms are pooled and if theyre then set the entry rooms active
-
-	//	//set the target fps
-	//	QualitySettings.vSyncCount = 0;
-	//	Application.targetFrameRate = targetFPS;
-
-	//}
-
-	//private void SetRooms()
-	//{
-	//	//SetRoom(0);
-	//	//SetRoom(1);
-	//	//SetRoom(2);
-	//	//SetRoom(3);
-
-	//	foreach (GameObject obj in startRooms)
-	//	{
-	//		obj.SetActive(true);
-	//	}
-
-	//}
-
-	//public void SetRoom(int index)
-	//{
-	//	startRooms[index].transform.position = PlayerManager.Instance.transform.GetChild(index).transform.position;
-	//}
-
-	//public void SetInbetweenRooms(List<Vector2> pos)
-	//{
-	//	Vector2 a = GetClosestCentre((pos[0] + pos[1]) / 2);
-	//	startRooms[4].transform.position = a;
-	//	Vector2 b = GetClosestCentre((pos[1] + pos[2]) / 2);
-	//	startRooms[5].transform.position = b;
-	//	Vector2 c = GetClosestCentre((pos[2] + pos[3]) / 2);
-	//	startRooms[6].transform.position = c;
-	//	Vector2 d = GetClosestCentre((pos[3] + pos[0]) / 2);
-	//	startRooms[7].transform.position = d;
-
-	//	foreach (GameObject obj in startRooms)
-	//	{
-	//		obj.SetActive(true);
-	//	}
-	//}
-
-	////empty the rooms lists on game end
-	//private void OnApplicationQuit()
-	//{
-	//	roomData.roomsA.Clear();
-	//	roomData.roomsB.Clear();
-	//	roomData.roomsC.Clear();
-	//	roomData.roomsD.Clear();
-	//}
-
-	//#region map methods
-	//public void DestroyArea(int index)
-	//   {
-	//	List<GameObject> rooms = GetListFromIndex(index);
-
-	//	GameObject startRoom = rooms[0];
-	//	startRoom.SetActive(false);
-	//	ObjectPooling.Instance.RenewPooledObject(ref startRoom);
-
-	//       for (int i = 0; i < rooms.Count; i++)
-	//	{
-	//		rooms[i].SetActive(false);
-	//		//adds back any missing room spawner components in the spawn points when the rooms are set inactive again
-	//	}
-
-	//	while (rooms.Count > 1)
-	//	{
-	//		rooms.RemoveAt(1);
-	//	}
-
-
-	//   }
-
-	//   public void GenerateArea()
-	//   {
-	//	var room = startRooms[PlayerManager.Instance.roomsIndex];
-	//	room.transform.position = PlayerManager.Instance.currentPlayer.transform.position;
-	//	room.transform.position = GetClosestCentre(room.transform.position);
-	//	room.SetActive(true);
-	//   }
-
-	//public Vector2 GetClosestCentre(Vector2 pos)
-	//{
-	//	//find the closest 10s in the x and y area and apply it
-
-	//	//divide the x and y by 10 and round them to the closest integer
-	//	int x = Mathf.RoundToInt(pos.x / 10);
-	//	int y = Mathf.RoundToInt(pos.y / 10);
-	//	//then multiply the x and y by 10 to get them back to their normal values
-	//	pos = new Vector2(x * 10, y * 10);
-
-	//	return pos;
-	//}
-
-	//public ref List<GameObject> GetListFromIndex(int index)
-	//{
-	//	switch (index)
-	//	{
-	//		case 0:
-	//			return ref roomData.roomsA;
-	//		case 1:
-	//			return ref roomData.roomsB;
-	//		case 2:
-	//			return ref roomData.roomsC;
-	//		case 3:
-	//			return ref roomData.roomsD;
-	//	}
-
-	//	return ref roomData.roomsA;
-	//}
-
-	//#endregion
 }

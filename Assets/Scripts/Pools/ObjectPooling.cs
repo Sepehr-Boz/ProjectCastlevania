@@ -27,7 +27,7 @@ namespace Assets.Scripts.Pools
 				tmp = Instantiate(objectsToPool[i % n]);
 				//sets the name to not have "(Clone)"
 				tmp.name = objectsToPool[i % n].name;
-				tmp.transform.parent = transform;
+				//tmp.transform.parent = transform;
 				tmp.SetActive(false);
 				pooledObjects.Add(tmp);
 			}
@@ -46,9 +46,6 @@ namespace Assets.Scripts.Pools
 				if (objectName == obj && !obj.activeInHierarchy)
 				{
 					obj.SetActive(true);
-					
-					//tmp = obj;
-					//RenewPooledObject(ref tmp);
 					return obj;
 				}
 			}
@@ -57,51 +54,7 @@ namespace Assets.Scripts.Pools
 			pooledObjects.Add(tmp);
 			tmp.transform.parent = transform;
 			tmp.SetActive(true);
-			//RenewPooledObject(ref tmp);
 			return tmp;
 		}
-
-		//public void RenewPooledObject(ref GameObject objectName)
-		//{
-		//	if (objectName == null)
-		//	{
-		//		return;
-		//	}
-
-		//	Transform pointsParent = objectName.transform.Find("SpawnPoints").transform;
-
-		//	foreach (Transform point in pointsParent)
-		//	{
-		//		point.gameObject.SetActive(true);
-
-		//		if (point.gameObject.GetComponent<RoomSpawner>() != null || point.gameObject.GetComponent<Destroyer>() != null)
-		//		{
-		//			continue;
-		//		}
-
-		//		//add a roomspawner if one has been removed
-		//		var spawner = point.AddComponent<RoomSpawner>();
-
-		//		//add the appropiate direction to the script based on which direction the point is
-		//		switch (point.name)
-		//		{
-		//			case "UP":
-		//				spawner.openingDirection = 2;
-		//				break;
-		//			case "DOWN":
-		//				spawner.openingDirection = 1;
-		//				break;
-		//			case "LEFT":
-		//				spawner.openingDirection = 3;
-		//				break;
-		//			case "RIGHT":
-		//				spawner.openingDirection = 4;
-		//				break;
-		//		}
-
-		//		spawner.spawned = false;
-		//		spawner.waitTime = 4;
-		//	}
-		//}
 	}
 }
