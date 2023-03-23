@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079b93ebf4e32914791465c55a39f360, type: 3}
   m_Name: Testing
   m_EditorClassIdentifier: 
-  area: 0
+  area: 5
   colour: {r: 0, g: 0, b: 0, a: 0}
   enemies: []
   objects: []
   rooms: []
   roomsData: []
+  numExits: 2

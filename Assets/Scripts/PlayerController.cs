@@ -31,12 +31,17 @@ public class PlayerController : MonoBehaviour
 		rigidBody = GetComponent<Rigidbody2D>();
 		circleCollider = GetComponent<CircleCollider2D>();
 
+		//add inputs
 		playerInputActions = new PlayerInputActions();
 
 		playerInputActions.Enable();
 		playerInputActions.Player.Move.performed += Move;
 		playerInputActions.Player.Move.canceled += MoveStop;
 		playerInputActions.Player.Die.performed += DecreaseHealth;
+
+
+		//load the scene the player is in
+
 
 		//PlayerManager.Instance.SetCamera(transform);
 	}
@@ -45,6 +50,8 @@ public class PlayerController : MonoBehaviour
 	{
 		//set health back to max health
 		health = maxHealth;
+
+
 	}
 
 	//private void OnDisable()

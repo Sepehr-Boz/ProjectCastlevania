@@ -31,7 +31,7 @@ public class PlayerManager : MonoBehaviour
 
 	private void Start()
 	{
-		currentPlayer = players[0];
+		//currentPlayer = players[0];
 	}
 
 	//switching the current active player

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.FullSerializer;
+using UnityEditor.SearchService;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -19,16 +20,20 @@ namespace Assets.Scripts.Data
 		public List<GameObject> rooms;
 		[SerializeField]public List<RoomData> roomsData;
 
+		public int numExits = 2;
+
 	}
 }
 
 public enum Area
 {
-	MAZEA,
-	MAZEB,
-	AREAA,
-	AREAB,
-	AREAC
+	AREA1,
+	AREA2,
+	AREA3,
+	AREA4,
+	AREA5,
+
+	TESTING
 }
 
 public enum Wall
@@ -44,12 +49,14 @@ public enum Wall
 {
 	public Vector3 position;
 	public Quaternion rotation;
-	public List<Wall> activeWalls;
+	public List<Wall> activeWalls; //walls that should be rendered
 
-	public string name;
+	public string name; //name of the room
 
-	public List<GameObject> enemies; //enemies spawned in the room
-	public List<GameObject> objects; //objects spawned in the room
+	public List<GameObject> enemies; //enemies present in the room
+	public List<GameObject> objects; //objects present in the room
+
+	public Dictionary<string, int> exit; //the scene that should be loaded whenever exited the room
 
 	public RoomData(Vector3 pos, Quaternion rot, List<Wall> walls, string name, List<GameObject> enemies, List<GameObject> objects)
 	{
@@ -60,6 +67,8 @@ public enum Wall
 
 		this.enemies = enemies;
 		this.objects = objects;
+
+		this.exit = new Dictionary<string, int>(1);
 	}
 	#region getters
 	public Vector3 GetPosition()
@@ -119,6 +128,11 @@ public enum Wall
 		{
 			Debug.Log("an error has occurred deleting walls");
 		}
+	}
+
+	public void SetExit(string sceneName, int index)
+	{
+		this.exit.Add(sceneName, index);
 	}
 
 	#endregion

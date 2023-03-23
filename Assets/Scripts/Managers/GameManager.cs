@@ -55,14 +55,6 @@ public class GameManager : MonoBehaviour
 
 	private void SceneChanged(Scene current, Scene next)
 	{
-		print(current.name);
-		print(next.name);
-
-		if (current.name == "MazeA" || current.name == "MazeB")
-		{
-			//deletes room data before moving to the next scene
-			thisArea.roomsData.Clear();
-		}
 		thisArea.rooms.Clear();
 	}
 
@@ -79,23 +71,28 @@ public class GameManager : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			SceneManager.LoadScene("MazeA");
+			Resources.UnloadUnusedAssets(); //unload previous scene assets from previous scenes
+			SceneManager.LoadScene("Area1"); //load new scene
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha2))
 		{
-			SceneManager.LoadScene("MazeB");
+			Resources.UnloadUnusedAssets();
+			SceneManager.LoadScene("Area2");
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3))
 		{
-			SceneManager.LoadScene("AreaA");
+			Resources.UnloadUnusedAssets();
+			SceneManager.LoadScene("Area3");
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha4))
 		{
-			SceneManager.LoadScene("AreaB");
+			Resources.UnloadUnusedAssets();
+			SceneManager.LoadScene("Area4");
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha5))
 		{
-			SceneManager.LoadScene("AreaC");
+			Resources.UnloadUnusedAssets();
+			SceneManager.LoadScene("Area5");
 		}
 
 

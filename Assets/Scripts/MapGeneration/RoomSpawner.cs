@@ -6,24 +6,26 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class RoomSpawner : MonoBehaviour {
-
+public class RoomSpawner : MonoBehaviour 
+{
+	[Header("Directions")]
 	public int openingDirection;
 	// 1 --> need bottom door
 	// 2 --> need top door
 	// 3 --> need left door
 	// 4 --> need right door
-	public int extendChance = 10;
+	public int extendChance = 1;
 
+	[Header("References")]
 	private RoomPool roomPool;
 	private RoomTemplates templates;
+	private GameObject room = null;
 
+	[Header("Spawning")]
 	private int rand;
 	public bool spawned = false;
 
 	public float waitTime = 4f;
-
-	private GameObject room = null;
 
 	void Start(){
 		//must destroy instead of setting inactive as the rooms will continue to spawn on top of each other even when set inactive
@@ -39,7 +41,7 @@ public class RoomSpawner : MonoBehaviour {
 		{
 			//Spawn();
 			//spawn the room after a different time for each direction so that the processor maaaybe has a lower burden as it needs to do less operations every second?
-			Invoke(nameof(Spawn), openingDirection / 10f);
+			Invoke(nameof(Spawn), openingDirection / 100f);
 		}
 		//else
 		//{
@@ -98,7 +100,7 @@ public class RoomSpawner : MonoBehaviour {
 			if (room != null)
 			{
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
-				int rand = Random.Range(0, 100);
+				int rand = Random.Range(0, 500);
 				if (rand <= extendChance)
 				{
 					print("open room has replaced da room");
@@ -138,7 +140,7 @@ public class RoomSpawner : MonoBehaviour {
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
 					print(transform.root.gameObject.name + " has collided with " + other.name);
-					Invoke(nameof(SpawnClosedRoom), openingDirection / 10f);
+					Invoke(nameof(SpawnClosedRoom), openingDirection / 100f);
 					//room = RoomPool.Instance.GetPooledRoom(templates.closedRoom.name);
 					//room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 					//room.SetActive(true);
