@@ -26,7 +26,7 @@ public class RoomTemplates : MonoBehaviour
 
 	[Header("Script Variables")]
 	//public float waitTime;
-	public int maxRoomLength = 50; //accessed from roomspawner also
+	//public int maxRoomLength = 50; //accessed from roomspawner also
 	public int numBosses = 1; //how many bosses to spawn
 	public int numStartRooms = 4;
 
@@ -44,12 +44,14 @@ public class RoomTemplates : MonoBehaviour
 	};
 
 	[Range(0, 10)]
-	[SerializeField]private int horizontalChance = 3;
+	[SerializeField] private int horizontalChance = 3;
 	[Range(0, 10)]
-	[SerializeField]private int verticalChance = 5;
+	[SerializeField] private int verticalChance = 5;
 	[Range(0, 10)]
-	[SerializeField]private int enlargeChance = 7;
+	[SerializeField] private int enlargeChance = 7;
 
+	[Range(0, 500)]
+	[SerializeField] public int extendChance = 1;
 
 
 	private void Start()
@@ -218,13 +220,13 @@ public class RoomTemplates : MonoBehaviour
 			{
 				StartCoroutine(EnlargeRoom(adjacentRooms));
 
-				for (int j = 0; j < 9; j++)
-				{
-					if (j == 0 || j == 1 || j == 2 || j == 5 || j == 8)
-					{
-						adjacentRooms[j].GetComponent<AddRoom>().extended = adjacentRooms[j] != null ? true : false;
-					}
-				}
+				//for (int j = 0; j < 9; j++)
+				//{
+				//	if (j == 0 || j == 1 || j == 2 || j == 5 || j == 8)
+				//	{
+				//		adjacentRooms[j].GetComponent<AddRoom>().extended = adjacentRooms[j] != null ? true : false;
+				//	}
+				//}
 			}
 			else
 			{
@@ -329,15 +331,41 @@ public class RoomTemplates : MonoBehaviour
 	private IEnumerator EnlargeRoom(GameObject[] connectedRooms)
 	{
 		//need rooms in every direction including diagonally
-		GameObject[] rooms = new GameObject[4] { connectedRooms[3], connectedRooms[4], connectedRooms[6], connectedRooms[7] };
+		GameObject[] rooms = connectedRooms;
+		//disable horizontal walls
+		//row 1
 		yield return new WaitForSeconds(0.1f);
 		DisableHorizontalWalls(rooms[0], rooms[1]);
 		yield return new WaitForSeconds(0.1f);
-		DisableHorizontalWalls(rooms[2], rooms[3]);
+		DisableHorizontalWalls(rooms[1], rooms[2]);
+		//row 2
 		yield return new WaitForSeconds(0.1f);
-		DisableVerticalWalls(rooms[0], rooms[2]);
+		DisableHorizontalWalls(rooms[3], rooms[4]);
 		yield return new WaitForSeconds(0.1f);
-		DisableVerticalWalls(rooms[1], rooms[3]);
+		DisableHorizontalWalls(rooms[4], rooms[5]);
+		//row 3
+		yield return new WaitForSeconds(0.1f);
+		DisableHorizontalWalls(rooms[6], rooms[7]);
+		yield return new WaitForSeconds(0.1f);
+		DisableHorizontalWalls(rooms[7], rooms[8]);
+
+
+		//disable vertical walls
+		//column 1
+		yield return new WaitForSeconds(0.1f);
+		DisableVerticalWalls(rooms[0], rooms[3]);
+		yield return new WaitForSeconds(0.1f);
+		DisableVerticalWalls(rooms[3], rooms[6]);
+		yield return new WaitForSeconds(0.1f);
+		//column 2
+		DisableVerticalWalls(rooms[1], rooms[4]);
+		yield return new WaitForSeconds(0.1f);
+		DisableVerticalWalls(rooms[4], rooms[7]);
+		yield return new WaitForSeconds(0.1f);
+		//column 3
+		DisableVerticalWalls(rooms[2], rooms[5]);
+		yield return new WaitForSeconds(0.1f);
+		DisableVerticalWalls(rooms[5], rooms[8]);
 		yield return new WaitForSeconds(0.1f);
 	}
 

@@ -10,11 +10,11 @@ public class RoomSpawner : MonoBehaviour
 {
 	[Header("Directions")]
 	public int openingDirection;
-	// 1 --> need bottom door
-	// 2 --> need top door
-	// 3 --> need left door
-	// 4 --> need right door
-	public int extendChance = 1;
+	// 1 --> need bottom door --> top exit
+	// 2 --> need top door --> bottom exit
+	// 3 --> need left door --> right exit
+	// 4 --> need right door --> left exit
+	[SerializeField] private int extendChance = 1;
 
 	[Header("References")]
 	private RoomPool roomPool;
@@ -33,21 +33,23 @@ public class RoomSpawner : MonoBehaviour
 		//StartCoroutine(Delay());
 
 		templates = GameManager.Instance.templates;
+		extendChance = templates.extendChance;
 
 		//only spawn a room if the room lengths is not exceeded
 		//Invoke(nameof(Spawn), 0.1f);
 
-		if (GameManager.Instance.thisArea.roomsData.Count < templates.maxRoomLength)
-		{
-			//Spawn();
-			//spawn the room after a different time for each direction so that the processor maaaybe has a lower burden as it needs to do less operations every second?
-			Invoke(nameof(Spawn), openingDirection / 100f);
-		}
+		//if (GameManager.Instance.thisArea.roomsData.Count < templates.maxRoomLength)
+		//{
+		//	//Spawn();
+		//	//spawn the room after a different time for each direction so that the processor maaaybe has a lower burden as it needs to do less operations every second?
+		//	Invoke(nameof(Spawn), openingDirection / 100f);
+		//}
 		//else
 		//{
 		//	//gameObject.SetActive(false);
 		//	//Destroy(gameObject);
 		//}
+		Invoke(nameof(Spawn), openingDirection / 100f);
 	}
 
 	private IEnumerator Delay()
@@ -158,6 +160,11 @@ public class RoomSpawner : MonoBehaviour
 				print("the other rooms name is " + other.name);
 				print("exception");
 			}
+		}
+		else
+		{
+			//if the space ahead where the room spawner plans to spawn is occupied
+			//if so then change the room?
 		}
 	}
 }

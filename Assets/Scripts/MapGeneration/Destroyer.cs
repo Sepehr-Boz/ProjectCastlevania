@@ -7,14 +7,19 @@ public class Destroyer : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other){
 		print("destroyer collides with: " + other.name);
 
-		if (other.CompareTag("Player"))
+		if (other.CompareTag("Player") || other.name.Equals("FOCUS"))
 		{
 			//if the collider is the player then dont destroy
 			return;
 		}
+		//if (other.name.Equals("CENTRE"))
+		//{
+		//	Destroy(other.transform.root.gameObject);
+		//}
 
-
-
-		Destroy(other.gameObject);
+		if (!other.name.Equals("CENTRE"))
+		{
+			Destroy(other.gameObject);
+		}
 	}
 }

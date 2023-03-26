@@ -26,7 +26,7 @@ namespace Assets.Scripts.Pools
 		}
 		#endregion
 
-		private void Start()
+		private new void Start()
 		{
 			if (GameManager.Instance.thisArea.roomsData.Count == 0)
 			{
@@ -34,7 +34,25 @@ namespace Assets.Scripts.Pools
 				foreach (GameObject start in pooledObjects)
 				{
 					//add all walls when starting
-					List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+					List<Wall> walls = new () {Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST};
+					//List<Wall> walls = new List<Wall>();
+					//if (start.transform.Find("Walls").Find("North"))
+					//{
+					//	walls.Add(Wall.NORTH);
+					//}
+					//if (start.transform.Find("Walls").Find("East"))
+					//{
+					//	walls.Add(Wall.EAST);
+					//}
+					//if (start.transform.Find("Walls").Find("South"))
+					//{
+					//	walls.Add(Wall.SOUTH);
+					//}
+					//if (start.transform.Find("Walls").Find("West"))
+					//{
+					//	walls.Add(Wall.WEST);
+					//}
+
 					GameManager.Instance.thisArea.roomsData.Add(new RoomData(start.transform.position, start.transform.rotation, walls, start.name, new List<GameObject>(), new List<GameObject>()));
 					//set them inactive - RoomTemplates will either enable or keep them disabled
 					start.SetActive(false);
