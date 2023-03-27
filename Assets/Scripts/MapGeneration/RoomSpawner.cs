@@ -14,7 +14,7 @@ public class RoomSpawner : MonoBehaviour
 	// 2 --> need top door --> bottom exit
 	// 3 --> need left door --> right exit
 	// 4 --> need right door --> left exit
-	[SerializeField] private int extendChance = 1;
+	[SerializeField] private int newEntryChance = 1;
 
 	[Header("References")]
 	private RoomPool roomPool;
@@ -33,7 +33,7 @@ public class RoomSpawner : MonoBehaviour
 		//StartCoroutine(Delay());
 
 		templates = GameManager.Instance.templates;
-		extendChance = templates.extendChance;
+		newEntryChance = templates.newEntryChance;
 
 		//only spawn a room if the room lengths is not exceeded
 		//Invoke(nameof(Spawn), 0.1f);
@@ -103,7 +103,7 @@ public class RoomSpawner : MonoBehaviour
 			{
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
 				int rand = Random.Range(0, 500);
-				if (rand <= extendChance)
+				if (rand <= newEntryChance)
 				{
 					print("open room has replaced da room");
 					room = RoomPool.Instance.GetPooledRoom(templates.openRoom.name);

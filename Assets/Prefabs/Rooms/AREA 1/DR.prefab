@@ -1163,6 +1163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openingDirection: 2
+  newEntryChance: 1
   spawned: 0
   waitTime: 4
 --- !u!1 &7841994827440025931
@@ -1259,6 +1260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openingDirection: 3
+  newEntryChance: 1
   spawned: 0
   waitTime: 4
 --- !u!1 &8222016295767133340

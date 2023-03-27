@@ -8,6 +8,8 @@ using System.Runtime.CompilerServices;
 using Random = UnityEngine.Random;
 using UnityEngine;
 using static Unity.Burst.Intrinsics.X86.Avx;
+using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class RoomTemplates : MonoBehaviour 
 {
@@ -43,19 +45,49 @@ public class RoomTemplates : MonoBehaviour
 		new Vector2(-10, -10),new Vector2(0, -10),new Vector2(10, -10),
 	};
 
-	[Range(0, 10)]
-	[SerializeField] private int horizontalChance = 3;
-	[Range(0, 10)]
-	[SerializeField] private int verticalChance = 5;
-	[Range(0, 10)]
-	[SerializeField] private int enlargeChance = 7;
+	//[SerializeField] private UnityEvent extend;
+	[SerializeField] private UnityEvent<GameObject[]> extendFunction = new UnityEvent<GameObject[]>();
+	[Range(0, 10)] [SerializeField] private int extendChance;
+	//[Range(0, 10)]
+	//[SerializeField] private int horizontalChance = 3;
+	//[Range(0, 10)]
+	//[SerializeField] private int verticalChance = 5;
+	//[Range(0, 10)]
+	//[SerializeField] private int enlargeChance = 7;
 
 	[Range(0, 500)]
-	[SerializeField] public int extendChance = 1;
+	public int newEntryChance = 1;
 
 
 	private void Start()
 	{
+		if (GameManager.Instance.thisArea.area == Area.AREA1)
+		{
+			extendFunction.AddListener(HorizontalExtend);
+		}
+		else if (GameManager.Instance.thisArea.area == Area.AREA2)
+		{
+			extendFunction.AddListener(VerticalExtend);
+		}
+		else if (GameManager.Instance.thisArea.area == Area.AREA3)
+		{
+			extendFunction.AddListener(EnlargeRoom);
+		}
+		else if (GameManager.Instance.thisArea.area == Area.AREA4)
+		{
+			//next listener, can add multiple methods
+			extendFunction.AddListener(HorizontalExtend);
+			extendFunction.AddListener(VerticalExtend);
+		}
+		else if (GameManager.Instance.thisArea.area == Area.AREA5)
+		{
+			//next mlistener, maybe do nothing?
+		}
+		//extendFunction.AddListener(extend);
+		//extend.AddListener(VerticalExtend);
+		//extend.AddListener(ex);
+
+
 		List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;
 
 		//check if rooms are empty
@@ -208,30 +240,46 @@ public class RoomTemplates : MonoBehaviour
 
 			int rand = Random.Range(0, 10);
 
-			if (rand < horizontalChance)
+			if (rand < extendChance)
 			{
-				StartCoroutine(HorizontalExtend(adjacentRooms));
-			}
-			else if (horizontalChance < rand && rand < verticalChance)
-			{
-				StartCoroutine(VerticalExtend(adjacentRooms));
-			}
-			else if (verticalChance < rand && rand < enlargeChance)
-			{
-				StartCoroutine(EnlargeRoom(adjacentRooms));
-
-				//for (int j = 0; j < 9; j++)
-				//{
-				//	if (j == 0 || j == 1 || j == 2 || j == 5 || j == 8)
-				//	{
-				//		adjacentRooms[j].GetComponent<AddRoom>().extended = adjacentRooms[j] != null ? true : false;
-				//	}
-				//}
+				//do the extend function
+				extendFunction.Invoke(adjacentRooms);
 			}
 			else
 			{
-				continue;
+				//do nothing otherwise 
+
+
+				//do the added extend method
+				//extend.Invoke(adjacentRooms);
+				//Invoke()
+				//StartCoroutine(extendFunction(adjacentRooms));
 			}
+
+			//if (rand < horizontalChance)
+			//{
+			//	StartCoroutine(HorizontalExtend(adjacentRooms));
+			//}
+			//else if (horizontalChance < rand && rand < verticalChance)
+			//{
+			//	StartCoroutine(VerticalExtend(adjacentRooms));
+			//}
+			//else if (verticalChance < rand && rand < enlargeChance)
+			//{
+			//	StartCoroutine(EnlargeRoom(adjacentRooms));
+
+			//	//for (int j = 0; j < 9; j++)
+			//	//{
+			//	//	if (j == 0 || j == 1 || j == 2 || j == 5 || j == 8)
+			//	//	{
+			//	//		adjacentRooms[j].GetComponent<AddRoom>().extended = adjacentRooms[j] != null ? true : false;
+			//	//	}
+			//	//}
+			//}
+			//else
+			//{
+			//	continue;
+			//}
 		}
 	}
 
@@ -307,66 +355,104 @@ public class RoomTemplates : MonoBehaviour
 		return rooms;
 	}
 
-	private IEnumerator HorizontalExtend(GameObject[] connectedRooms)
+	public void HorizontalExtend(GameObject[] connectedRooms)
 	{
 		//current room is middle index
 		//need rooms east and west
-		GameObject[] rooms = new GameObject[3] { connectedRooms[3], connectedRooms[4], connectedRooms[5] };
-		yield return new WaitForSeconds(0.1f);
+		//GameObject[] rooms = GetAdjacentRooms(currentRoom);
+		//rooms = new GameObject[3] { rooms[3], rooms[4], rooms[5] };
+		try
+		{
+			connectedRooms[6].GetComponent<AddRoom>().extended = false;
+			connectedRooms[7].GetComponent<AddRoom>().extended = false;
+			connectedRooms[8].GetComponent<AddRoom>().extended = false;
+		}
+		catch{}
+
+
+		GameObject[] rooms = new GameObject[3] {connectedRooms[3], connectedRooms[4], connectedRooms[5]};
+		//yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		DisableHorizontalWalls(rooms[0], rooms[1]);
-		yield return new WaitForSeconds(0.1f);
 		DisableHorizontalWalls(rooms[1], rooms[2]);
+
+		//DisableHorizontalWalls(rooms[0], rooms[1]);
+		//DisableHorizontalWalls(rooms[1], rooms[2]);
+		//DisableHorizontalWalls(rooms[3], rooms[4]);
+		//DisableHorizontalWalls(rooms[4], rooms[5]);
+
+		//DisableVerticalWalls(rooms[0], rooms[3]);
+		//DisableVerticalWalls(rooms[1], rooms[4]);
+		//DisableVerticalWalls(rooms[2], rooms[5]);
 		//find if any rooms are horizontal to the currentroom
 		//pass the valid rooms to the correct DisableWalls function
 	}
-	private IEnumerator VerticalExtend(GameObject[] connectedRooms)
+	public void VerticalExtend(GameObject[] connectedRooms)
 	{
+		try
+		{
+			connectedRooms[2].GetComponent<AddRoom>().extended = false;
+			connectedRooms[5].GetComponent<AddRoom>().extended = false;
+			connectedRooms[8].GetComponent<AddRoom>().extended = false;
+		}
+		catch{}
+
 		//need rooms north and south
-		GameObject[] rooms = new GameObject[3] { connectedRooms[1], connectedRooms[4], connectedRooms[7] };
-		yield return new WaitForSeconds(0.1f);
+		GameObject[] rooms = new GameObject[3] {connectedRooms[1], connectedRooms[4], connectedRooms[7] };
+		//yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
+
 		DisableVerticalWalls(rooms[0], rooms[1]);
-		yield return new WaitForSeconds(0.1f);
 		DisableVerticalWalls(rooms[1], rooms[2]);
+
+		//DisableVerticalWalls(rooms[0], rooms[1]);
+		//DisableVerticalWalls(rooms[1], rooms[2]);
+		//DisableVerticalWalls(rooms[3], rooms[4]);
+		//DisableVerticalWalls(rooms[4], rooms[5]);
+
+		//DisableHorizontalWalls(rooms[0], rooms[3]);
+		//DisableHorizontalWalls(rooms[1], rooms[4]);
+		//DisableHorizontalWalls(rooms[2], rooms[5]);
 	}
-	private IEnumerator EnlargeRoom(GameObject[] connectedRooms)
+	public void EnlargeRoom(GameObject[] connectedRooms)
 	{
 		//need rooms in every direction including diagonally
 		GameObject[] rooms = connectedRooms;
 		//disable horizontal walls
 		//row 1
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		DisableHorizontalWalls(rooms[0], rooms[1]);
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		DisableHorizontalWalls(rooms[1], rooms[2]);
 		//row 2
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		DisableHorizontalWalls(rooms[3], rooms[4]);
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		DisableHorizontalWalls(rooms[4], rooms[5]);
 		//row 3
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		DisableHorizontalWalls(rooms[6], rooms[7]);
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		DisableHorizontalWalls(rooms[7], rooms[8]);
 
 
 		//disable vertical walls
 		//column 1
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		DisableVerticalWalls(rooms[0], rooms[3]);
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		DisableVerticalWalls(rooms[3], rooms[6]);
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		//column 2
 		DisableVerticalWalls(rooms[1], rooms[4]);
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		DisableVerticalWalls(rooms[4], rooms[7]);
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		//column 3
 		DisableVerticalWalls(rooms[2], rooms[5]);
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		DisableVerticalWalls(rooms[5], rooms[8]);
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 	}
 
 	private void DisableVerticalWalls(GameObject a, GameObject b)
