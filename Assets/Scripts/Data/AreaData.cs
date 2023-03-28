@@ -106,7 +106,7 @@ public enum Wall
 
 	public void RemoveInactiveWall(string wall)
 	{
-		Debug.Log(wall);
+		//Debug.Log(wall);
 
 		if (wall == "North")
 		{
@@ -133,6 +133,11 @@ public enum Wall
 	public void SetExit(string sceneName, int index)
 	{
 		this.exit.Add(sceneName, index);
+	}
+
+	public void Rename(string newName)
+	{
+		this.name = newName;
 	}
 
 	#endregion

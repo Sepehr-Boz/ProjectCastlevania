@@ -8,9 +8,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
+	//[SerializeField] public Dictionary<PlayerData, GameObject> players = new(2);
 	public List<PlayerData> players;
 	public PlayerData currentPlayer;
-
+	//public GameObject currentPlayer;
 
 	#region singleton
 	private static PlayerManager _instance;
@@ -46,7 +47,8 @@ public class PlayerManager : MonoBehaviour
 			currentPlayer = players[0];
 		}
 
-		GameManager.Instance.LoadScene(currentPlayer);
+		GameManager.Instance.ChangeScene(currentPlayer.currentScene);
+		//GameManager.Instance.LoadScene(currentPlayer);
 	}
 
 

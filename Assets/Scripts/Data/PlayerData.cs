@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(fileName = "PlayerData")]
 public class PlayerData : ScriptableObject
@@ -12,6 +13,7 @@ public class PlayerData : ScriptableObject
 
 	public Vector3 position;
 	public Quaternion rotation;
-	public Area currentArea;
+	//public Area currentArea;
+	public Scene currentScene;
 
 }

@@ -105,14 +105,21 @@ public class RoomSpawner : MonoBehaviour
 			if (room != null)
 			{
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
-				int rand = Random.Range(0, 500);
+				int rand = Random.Range(0, 100);
 				//if (rand <= newEntryChance || (Vector2)transform.position == templates.startRooms[0] || (Vector2)transform.position == templates.startRooms[1] || (Vector2)transform.position == templates.startRooms[2] || (Vector2)transform.position == templates.startRooms[3])
 				if (rand <= newEntryChance || templates.startRooms.Contains((Vector2)transform.position))
 				{
-					print("open room has replaced da room");
+					//print("open room has replaced da room");
 					room = RoomPool.Instance.GetPooledRoom(templates.openRoom.name);
 				}
-
+				else if (templates.bossRooms.Contains((Vector2)transform.position))
+				{
+					room = RoomPool.Instance.GetPooledRoom(templates.bossRoom.name);
+				}
+				//else if ("UDLR".Contains(room.name) && templates.GetAdjacentRooms(room).Length >= 5) //cant do this because every new spawned room will have more than 5 empty neightbours
+				//{
+				//	room = RoomPool.Instance.GetPooledRoom(templates.exitRoom.name);
+				//}
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				room.SetActive(true);
 				List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };

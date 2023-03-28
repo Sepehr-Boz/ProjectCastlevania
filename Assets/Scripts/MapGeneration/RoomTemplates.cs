@@ -10,6 +10,7 @@ using UnityEngine;
 using static Unity.Burst.Intrinsics.X86.Avx;
 using UnityEngine.Events;
 using Unity.VisualScripting;
+using System.Linq;
 
 public class RoomTemplates : MonoBehaviour 
 {
@@ -21,8 +22,9 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject[] rightRooms;
 	public GameObject closedRoom;
 	public GameObject openRoom;
-
-	public GameObject boss;
+	public GameObject bossRoom;
+	public GameObject[] exitRooms;
+	//public GameObject boss;
 
 	//[SerializeField]public RoomData roomData;
 
@@ -39,6 +41,7 @@ public class RoomTemplates : MonoBehaviour
 	//public Vector2[] startRooms = new List<Transform>();
 	//public Transform[] startRooms = new Transform[4];
 	public Vector2[] startRooms = new Vector2[4];
+	public Vector2[] bossRooms = new Vector2[2];
 
 	private int i = 0; //used when spawning rooms from roomsdata
 	private readonly Vector2[] directions =
@@ -58,7 +61,7 @@ public class RoomTemplates : MonoBehaviour
 	//[Range(0, 10)]
 	//[SerializeField] private int enlargeChance = 7;
 
-	[Range(0, 500)]
+	[Range(0, 100)]
 	public int newEntryChance = 1;
 
 
@@ -121,6 +124,8 @@ public class RoomTemplates : MonoBehaviour
 
 			Invoke(nameof(ExtendRooms), 6f);
 			//Invoke(nameof(ExtendClosedExits), 7f);
+			Invoke(nameof(CreateExits), 7f);
+
 			Invoke(nameof(CopyWallsData), 10f);
 		}
 		else
@@ -132,9 +137,127 @@ public class RoomTemplates : MonoBehaviour
 			InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.05f);
 		}
 
-		Invoke(nameof(SpawnBosses), 10f);
+		//Invoke(nameof(SpawnBosses), 10f);
 
-		Invoke(nameof(DeleteUnusedRooms), 10f);
+		Invoke(nameof(DeleteUnusedRooms), 13f);
+	}
+
+	private void CreateExits()
+	{
+		//loop through all the rooms
+		int n = GameManager.Instance.thisArea.roomsData.Count;
+		List<GameObject> rooms = GameManager.Instance.thisArea.rooms;
+		List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;
+
+		for (int i = 0; i < n; i++)
+		{
+			GameObject room = rooms[i];
+
+			//get number of valid adjascent rooms
+			GameObject[] adjRooms = GetAdjacentRooms(room);
+			int validNeighbours = 0;
+			foreach (GameObject adj in adjRooms)
+			{
+				validNeighbours++;
+			}
+
+
+
+			if ("UDLR".Contains(room.name) && validNeighbours >= 5)
+			{
+				bool extended = false;
+				foreach (Transform wall in room.transform.Find("Walls"))
+				{
+					if (!wall.gameObject.activeInHierarchy)
+					{
+						extended = true;
+					}
+				}
+
+				if (!extended && GameManager.Instance.thisArea.numExits > 0)
+				{
+					//check if the number of areas in the scene is more than 0
+
+					//replace room with portal room
+					print("room replaced at " + i);
+
+					//room = exitRoom;
+					//GameManager.Instance.thisArea.rooms[i].
+					//GameObject newRoom = exitRooms.Select(x.name.Contains(room.name)).FirstOrDefault();
+					//GameObject newRoom = exitRooms.Contains(room.name);
+					GameObject newRoom = null;
+					if (room.name.Equals("U"))
+					{
+						newRoom = RoomPool.Instance.GetPooledRoom(exitRooms[0].name);
+						//newRoom = exitRooms[0];
+					}
+					else if (room.name.Equals("D"))
+					{
+						newRoom = RoomPool.Instance.GetPooledRoom(exitRooms[1].name);
+						//newRoom = exitRooms[1];
+					}
+					else if (room.name.Equals("L"))
+					{
+						newRoom = RoomPool.Instance.GetPooledRoom(exitRooms[2].name);
+						//newRoom = exitRooms[2];
+					}
+					else if (room.name.Equals("R"))
+					{
+						newRoom = RoomPool.Instance.GetPooledRoom(exitRooms[3].name);
+						//newRoom = exitRooms[3];
+					}
+					if (newRoom == null)
+					{
+						continue;
+					}
+					newRoom.transform.SetPositionAndRotation(room.transform.position, room.transform.rotation);
+					newRoom.SetActive(true);
+
+					//GameManager.Instance.thisArea.rooms[i] = newRoom;
+
+					room.SetActive(false);
+
+
+					GameManager.Instance.thisArea.roomsData[i].Rename(newRoom.name);
+					//replace roomdata room name with portal room
+					////////spawn portal at the room
+					//////add the data to the room data
+					//decrement the numexits
+					GameManager.Instance.thisArea.numExits--;
+					//add the scene and position to the portal script
+				}
+			}
+		}
+
+
+		//foreach (GameObject room in GameManager.Instance.thisArea.rooms)
+		//{
+		//	//check if room is an edge room
+		//	//edge room = U/D/L/R, >=5 empty neighbours, not extended(all 4 walls active)
+		//	if ("UDLR".Contains(room.name) && GetAdjacentRooms(room).Length >= 5)
+		//	{
+		//		//check if all walls are active to see if its not extended
+		//		bool extended = false;
+		//		foreach (GameObject wall in room.transform.Find("Walls"))
+		//		{
+		//			if (!wall.activeInHierarchy)
+		//			{
+		//				extended = true;
+		//			}
+		//		}
+
+		//		//if not extended then the room meets all the requirements
+		//		if (!extended && GameManager.Instance.thisArea.numExits > 0)
+		//		{
+		//			//check if the number of areas in the scene is more than 0
+
+		//			//spawn portal at the room
+		//			//add the data to the room data
+		//			//decrement the numexits
+		//			//add the scene and position to the portal script
+		//		}
+		//	}
+		//}
 	}
 
 	private void DeleteUnusedRooms()
@@ -235,7 +358,7 @@ public class RoomTemplates : MonoBehaviour
 	//function that loops through rooms and extends them
 	private void ExtendRooms()
 	{
-		print("extending rooms");
+		//print("extending rooms");
 		rooms = GameManager.Instance.thisArea.rooms;
 		GameObject[] adjacentRooms;
 
@@ -340,7 +463,7 @@ public class RoomTemplates : MonoBehaviour
 			{
 				if (!wall.gameObject.activeInHierarchy)
 				{
-					print("wall is inactive");
+					//print("wall is inactive");
 					GameManager.Instance.thisArea.roomsData[i].RemoveInactiveWall(wall.name);
 					//inactiveWalls.Add(wall.name);
 				}
@@ -370,11 +493,11 @@ public class RoomTemplates : MonoBehaviour
 			try
 			{
 				room = Physics2D.OverlapCircle(newPos, 1f).transform.root.gameObject;
-				print(room.name);
+				//print(room.name);
 			}
 			catch
 			{
-				print("no room found");
+				print("no room found - GetAdjacentRooms");
 			}
 			if (room == null)
 			{
@@ -526,43 +649,44 @@ public class RoomTemplates : MonoBehaviour
 	#endregion
 
 	//should be called when the rooms have been generated
-	public void SpawnBosses()
-	{
-		int count = 0;
-		GameObject areaBoss;
-		//loop through room data
-		for (int i = 0; i < numBosses; i++)
-		{
-			//find if any room data have enemies
-			//if they do then spawn and increment local count
-			if (GameManager.Instance.thisArea.roomsData[i].enemies.Contains(boss))
-			{
-				print("boss has been found");
-				count += 1;
-				areaBoss = Instantiate(boss, GameManager.Instance.thisArea.rooms[i].transform.position, Quaternion.identity);
-			}
-			continue;
-		}
+	//public void SpawnBosses()
+	//{
+	//	int count = 0;
+	//	GameObject areaBoss;
+	//	//loop through room data
+	//	for (int i = 0; i < numBosses; i++)
+	//	{
+	//		//find if any room data have enemies
+	//		//if they do then spawn and increment local count
+	//		if (GameManager.Instance.thisArea.roomsData[i].enemies.Contains(boss))
+	//		{
+	//			print("boss has been found");
+	//			count += 1;
+	//			areaBoss = Instantiate(boss, GameManager.Instance.thisArea.rooms[i].transform.position, Quaternion.identity);
+	//		}
+	//		continue;
+	//	}
 
-		while (count < numBosses)
-		{
-			print("new bosses being spawned");
-			int rand = Random.Range(Mathf.RoundToInt(GameManager.Instance.thisArea.rooms.Count / 2), GameManager.Instance.thisArea.rooms.Count);
-			areaBoss = Instantiate(boss, GameManager.Instance.thisArea.rooms[rand].transform.position, Quaternion.identity);
-			GameManager.Instance.thisArea.roomsData[rand].AddEnemy(areaBoss);
-			print(rand);
-			count += 1;
-		}
-		//if the local count is less than numBosses then spawn bosses at random indexes and add to the roomdata
+	//	while (count < numBosses)
+	//	{
+	//		print("new bosses being spawned");
+	//		int rand = Random.Range(Mathf.RoundToInt(GameManager.Instance.thisArea.rooms.Count / 2), GameManager.Instance.thisArea.rooms.Count);
+	//		areaBoss = Instantiate(boss, GameManager.Instance.thisArea.rooms[rand].transform.position, Quaternion.identity);
+	//		//check if room doesnt have an exit/portal
+	//		GameManager.Instance.thisArea.roomsData[rand].AddEnemy(areaBoss);
+	//		print(rand);
+	//		count += 1;
+	//	}
+	//	//if the local count is less than numBosses then spawn bosses at random indexes and add to the roomdata
 
 
-		//for (int i = 0; i < numBosses; i++)
-		//{
-		//	int rand = Random.Range(Mathf.RoundToInt(rooms.Count / 2), rooms.Count);
-		//	GameObject areaBoss = Instantiate(boss, rooms[rand].transform.position, Quaternion.identity);
-		//	print(rand);
-		//	GameManager.Instance.thisArea.roomsData[rand].AddEnemy(areaBoss);
-		//}
+	//	//for (int i = 0; i < numBosses; i++)
+	//	//{
+	//	//	int rand = Random.Range(Mathf.RoundToInt(rooms.Count / 2), rooms.Count);
+	//	//	GameObject areaBoss = Instantiate(boss, rooms[rand].transform.position, Quaternion.identity);
+	//	//	print(rand);
+	//	//	GameManager.Instance.thisArea.roomsData[rand].AddEnemy(areaBoss);
+	//	//}
 
-	}
+	//}
 }
