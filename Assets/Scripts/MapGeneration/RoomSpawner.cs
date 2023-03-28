@@ -49,14 +49,17 @@ public class RoomSpawner : MonoBehaviour
 		//	//gameObject.SetActive(false);
 		//	//Destroy(gameObject);
 		//}
-		Invoke(nameof(Spawn), openingDirection / 100f);
+
+
+		Invoke(nameof(Spawn), 0.1f);
+		//Invoke(nameof(Spawn), openingDirection / 50f);
 	}
 
-	private IEnumerator Delay()
-	{
-		yield return new WaitForSeconds(waitTime);
-		gameObject.SetActive(false);
-	}
+	//private IEnumerator Delay()
+	//{
+	//	yield return new WaitForSeconds(waitTime);
+	//	gameObject.SetActive(false);
+	//}
 
 	//spawning the next room
 	void Spawn(){
@@ -103,7 +106,8 @@ public class RoomSpawner : MonoBehaviour
 			{
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
 				int rand = Random.Range(0, 500);
-				if (rand <= newEntryChance)
+				//if (rand <= newEntryChance || (Vector2)transform.position == templates.startRooms[0] || (Vector2)transform.position == templates.startRooms[1] || (Vector2)transform.position == templates.startRooms[2] || (Vector2)transform.position == templates.startRooms[3])
+				if (rand <= newEntryChance || templates.startRooms.Contains((Vector2)transform.position))
 				{
 					print("open room has replaced da room");
 					room = RoomPool.Instance.GetPooledRoom(templates.openRoom.name);
@@ -113,6 +117,8 @@ public class RoomSpawner : MonoBehaviour
 				room.SetActive(true);
 				List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
 				GameManager.Instance.thisArea.roomsData.Add(new RoomData(room.transform.position, room.transform.rotation, walls, room.name, new List<GameObject>(), new List<GameObject>()));
+
+				//spawned = true;
 			}
 
 			spawned = true;
@@ -141,14 +147,16 @@ public class RoomSpawner : MonoBehaviour
 			{
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
-					print(transform.root.gameObject.name + " has collided with " + other.name);
-					Invoke(nameof(SpawnClosedRoom), openingDirection / 100f);
+					//print(transform.root.gameObject.name + " has collided with " + other.name);
+					//Invoke(nameof(SpawnClosedRoom), openingDirection / 100f);
+					Invoke(nameof(SpawnClosedRoom), 0.1f);
 					//room = RoomPool.Instance.GetPooledRoom(templates.closedRoom.name);
 					//room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 					//room.SetActive(true);
 					//List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
 					//GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
 					//Destroy(gameObject);
+					//spawned = true;
 				}
 				spawned = true;
 				//gameObject.SetActive(false);

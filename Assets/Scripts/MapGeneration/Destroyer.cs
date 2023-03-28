@@ -17,9 +17,10 @@ public class Destroyer : MonoBehaviour {
 		//	Destroy(other.transform.root.gameObject);
 		//}
 
-		if (!other.name.Equals("CENTRE"))
-		{
-			Destroy(other.gameObject);
-		}
+		//if (!other.name.Equals("CENTRE"))
+		//{
+		//	Destroy(other.gameObject);
+		//}
+		Destroy(other.gameObject);
 	}
 }

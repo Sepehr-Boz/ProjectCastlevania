@@ -36,9 +36,12 @@ public class RoomTemplates : MonoBehaviour
 	[Header("Room data")]
 	private List<GameObject> rooms;
 	private List<RoomData> roomsData;
+	//public Vector2[] startRooms = new List<Transform>();
+	//public Transform[] startRooms = new Transform[4];
+	public Vector2[] startRooms = new Vector2[4];
 
 	private int i = 0; //used when spawning rooms from roomsdata
-	private Vector2[] directions =
+	private readonly Vector2[] directions =
 	{
 		new Vector2(-10, 10),new Vector2(0, 10),new Vector2(10, 10),
 		new Vector2(-10, 0),new Vector2(0, 0),new Vector2(10, 0),
@@ -46,8 +49,8 @@ public class RoomTemplates : MonoBehaviour
 	};
 
 	//[SerializeField] private UnityEvent extend;
-	[SerializeField] private UnityEvent<GameObject[]> extendFunction = new UnityEvent<GameObject[]>();
-	[Range(0, 10)] [SerializeField] private int extendChance;
+	[SerializeField] private UnityEvent<GameObject[]> extendFunction = new();
+	//[Range(0, 10)] [SerializeField] private int extendChance; //not needed as while looping through rooms unaffected rooms are still set as extended so has a "random" chance
 	//[Range(0, 10)]
 	//[SerializeField] private int horizontalChance = 3;
 	//[Range(0, 10)]
@@ -83,6 +86,11 @@ public class RoomTemplates : MonoBehaviour
 		{
 			//next mlistener, maybe do nothing?
 		}
+		else if (GameManager.Instance.thisArea.area == Area.TESTING)
+		{
+			//test case
+			extendFunction.AddListener(HorizontalExtend);
+		}
 		//extendFunction.AddListener(extend);
 		//extend.AddListener(VerticalExtend);
 		//extend.AddListener(ex);
@@ -111,8 +119,9 @@ public class RoomTemplates : MonoBehaviour
 				tmp.SetActive(true);
 			}
 
-			Invoke(nameof(ExtendRooms), 5f);
-			Invoke(nameof(CopyWallsData), 6f);
+			Invoke(nameof(ExtendRooms), 6f);
+			//Invoke(nameof(ExtendClosedExits), 7f);
+			Invoke(nameof(CopyWallsData), 10f);
 		}
 		else
 		{
@@ -123,9 +132,9 @@ public class RoomTemplates : MonoBehaviour
 			InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.05f);
 		}
 
-		Invoke(nameof(SpawnBosses), 7f);
+		Invoke(nameof(SpawnBosses), 10f);
 
-		Invoke(nameof(DeleteUnusedRooms), 8f);
+		Invoke(nameof(DeleteUnusedRooms), 10f);
 	}
 
 	private void DeleteUnusedRooms()
@@ -237,24 +246,27 @@ public class RoomTemplates : MonoBehaviour
 			{
 				continue;
 			}
+			//extend the rooms so that any blocked exits are opened
+			//ExtendClosedExits(adjacentRooms);
+			extendFunction.Invoke(adjacentRooms);
 
-			int rand = Random.Range(0, 10);
+			//int rand = Random.Range(0, 10);
 
-			if (rand < extendChance)
-			{
-				//do the extend function
-				extendFunction.Invoke(adjacentRooms);
-			}
-			else
-			{
-				//do nothing otherwise 
-
+			//if (rand < extendChance)
+			//{
+			//	//do the extend function
+			//	extendFunction.Invoke(adjacentRooms);
+			//}
+			//else
+			//{
+			//	//do nothing otherwise 
+			//}
 
 				//do the added extend method
 				//extend.Invoke(adjacentRooms);
 				//Invoke()
 				//StartCoroutine(extendFunction(adjacentRooms));
-			}
+			
 
 			//if (rand < horizontalChance)
 			//{
@@ -280,6 +292,36 @@ public class RoomTemplates : MonoBehaviour
 			//{
 			//	continue;
 			//}
+		}
+	}
+
+	private void ExtendClosedExits()
+	{
+		//GameObject[] rooms = GetAdjacentRooms()
+		//GameObject[] rooms = new GameObject[5] { connectedRooms[1], connectedRooms[3], connectedRooms[4], connectedRooms[5], connectedRooms[7] };
+		foreach (GameObject room in GameManager.Instance.thisArea.rooms)
+		{
+			GameObject[] connectedRooms = GetAdjacentRooms(room);
+
+			//check which directions are open by checking the name of the room UDLR and that the room in the direction is existent and not empty
+			//middle/current room is the one in the centre of the array
+			if (connectedRooms[4].name.Contains("U") && connectedRooms[1] != null)
+			{
+				//set the walls between the 2 rooms inactive
+				DisableVerticalWalls(connectedRooms[1], connectedRooms[4]);
+			}
+			if (connectedRooms[4].name.Contains("D") && connectedRooms[7] != null)
+			{
+				DisableVerticalWalls(connectedRooms[4], connectedRooms[7]);
+			}
+			if (connectedRooms[4].name.Contains("L") && connectedRooms[3] != null)
+			{
+				DisableHorizontalWalls(connectedRooms[3], connectedRooms[4]);
+			}
+			if (connectedRooms[4].name.Contains("R") && connectedRooms[5] != null)
+			{
+				DisableHorizontalWalls(connectedRooms[4], connectedRooms[5]);
+			}
 		}
 	}
 
@@ -314,10 +356,10 @@ public class RoomTemplates : MonoBehaviour
 	private GameObject[] GetAdjacentRooms(GameObject currentRoom)
 	{
 		//check if currentroom has already been extended and if it has then return
-		if (currentRoom.GetComponent<AddRoom>().extended)
-		{
-			return null;
-		}
+		//if (currentRoom.GetComponent<AddRoom>().extended)
+		//{
+		//	return null;
+		//}
 		GameObject[] rooms = new GameObject[9]; //max number of adjascent rooms is 8
 		//check for any rooms above, below, to the right, left, and diagonally of the current room
 		Vector2 newPos;
