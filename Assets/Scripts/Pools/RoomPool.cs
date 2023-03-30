@@ -91,6 +91,7 @@ namespace Assets.Scripts.Pools
 			}
 
 			print("room has not been found");
+			print(roomName + " is the room tried to get");
 			return tmp;
 		}
 	}

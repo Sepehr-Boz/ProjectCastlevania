@@ -1,10 +1,12 @@
 ﻿using Assets.Scripts.MapGeneration;
 using Assets.Scripts.Pools;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 public class RoomSpawner : MonoBehaviour 
 {
@@ -51,8 +53,8 @@ public class RoomSpawner : MonoBehaviour
 		//}
 
 
-		Invoke(nameof(Spawn), 0.1f);
-		//Invoke(nameof(Spawn), openingDirection / 50f);
+		//Invoke(nameof(Spawn), 0.1f);
+		Invoke(nameof(Spawn), openingDirection / 10f);
 	}
 
 	//private IEnumerator Delay()
@@ -104,6 +106,10 @@ public class RoomSpawner : MonoBehaviour
 			//check that the room isnt null
 			if (room != null)
 			{
+
+				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+				room = ChangeRoom(room);
+
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
 				int rand = Random.Range(0, 100);
 				//if (rand <= newEntryChance || (Vector2)transform.position == templates.startRooms[0] || (Vector2)transform.position == templates.startRooms[1] || (Vector2)transform.position == templates.startRooms[2] || (Vector2)transform.position == templates.startRooms[3])
@@ -120,6 +126,7 @@ public class RoomSpawner : MonoBehaviour
 				//{
 				//	room = RoomPool.Instance.GetPooledRoom(templates.exitRoom.name);
 				//}
+
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				room.SetActive(true);
 				List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
@@ -133,6 +140,173 @@ public class RoomSpawner : MonoBehaviour
 			//Destroy(gameObject);
 			//gameObject.SetActive(false);
 		}
+	}
+
+	private GameObject ChangeRoom(GameObject currentRoom)
+	{
+		//get adjascent rooms around the spawn point - top, left, right, bottom specifically
+		Dictionary<string, GameObject> adjRooms = templates.GetAdjacentRooms(currentRoom);
+		//GameObject[] adjRooms = templates.GetAdjacentRooms(currentRoom);
+		//adjRooms = new GameObject[4] { adjRooms[1], adjRooms[3], adjRooms[5], adjRooms[7] };
+
+		//check if current room is valid
+		bool valid = true;
+		string newRoomName = "";
+
+		foreach (char dir in currentRoom.name)
+		{
+			if (dir == "L"[0] && (adjRooms["LEFT"] == null || adjRooms["LEFT"].name.Contains("R")))
+			{
+				newRoomName += "L";
+			}
+			else if (dir == "R"[0] && (adjRooms["RIGHT"] == null || adjRooms["RIGHT"].name.Contains("L")))
+			{
+				newRoomName += "R";
+			}
+			else if (dir == "U"[0] && (adjRooms["TOP"] == null || adjRooms["TOP"].name.Contains("D")))
+			{
+				newRoomName += "U";
+			}
+			else if (dir == "D"[0] && (adjRooms["BOTTOM"] == null || adjRooms["BOTTOM"].name.Contains("U")))
+			{
+				newRoomName += "D";
+			}
+			else
+			{
+				valid = false;
+			}
+		}
+		//	else if (dir == "U"[0])
+		//	{
+		//		if (adjRooms["TOP"] == null || adjRooms["TOP"].name.Contains("D"))
+		//		{
+		//			newRoomName += "U";
+		//			continue;
+		//		}
+		//		else
+		//		{
+		//			valid = false;
+		//		}
+		//	}
+		//	else if (dir == "D"[0])
+		//	{
+		//		if (adjRooms["BOTTOM"] == null || adjRooms["BOTTOM"].name.Contains("U"))
+		//		{
+		//			newRoomName += "D";
+		//			continue;
+		//		}
+		//		else
+		//		{
+		//			valid = false;
+		//		}
+		//	}
+		//}
+
+		if (valid || newRoomName.Equals(currentRoom.name))
+		{
+			print("room was valid: " + currentRoom.name + " new room name was : " + newRoomName + " whether it was valid : " + valid.ToString());
+			//print("connected rooms are: " + adjRooms["TOP"] + " " + adjRooms["LEFT"].name + " " + adjRooms["RIGHT"].name + " " + adjRooms["BOTTOM"].name);
+			return currentRoom;
+		}
+
+		print("current room wasnt valid : " + currentRoom.name + "new room to spawn is " + newRoomName);
+		Time.timeScale = 0.001f;
+
+		GameObject newRoom = RoomPool.Instance.GetPooledRoom(newRoomName);
+		newRoom.transform.SetPositionAndRotation(currentRoom.transform.position, currentRoom.transform.rotation);
+		return newRoom;
+
+
+		//order in which characters are added should be U D L R always otherwise it wont get the room correctly
+		//get the new room name needed
+		//string newRoomName = "";
+		//if (adjRooms["TOP"] != null && adjRooms["TOP"].name.Contains("D"))
+		//{
+		//	newRoomName += "U";
+		//}
+		//if (adjRooms["BOTTOM"] != null && adjRooms["BOTTOM"].name.Contains("U"))
+		//{
+		//	newRoomName += "D";
+		//}
+		//if (adjRooms["LEFT"] != null && adjRooms["LEFT"].name.Contains("R"))
+		//{
+		//	newRoomName += "L";
+		//}
+		//if (adjRooms["RIGHT"] != null && adjRooms["RIGHT"].name.Contains("L"))
+		//{
+		//	newRoomName += "R";
+		//}
+		//string newRoomName = "";
+		//if (adjRooms["TOP"] == null || adjRooms["TOP"].name.Contains("D"))
+		//{
+		//	newRoomName += "U";
+		//}
+		//if (adjRooms["BOTTOM"] == null || adjRooms["BOTTOM"].name.Contains("U"))
+		//{
+		//	newRoomName += "D";
+		//}
+		//if (adjRooms["LEFT"] == null || adjRooms["LEFT"].name.Contains("R"))
+		//{
+		//	newRoomName += "L";
+		//}
+		//if (adjRooms["RIGHT"] == null || adjRooms["RIGHT"].name.Contains("L"))
+		//{
+		//	newRoomName += "R";
+		//}
+		////string newRoomName = "";
+		////if (adjRooms[0] == null || adjRooms[0].name.Contains("D"))
+		////{
+		////	newRoomName += "U";
+		////}
+		////if (adjRooms[3] == null || adjRooms[1].name.Contains("U"))
+		////{
+		////	newRoomName += "D";
+		////}
+		////if (adjRooms[1] == null || adjRooms[2].name.Contains("R"))
+		////{
+		////	newRoomName += "L";
+		////}
+		////if (adjRooms[2] == null || adjRooms[3].name.Contains("L"))
+		////{
+		////	newRoomName += "R";
+		////}
+
+		////check if the new room name is the same as the current room name, or if there are no neighbours yet
+		//if (newRoomName.Equals(currentRoom.name) || newRoomName.Equals(""))
+		//{
+		//	//if it is then return the current room
+		//	print("room is fine");
+		//	return currentRoom;
+		//}
+
+		////1: top 2: bottom 3:right 4:left //0: top 1: left 2: right 3: bottom
+		////else if (openingDirection == 1 && (adjRooms[0] == null && adjRooms[1] == null && adjRooms[2] == null))
+		////{
+		////	print("top room is fine");
+		////	return currentRoom;
+		////}
+		////else if (openingDirection == 2 && (adjRooms[3] == null && adjRooms[1] == null && adjRooms[2] == null))
+		////{
+		////	print("bottom room is fine");
+		////	return currentRoom;
+		////}
+		////else if (openingDirection == 3 && (adjRooms[2] == null && adjRooms[0] == null && adjRooms[3] == null))
+		////{
+		////	print("right room is fine");
+		////	return currentRoom;
+		////}
+		////else if (openingDirection == 4 && (adjRooms[1] == null && adjRooms[0] == null && adjRooms[3] == null))
+		////{
+		////	print("left room is fine");
+		////	return currentRoom;
+		////}
+		////print("new room name is" + newRoomName + "names = " + String.Join(" ", new List<string>(adjRooms).ToArray()));
+		//print("new room spawned : " + newRoomName);
+		////if not then get a room with the new name from RoomPool
+		//GameObject newRoom = RoomPool.Instance.GetPooledRoom(newRoomName);
+		////set the position and rotation of the new room
+		//newRoom.transform.SetPositionAndRotation(currentRoom.transform.position, currentRoom.transform.rotation);
+		//return newRoom;
 	}
 
 	private void SpawnClosedRoom()
@@ -155,8 +329,8 @@ public class RoomSpawner : MonoBehaviour
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
 					//print(transform.root.gameObject.name + " has collided with " + other.name);
-					//Invoke(nameof(SpawnClosedRoom), openingDirection / 100f);
-					Invoke(nameof(SpawnClosedRoom), 0.1f);
+					Invoke(nameof(SpawnClosedRoom), openingDirection / 10f);
+					//Invoke(nameof(SpawnClosedRoom), 0.1f);
 					//room = RoomPool.Instance.GetPooledRoom(templates.closedRoom.name);
 					//room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 					//room.SetActive(true);

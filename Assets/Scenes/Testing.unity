@@ -219,7 +219,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7035909067811801970, guid: 4cd82d0d94804c94d9eb74809c887ea6, type: 3}
       propertyPath: objectsToPool.Array.size
-      value: 23
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 7035909067811801970, guid: 4cd82d0d94804c94d9eb74809c887ea6, type: 3}
       propertyPath: pooledObjects.Array.size
@@ -341,6 +341,10 @@ PrefabInstance:
       propertyPath: objectsToPool.Array.data[22]
       value: 
       objectReference: {fileID: 584921769552677541, guid: 4e551ec504cfc2641acf39703866db8f, type: 3}
+    - target: {fileID: 7035909067811801970, guid: 4cd82d0d94804c94d9eb74809c887ea6, type: 3}
+      propertyPath: objectsToPool.Array.data[23]
+      value: 
+      objectReference: {fileID: 1544681882197819549, guid: 5bbf4cb0f35c3304aa6ba50944ebac6c, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cd82d0d94804c94d9eb74809c887ea6, type: 3}
 --- !u!1001 &870235456
@@ -409,7 +413,7 @@ PrefabInstance:
     - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
       propertyPath: closedRoom
       value: 
-      objectReference: {fileID: 1544681882197819549, guid: fdbb5155bbd3da84b9aecf9d2c62f4a5, type: 3}
+      objectReference: {fileID: 1544681882197819549, guid: 5bbf4cb0f35c3304aa6ba50944ebac6c, type: 3}
     - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
       propertyPath: extendChance
       value: 10
