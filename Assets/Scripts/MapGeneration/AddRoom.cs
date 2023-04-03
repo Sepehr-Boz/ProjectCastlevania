@@ -10,6 +10,22 @@ namespace Assets.Scripts.MapGeneration
 		{
 			//add self to rooms
 			GameManager.Instance.thisArea.rooms.Add(this.gameObject);
+
+			int rand = Random.Range(0, 10);
+
+			if (rand <= 1)
+			{
+				Invoke(nameof(ExtendRoom), 5f);
+			}
+		}
+
+		private void ExtendRoom()
+		{
+			//get the adjacent rooms
+			var adjRooms = GameManager.Instance.templates.GetAdjacentRooms(this.gameObject);
+
+			//call the correct method from templates
+			GameManager.Instance.templates.extendFunction.Invoke(adjRooms);
 		}
 
 		//public void OnCollisionEnter2D(Collision2D collision)

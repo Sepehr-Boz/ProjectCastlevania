@@ -52,7 +52,7 @@ public class RoomTemplates : MonoBehaviour
 	};
 
 	//[SerializeField] private UnityEvent extend;
-	[SerializeField] private UnityEvent<GameObject[]> extendFunction = new();
+	public UnityEvent<Dictionary<string, GameObject>> extendFunction = new();
 	//[Range(0, 10)] [SerializeField] private int extendChance; //not needed as while looping through rooms unaffected rooms are still set as extended so has a "random" chance
 	//[Range(0, 10)]
 	//[SerializeField] private int horizontalChance = 3;
@@ -600,6 +600,9 @@ public class RoomTemplates : MonoBehaviour
 			{
 				room = Physics2D.OverlapCircle(newPos, 1f).transform.root.gameObject;
 				//print(room.name);
+
+				rooms[rooms.ElementAt(i).Key] = room;
+				room.GetComponent<AddRoom>().extended = true;
 			}
 			catch
 			{
@@ -612,12 +615,12 @@ public class RoomTemplates : MonoBehaviour
 				continue;
 			}
 
-			if (!room.GetComponent<AddRoom>().extended)
-			{
-				rooms[rooms.ElementAt(i).Key] = room;
-				//rooms[i] = room;
-				room.GetComponent<AddRoom>().extended = true;
-			}
+			//if (!room.GetComponent<AddRoom>().extended)
+			//{
+			//	rooms[rooms.ElementAt(i).Key] = room;
+			//	//rooms[i] = room;
+			//	room.GetComponent<AddRoom>().extended = true;
+			//}
 		}
 		//to see if there are any active rooms, check for any FOCUS gameobject and if there is then get the parent room
 		//check in the AddRoom component for the variable extended, if its false add to rooms, otherwise dont as it will have already been extended
@@ -628,7 +631,7 @@ public class RoomTemplates : MonoBehaviour
 		return rooms;
 	}
 
-	public void HorizontalExtend(GameObject[] connectedRooms)
+	public void HorizontalExtend(Dictionary<string, GameObject> connectedRooms)
 	{
 		//current room is middle index
 		//need rooms east and west
@@ -636,18 +639,26 @@ public class RoomTemplates : MonoBehaviour
 		//rooms = new GameObject[3] { rooms[3], rooms[4], rooms[5] };
 		try
 		{
-			connectedRooms[6].GetComponent<AddRoom>().extended = false;
-			connectedRooms[7].GetComponent<AddRoom>().extended = false;
-			connectedRooms[8].GetComponent<AddRoom>().extended = false;
+			connectedRooms["BOTTOMLEFT"].GetComponent<AddRoom>().extended = false;
+			connectedRooms["BOTTOM"].GetComponent<AddRoom>().extended = false;
+			connectedRooms["BOTTOMRIGHT"].GetComponent<AddRoom>().extended = false;
 		}
 		catch{}
 
 
-		GameObject[] rooms = new GameObject[3] {connectedRooms[3], connectedRooms[4], connectedRooms[5]};
-		//yield return new WaitForSeconds(0.1f);
-		//yield return new WaitForSeconds(0.1f);
+		//GameObject[] rooms = new GameObject[3] {connectedRooms["LEFT"], connectedRooms["CENTRE"], connectedRooms["RIGHT"]};
+		////yield return new WaitForSeconds(0.1f);
+		////yield return new WaitForSeconds(0.1f);
+		//DisableHorizontalWalls(rooms[0], rooms[1]);
+		//DisableHorizontalWalls(rooms[1], rooms[2]);
+
+		GameObject[] rooms = new GameObject[6] { connectedRooms["TOPLEFT"], connectedRooms["TOP"], connectedRooms["TOPRIGHT"], connectedRooms["LEFT"], connectedRooms["CENTRE"], connectedRooms["RIGHT"] };
+
 		DisableHorizontalWalls(rooms[0], rooms[1]);
 		DisableHorizontalWalls(rooms[1], rooms[2]);
+
+		DisableHorizontalWalls(rooms[3], rooms[4]);
+		DisableHorizontalWalls(rooms[4], rooms[5]);
 
 		//DisableHorizontalWalls(rooms[0], rooms[1]);
 		//DisableHorizontalWalls(rooms[1], rooms[2]);
@@ -660,18 +671,18 @@ public class RoomTemplates : MonoBehaviour
 		//find if any rooms are horizontal to the currentroom
 		//pass the valid rooms to the correct DisableWalls function
 	}
-	public void VerticalExtend(GameObject[] connectedRooms)
+	public void VerticalExtend(Dictionary<string, GameObject> connectedRooms)
 	{
 		try
 		{
-			connectedRooms[2].GetComponent<AddRoom>().extended = false;
-			connectedRooms[5].GetComponent<AddRoom>().extended = false;
-			connectedRooms[8].GetComponent<AddRoom>().extended = false;
+			connectedRooms["TOPRIGHT"].GetComponent<AddRoom>().extended = false;
+			connectedRooms["RIGHT"].GetComponent<AddRoom>().extended = false;
+			connectedRooms["BOTTOMRIGHT"].GetComponent<AddRoom>().extended = false;
 		}
 		catch{}
 
 		//need rooms north and south
-		GameObject[] rooms = new GameObject[3] {connectedRooms[1], connectedRooms[4], connectedRooms[7] };
+		GameObject[] rooms = new GameObject[3] {connectedRooms["TOP"], connectedRooms["CENTRE"], connectedRooms["BOTTOM"] };
 		//yield return new WaitForSeconds(0.1f);
 		//yield return new WaitForSeconds(0.1f);
 
@@ -687,44 +698,44 @@ public class RoomTemplates : MonoBehaviour
 		//DisableHorizontalWalls(rooms[1], rooms[4]);
 		//DisableHorizontalWalls(rooms[2], rooms[5]);
 	}
-	public void EnlargeRoom(GameObject[] connectedRooms)
+	public void EnlargeRoom(Dictionary<string, GameObject> connectedRooms)
 	{
 		//need rooms in every direction including diagonally
-		GameObject[] rooms = connectedRooms;
+		//////GameObject[] rooms = new GameObject[9] {};
 		//disable horizontal walls
 		//row 1
 		//yield return new WaitForSeconds(0.1f);
-		DisableHorizontalWalls(rooms[0], rooms[1]);
+		DisableHorizontalWalls(connectedRooms["TOPLEFT"], connectedRooms["TOP"]);
 		//yield return new WaitForSeconds(0.1f);
-		DisableHorizontalWalls(rooms[1], rooms[2]);
+		DisableHorizontalWalls(connectedRooms["TOP"], connectedRooms["TOPRIGHT"]);
 		//row 2
 		//yield return new WaitForSeconds(0.1f);
-		DisableHorizontalWalls(rooms[3], rooms[4]);
+		DisableHorizontalWalls(connectedRooms["LEFT"], connectedRooms["CENTRE"]);
 		//yield return new WaitForSeconds(0.1f);
-		DisableHorizontalWalls(rooms[4], rooms[5]);
+		DisableHorizontalWalls(connectedRooms["CENTRE"], connectedRooms["RIGHT"]);
 		//row 3
 		//yield return new WaitForSeconds(0.1f);
-		DisableHorizontalWalls(rooms[6], rooms[7]);
+		DisableHorizontalWalls(connectedRooms["BOTTOMLEFT"], connectedRooms["BOTTOM"]);
 		//yield return new WaitForSeconds(0.1f);
-		DisableHorizontalWalls(rooms[7], rooms[8]);
+		DisableHorizontalWalls(connectedRooms["BOTTOM"], connectedRooms["BOTTOMRIGHT"]);
 
 
 		//disable vertical walls
 		//column 1
 		//yield return new WaitForSeconds(0.1f);
-		DisableVerticalWalls(rooms[0], rooms[3]);
+		DisableVerticalWalls(connectedRooms["TOPLEFT"], connectedRooms["LEFT"]);
 		//yield return new WaitForSeconds(0.1f);
-		DisableVerticalWalls(rooms[3], rooms[6]);
+		DisableVerticalWalls(connectedRooms["LEFT"], connectedRooms["BOTTOMLEFT"]);
 		//yield return new WaitForSeconds(0.1f);
 		//column 2
-		DisableVerticalWalls(rooms[1], rooms[4]);
+		DisableVerticalWalls(connectedRooms["TOP"], connectedRooms["CENTRE"]);
 		//yield return new WaitForSeconds(0.1f);
-		DisableVerticalWalls(rooms[4], rooms[7]);
+		DisableVerticalWalls(connectedRooms["CENTRE"], connectedRooms["BOTTOM"]);
 		//yield return new WaitForSeconds(0.1f);
 		//column 3
-		DisableVerticalWalls(rooms[2], rooms[5]);
+		DisableVerticalWalls(connectedRooms["TOPRIGHT"], connectedRooms["RIGHT"]);
 		//yield return new WaitForSeconds(0.1f);
-		DisableVerticalWalls(rooms[5], rooms[8]);
+		DisableVerticalWalls(connectedRooms["RIGHT"], connectedRooms["BOTTOMRIGHT"]);
 		//yield return new WaitForSeconds(0.1f);
 	}
 

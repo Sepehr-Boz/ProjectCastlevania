@@ -108,7 +108,8 @@ public class RoomSpawner : MonoBehaviour
 			{
 
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
-				room = ChangeRoom(room);
+				//room = ChangeRoom(room);
+				MakeExit(room);
 
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
 				int rand = Random.Range(0, 100);
@@ -202,7 +203,7 @@ public class RoomSpawner : MonoBehaviour
 		//	}
 		//}
 
-		if (valid || newRoomName.Equals(currentRoom.name))
+		if (valid || newRoomName.Equals(currentRoom.name) || newRoomName.Equals(""))
 		{
 			print("room was valid: " + currentRoom.name + " new room name was : " + newRoomName + " whether it was valid : " + valid.ToString());
 			//print("connected rooms are: " + adjRooms["TOP"] + " " + adjRooms["LEFT"].name + " " + adjRooms["RIGHT"].name + " " + adjRooms["BOTTOM"].name);
@@ -315,10 +316,62 @@ public class RoomSpawner : MonoBehaviour
 		//room = Instantiate(templates.closedRoom);
 
 		room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+
+		//ChangeRoom(room);
+
 		room.SetActive(true);
 		List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
 		GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
 		Destroy(gameObject);
+	}
+
+	private bool CheckIfCanBeExit(GameObject room)
+	{
+		if (room.name == "U" || room.name == "D" || room.name == "L" || room.name == "R")
+		{
+			return true;
+		}
+
+		//if ("UDLR".Contains(room.name))
+		//{
+		//	return true;
+		//}
+
+		return false;
+	}
+
+	private GameObject MakeExit(GameObject room)
+	{
+		if (CheckIfCanBeExit(room) && GameManager.Instance.thisArea.numExits > 0)
+		{
+			GameObject newRoom = null;
+			if (room.name.Equals("U"))
+			{
+				newRoom = RoomPool.Instance.GetPooledRoom("UExit");
+			}
+			else if (room.name.Equals("D"))
+			{
+				newRoom = RoomPool.Instance.GetPooledRoom("DExit");
+			}
+			else if (room.name.Equals("L"))
+			{
+				newRoom = RoomPool.Instance.GetPooledRoom("LExit");
+			}
+			else if (room.name.Equals("R"))
+			{
+				newRoom = RoomPool.Instance.GetPooledRoom("RExit");
+			}
+			else
+			{
+				print("room wiobgfaoubgeaoi" + room.name);
+			}
+
+			newRoom.transform.SetPositionAndRotation(room.transform.position, room.transform.rotation);
+
+			return newRoom;
+		}
+
+		return room;
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
@@ -342,16 +395,16 @@ public class RoomSpawner : MonoBehaviour
 				spawned = true;
 				//gameObject.SetActive(false);
 			}
-			catch
-			{
-				print("other rooms spawener: " + other.GetComponent<RoomSpawner>().spawned);
-				print("self room spawner is : " + spawned);
-				print("the other rooms name is " + other.name);
-				print("exception");
-			}
+			catch{}
 		}
 		else
 		{
+			//will be executed when colliding with a centre
+			//no room should be spawned so the room spawner will be destroyed by the Destroyer script
+
+			//change room that is being collided with?
+
+			print("odda room name is " + other.name);
 			//if the space ahead where the room spawner plans to spawn is occupied
 			//if so then change the room?
 		}
