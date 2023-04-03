@@ -631,6 +631,20 @@ public class RoomTemplates : MonoBehaviour
 		return rooms;
 	}
 
+	public int CountEmptyRooms(Dictionary<string, GameObject> adjRooms)
+	{
+		int count = 0;
+		foreach (GameObject room in adjRooms.Values)
+		{
+			if (room == null)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
 	public void HorizontalExtend(Dictionary<string, GameObject> connectedRooms)
 	{
 		//current room is middle index

@@ -109,7 +109,8 @@ public class RoomSpawner : MonoBehaviour
 
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				//room = ChangeRoom(room);
-				MakeExit(room);
+				room = MakeExit(room);
+
 
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
 				int rand = Random.Range(0, 100);
@@ -329,6 +330,7 @@ public class RoomSpawner : MonoBehaviour
 	{
 		if (room.name == "U" || room.name == "D" || room.name == "L" || room.name == "R")
 		{
+			print("can be an exit");
 			return true;
 		}
 
@@ -342,8 +344,27 @@ public class RoomSpawner : MonoBehaviour
 
 	private GameObject MakeExit(GameObject room)
 	{
-		if (CheckIfCanBeExit(room) && GameManager.Instance.thisArea.numExits > 0)
+		//check if its an edge room
+		var adjRooms = templates.GetAdjacentRooms(room);
+		if (templates.CountEmptyRooms(adjRooms) <= 5)
 		{
+			return room;
+		}
+
+		print("a");
+
+		//check if theres availability for any more exits to be added to the scene
+		if (GameManager.Instance.thisArea.numExits <= 0)
+		{
+			return room;
+		}
+
+		print("b");
+
+		//check if room can be changed into an exit
+		if (CheckIfCanBeExit(room))
+		{
+			print("c");
 			GameObject newRoom = null;
 			if (room.name.Equals("U"))
 			{
@@ -365,7 +386,7 @@ public class RoomSpawner : MonoBehaviour
 			{
 				print("room wiobgfaoubgeaoi" + room.name);
 			}
-
+			print("new exit is " + newRoom.name);
 			newRoom.transform.SetPositionAndRotation(room.transform.position, room.transform.rotation);
 
 			return newRoom;
