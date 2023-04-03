@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+
 		//delay setting templates active so that rooms can be pooled before having to be accessed
 		StartCoroutine(TemplateDelay());
 
@@ -111,9 +112,9 @@ public class GameManager : MonoBehaviour
 	//	SceneManager.LoadScene(currentPlayer.currentArea.ToString());
 	//}
 
-	public void ChangeScene(Scene newScene)
+	public void ChangeScene(string newScene)
 	{
-		SceneManager.LoadScene(nameof(newScene));
+		SceneManager.LoadScene(newScene);
 	}
 
 

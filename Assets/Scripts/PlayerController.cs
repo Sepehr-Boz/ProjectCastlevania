@@ -160,10 +160,10 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (health <= 0)
-		{
-			PlayerManager.Instance.SwitchPlayer();
-		}
+		//if (health <= 0)
+		//{
+		//	PlayerManager.Instance.SwitchPlayer();
+		//}
 		rigidBody.velocity = velocity * moveForce;
 	}
 

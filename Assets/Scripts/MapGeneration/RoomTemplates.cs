@@ -601,8 +601,11 @@ public class RoomTemplates : MonoBehaviour
 				room = Physics2D.OverlapCircle(newPos, 1f).transform.root.gameObject;
 				//print(room.name);
 
-				rooms[rooms.ElementAt(i).Key] = room;
-				room.GetComponent<AddRoom>().extended = true;
+				if (room != null && !room.name.Contains("C"))
+				{
+					rooms[rooms.ElementAt(i).Key] = room;
+					room.GetComponent<AddRoom>().extended = true;
+				}
 			}
 			catch
 			{
@@ -636,7 +639,7 @@ public class RoomTemplates : MonoBehaviour
 		int count = 0;
 		foreach (GameObject room in adjRooms.Values)
 		{
-			if (room == null)
+			if (room == null || room.name.Contains("C"))
 			{
 				count++;
 			}

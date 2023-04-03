@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -346,7 +347,7 @@ public class RoomSpawner : MonoBehaviour
 	{
 		//check if its an edge room
 		var adjRooms = templates.GetAdjacentRooms(room);
-		if (templates.CountEmptyRooms(adjRooms) <= 5)
+		if (templates.CountEmptyRooms(adjRooms) <= 4)
 		{
 			return room;
 		}
@@ -388,6 +389,10 @@ public class RoomSpawner : MonoBehaviour
 			}
 			print("new exit is " + newRoom.name);
 			newRoom.transform.SetPositionAndRotation(room.transform.position, room.transform.rotation);
+
+			newRoom.transform.Find("Portal").GetComponent<AddScene>().scene = SceneManager.GetSceneByBuildIndex(Random.Range(0, SceneManager.sceneCountInBuildSettings - 1)).name;
+			//newRoom.transform.Find("Portal").GetComponent<AddScene>().scene = SceneManager.GetSceneByBuildIndex(Random.Range(0, SceneManager.sceneCount));
+			//newRoom.GetComponent<AddScene>().scene = SceneManager.GetSceneByBuildIndex(Random.Range(0, SceneManager.sceneCount));
 
 			return newRoom;
 		}

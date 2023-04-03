@@ -785,12 +785,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5302759105851789093, guid: 5c956e0dc1644034e951860261354c29, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5302759105851789093, guid: 5c956e0dc1644034e951860261354c29, type: 3}
       propertyPath: currentPlayer
       value: 
-      objectReference: {fileID: 11400000, guid: 49d3bf5650c4a1a48b37bc64da26342f, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5302759105851789093, guid: 5c956e0dc1644034e951860261354c29, type: 3}
       propertyPath: players.Array.size
       value: 2
@@ -809,7 +809,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5302759105851789095, guid: 5c956e0dc1644034e951860261354c29, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c956e0dc1644034e951860261354c29, type: 3}
@@ -874,7 +874,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1271903867315916450, guid: 502d6246821e6df409bf5b0efb85638d, type: 3}
       propertyPath: orthographic size
-      value: 50
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1271903867573091164, guid: 502d6246821e6df409bf5b0efb85638d, type: 3}
+      propertyPath: m_Lens.OrthographicSize
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 502d6246821e6df409bf5b0efb85638d, type: 3}

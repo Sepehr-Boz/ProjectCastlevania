@@ -10,7 +10,11 @@ public class PlayerManager : MonoBehaviour
 {
 	//[SerializeField] public Dictionary<PlayerData, GameObject> players = new(2);
 	public List<PlayerData> players;
-	public PlayerData currentPlayer;
+	//public PlayerData currentPlayer;
+	public GameObject currentPlayer;
+
+	public GameObject playerA;
+	public GameObject playerB;
 	//public GameObject currentPlayer;
 
 	#region singleton
@@ -27,29 +31,43 @@ public class PlayerManager : MonoBehaviour
 	private void Awake()
 	{
 		_instance = this;
+
+		DontDestroyOnLoad(gameObject);
+
+		playerA = Instantiate(players[0].player);
+		playerA.transform.position = Vector2.zero;
+		playerB = Instantiate(players[1].player);
+		playerB.transform.position = Vector2.zero;
+		playerB.SetActive(false);
+
+		DontDestroyOnLoad(players[0].player);
+		DontDestroyOnLoad(players[1].player);
 	}
 	#endregion
+
+
+
 
 	private void Start()
 	{
 		//currentPlayer = players[0];
 	}
 
-	//switching the current active player
-	public void SwitchPlayer()
-	{
-		if (currentPlayer == players[0])
-		{
-			currentPlayer = players[1];
-		}
-		else
-		{
-			currentPlayer = players[0];
-		}
+	////switching the current active player
+	//public void SwitchPlayer()
+	//{
+	//	if (currentPlayer == players[0])
+	//	{
+	//		currentPlayer = players[1];
+	//	}
+	//	else
+	//	{
+	//		currentPlayer = players[0];
+	//	}
 
-		GameManager.Instance.ChangeScene(currentPlayer.currentScene);
-		//GameManager.Instance.LoadScene(currentPlayer);
-	}
+	//	GameManager.Instance.ChangeScene(currentPlayer.currentScene);
+	//	//GameManager.Instance.LoadScene(currentPlayer);
+	//}
 
 
 	//public Transform currentPlayer;

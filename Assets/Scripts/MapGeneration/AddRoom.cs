@@ -11,11 +11,22 @@ namespace Assets.Scripts.MapGeneration
 			//add self to rooms
 			GameManager.Instance.thisArea.rooms.Add(this.gameObject);
 
-			int rand = Random.Range(0, 10);
-
-			if (rand <= 1)
+			//extend rooms if the map hasnt already been generated
+			//when generating maps from rooms data then the number of rooms and roomsdata wont match up so check for if the number of rooms and rooms data are the same
+			if (GameManager.Instance.thisArea.rooms.Count == GameManager.Instance.thisArea.roomsData.Count)
 			{
-				Invoke(nameof(ExtendRoom), 5f);
+				int rand = Random.Range(0, 10);
+
+				if (rand <= 1)
+				{
+					Invoke(nameof(ExtendRoom), 5f);
+				}
+			}
+
+			//if the room is an exit one then set all walls active
+			if (name.Contains("Exit"))
+			{
+				Invoke(nameof(ActivateWalls), 6f);
 			}
 		}
 
@@ -26,6 +37,14 @@ namespace Assets.Scripts.MapGeneration
 
 			//call the correct method from templates
 			GameManager.Instance.templates.extendFunction.Invoke(adjRooms);
+		}
+
+		private void ActivateWalls()
+		{
+			foreach (Transform wall in transform.Find("Walls"))
+			{
+				wall.gameObject.SetActive(true);
+			}
 		}
 
 		//public void OnCollisionEnter2D(Collision2D collision)
