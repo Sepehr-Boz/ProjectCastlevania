@@ -15,19 +15,11 @@ namespace Assets.Scripts.MapGeneration
 			//when generating maps from rooms data then the number of rooms and roomsdata wont match up so check for if the number of rooms and rooms data are the same
 			if (GameManager.Instance.thisArea.rooms.Count == GameManager.Instance.thisArea.roomsData.Count)
 			{
-				int rand = Random.Range(0, 10);
-
-				if (rand <= 1)
-				{
-					Invoke(nameof(ExtendRoom), 5f);
-				}
+				if (Random.Range(0, 10) <= 3) {Invoke(nameof(ExtendRoom), 5f);}
 			}
 
-			//if the room is an exit one then set all walls active
-			if (name.Contains("Exit"))
-			{
-				Invoke(nameof(ActivateWalls), 6f);
-			}
+			//activate all walls if the room is an exit or has a limited number of empty surrounding rooms
+			Invoke(nameof(ActivateWalls), 6f);
 		}
 
 		private void ExtendRoom()
@@ -41,26 +33,17 @@ namespace Assets.Scripts.MapGeneration
 
 		private void ActivateWalls()
 		{
-			foreach (Transform wall in transform.Find("Walls"))
+			RoomTemplates templates = GameManager.Instance.templates;
+			var adjRooms = templates.GetAdjacentRooms(gameObject);
+
+			//check for the number of empty rooms or if the name has exit in it
+			if (templates.CountEmptyRooms(adjRooms) >= 5 || name.Contains("Exit"))
 			{
-				wall.gameObject.SetActive(true);
+				foreach (Transform wall in transform.Find("Walls"))
+				{
+					wall.gameObject.SetActive(true);
+				}
 			}
 		}
-
-		//public void OnCollisionEnter2D(Collision2D collision)
-		//{
-		//	print("AHHHHH A COLLIDION HATH COOCOCCURED BETWEEBNTH THE 2 GAMEOBJECTS" + collision.collider.name + "    " + collision.otherCollider.name);
-		//	//check if collided with a wall by comparing the parent of the collided object
-		//	if (collision.transform.parent.name.Equals("Walls") && collision.gameObject != collision.otherCollider.gameObject)
-		//	{
-		//		//set the wall inactive
-		//		collision.gameObject.SetActive(false);
-		//	}
-		//}
-
-		//public void OnCollisionEnter2D(Collision2D collision)
-		//{
-		//	print(gameObject.name + " has collided with " + collision.gameObject.name);
-		//}
 	}
 }

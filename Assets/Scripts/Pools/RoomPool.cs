@@ -35,23 +35,6 @@ namespace Assets.Scripts.Pools
 				{
 					//add all walls when starting
 					List<Wall> walls = new () {Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST};
-					//List<Wall> walls = new List<Wall>();
-					//if (start.transform.Find("Walls").Find("North"))
-					//{
-					//	walls.Add(Wall.NORTH);
-					//}
-					//if (start.transform.Find("Walls").Find("East"))
-					//{
-					//	walls.Add(Wall.EAST);
-					//}
-					//if (start.transform.Find("Walls").Find("South"))
-					//{
-					//	walls.Add(Wall.SOUTH);
-					//}
-					//if (start.transform.Find("Walls").Find("West"))
-					//{
-					//	walls.Add(Wall.WEST);
-					//}
 
 					GameManager.Instance.thisArea.roomsData.Add(new RoomData(start.transform.position, start.transform.rotation, walls, start.name, new List<GameObject>(), new List<GameObject>()));
 					//set them inactive - RoomTemplates will either enable or keep them disabled
@@ -73,8 +56,6 @@ namespace Assets.Scripts.Pools
 					pooledObjects.Add(tmp);
 				}
 			}
-
-			//base.Start();
 		}
 
 		public GameObject GetPooledRoom(string roomName = null)

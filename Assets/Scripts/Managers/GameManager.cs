@@ -104,23 +104,9 @@ public class GameManager : MonoBehaviour
 
 	}
 
-
-	////load the correct scene
-	////called whenever the player is switched
-	//public void LoadScene(PlayerData currentPlayer)
-	//{
-	//	SceneManager.LoadScene(currentPlayer.currentArea.ToString());
-	//}
-
+	//load the new scene
 	public void ChangeScene(string newScene)
 	{
 		SceneManager.LoadScene(newScene);
 	}
-
-
-
-
-
-
-
 }
