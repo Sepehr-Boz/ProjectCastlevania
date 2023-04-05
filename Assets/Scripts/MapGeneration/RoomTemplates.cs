@@ -24,6 +24,7 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject openRoom;
 	public GameObject bossRoom;
 	public GameObject[] exitRooms;
+	public GameObject start;
 
 	[Header("Room data")]
 	private List<GameObject> rooms;
@@ -75,6 +76,12 @@ public class RoomTemplates : MonoBehaviour
 		}
 
 		List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;
+		//add the entry room
+		//List<Wall> walls = new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+
+		//GameManager.Instance.thisArea.roomsData.Add(new RoomData(start.transform.position, start.transform.rotation, walls, start.name, new List<GameObject>(), new List<GameObject>()));
+		////set them inactive - RoomTemplates will either enable or keep them disabled
+		//start.SetActive(false);
 
 		//check if rooms are empty
 		if (AreRoomsEmpty())
@@ -82,30 +89,39 @@ public class RoomTemplates : MonoBehaviour
 			//if empty then generate a new map
 			print("rooms are empty");
 
+			//add the first room/ entry room to room data and set it active
+			List<Wall> walls = new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+
+			GameManager.Instance.thisArea.roomsData.Add(new RoomData(start.transform.position, start.transform.rotation, walls, start.name, new List<GameObject>(), new List<GameObject>()));
+			//set them inactive - RoomTemplates will either enable or keep them disabled
+			start.SetActive(true);
+
 			//getting and spawning start rooms onto the map
-			GameObject tmp;
-			foreach (RoomData data in roomsData)
-			{
-				//get pooled object
-				tmp = RoomPool.Instance.GetPooledRoom(data.name);
-				//set the spawn points active
-				tmp.transform.Find("SpawnPoints").gameObject.SetActive(true);
-				//move room to the correct position
-				tmp.transform.SetPositionAndRotation(data.position, data.rotation);
-				//set the room active
-				tmp.SetActive(true);
-			}
-			Invoke(nameof(CopyWallsData), 17f);
+			//GameObject tmp;
+			//foreach (RoomData data in roomsData)
+			//{
+			//	//get pooled object
+			//	tmp = RoomPool.Instance.GetPooledRoom(data.name);
+			//	tmp = Instantiate(tmp);
+			//	tmp.name = tmp.name.Replace("(Clone)", "");
+			//	//set the spawn points active
+			//	tmp.transform.Find("SpawnPoints").gameObject.SetActive(true);
+			//	//move room to the correct position
+			//	tmp.transform.SetPositionAndRotation(data.position, data.rotation);
+			//	//set the room active
+			//	tmp.SetActive(true);
+			//}
+			Invoke(nameof(CopyWallsData), 10f);
 		}
 		else
 		{
 			print("rooms arent empty");
 
 			//if the rooms arent empty then set all spawnpoints inactive so rooms dont keep spawning
-			InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.05f);
+			InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.01f);
 		}
 
-		Invoke(nameof(DeleteUnusedRooms), 15f);
+		//Invoke(nameof(DeleteUnusedRooms), 15f); //not needed as rooms are instantiated now
 	}
 
 
@@ -123,6 +139,8 @@ public class RoomTemplates : MonoBehaviour
 	private void SpawnRoomFromRoomData()
 	{
 		GameObject tmp = RoomPool.Instance.GetPooledRoom(GameManager.Instance.thisArea.roomsData[i].name);
+		tmp = Instantiate(tmp);
+		tmp.name = tmp.name.Replace("(Clone)", "");
 		//set the SpawnPoints parent false so that the points stop spawning rooms
 		foreach (Transform point in tmp.transform.Find("SpawnPoints"))
 		{
@@ -131,7 +149,8 @@ public class RoomTemplates : MonoBehaviour
 				continue;
 			}
 
-			point.gameObject.SetActive(false);
+			//point.gameObject.SetActive(false);
+			Destroy(point.gameObject);
 		}
 
 		tmp.transform.SetPositionAndRotation(GameManager.Instance.thisArea.roomsData[i].position, GameManager.Instance.thisArea.roomsData[i].rotation);
@@ -276,20 +295,22 @@ public class RoomTemplates : MonoBehaviour
 		//current room is middle index
 		//need rooms east and west
 		try
-		{
-			connectedRooms["BOTTOMLEFT"].GetComponent<AddRoom>().extended = false;
-			connectedRooms["BOTTOM"].GetComponent<AddRoom>().extended = false;
-			connectedRooms["BOTTOMRIGHT"].GetComponent<AddRoom>().extended = false;
-		}
-		catch{}
+		{connectedRooms["BOTTOMLEFT"].GetComponent<AddRoom>().extended = false;}
+		catch {}
+		try
+		{connectedRooms["BOTTOM"].GetComponent<AddRoom>().extended = false;}
+		catch {}
+		try
+		{connectedRooms["BOTTOMRIGHT"].GetComponent<AddRoom>().extended = false;}
+		catch {}
 
 		GameObject[] rooms = new GameObject[6] { connectedRooms["TOPLEFT"], connectedRooms["TOP"], connectedRooms["TOPRIGHT"], connectedRooms["LEFT"], connectedRooms["CENTRE"], connectedRooms["RIGHT"] };
 
 		DisableHorizontalWalls(rooms[0], rooms[1]);
 		DisableHorizontalWalls(rooms[1], rooms[2]);
 
-		DisableHorizontalWalls(rooms[3], rooms[4]);
-		DisableHorizontalWalls(rooms[4], rooms[5]);
+		//DisableHorizontalWalls(rooms[3], rooms[4]);
+		//DisableHorizontalWalls(rooms[4], rooms[5]);
 
 		//find if any rooms are horizontal to the currentroom
 		//pass the valid rooms to the correct DisableWalls function
@@ -297,12 +318,14 @@ public class RoomTemplates : MonoBehaviour
 	public void VerticalExtend(Dictionary<string, GameObject> connectedRooms)
 	{
 		try
-		{
-			connectedRooms["TOPRIGHT"].GetComponent<AddRoom>().extended = false;
-			connectedRooms["RIGHT"].GetComponent<AddRoom>().extended = false;
-			connectedRooms["BOTTOMRIGHT"].GetComponent<AddRoom>().extended = false;
-		}
-		catch{}
+		{ connectedRooms["TOPRIGHT"].GetComponent<AddRoom>().extended = false; }
+		catch { }
+		try
+		{ connectedRooms["RIGHT"].GetComponent<AddRoom>().extended = false; }
+		catch { }
+		try
+		{ connectedRooms["BOTTOMRIGHT"].GetComponent<AddRoom>().extended = false; }
+		catch { }
 
 		//need rooms north and south
 		GameObject[] rooms = new GameObject[3] {connectedRooms["TOP"], connectedRooms["CENTRE"], connectedRooms["BOTTOM"] };

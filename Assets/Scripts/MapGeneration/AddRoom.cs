@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Scripts.MapGeneration
 {
@@ -15,11 +16,14 @@ namespace Assets.Scripts.MapGeneration
 			//when generating maps from rooms data then the number of rooms and roomsdata wont match up so check for if the number of rooms and rooms data are the same
 			if (GameManager.Instance.thisArea.rooms.Count == GameManager.Instance.thisArea.roomsData.Count)
 			{
-				if (Random.Range(0, 10) <= 3) {Invoke(nameof(ExtendRoom), 5f);}
+				//List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+				//GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, transform.rotation, walls, name, null, null));
+
+				if (Random.Range(0, 10) <= 9) {Invoke(nameof(ExtendRoom), 1.5f);}
 			}
 
 			//activate all walls if the room is an exit or has a limited number of empty surrounding rooms
-			Invoke(nameof(ActivateWalls), 6f);
+			Invoke(nameof(ActivateWalls), 3f);
 		}
 
 		private void ExtendRoom()

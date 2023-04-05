@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
+using static Unity.Burst.Intrinsics.X86.Avx;
 using Random = UnityEngine.Random;
 
 public class RoomSpawner : MonoBehaviour 
@@ -37,7 +38,8 @@ public class RoomSpawner : MonoBehaviour
 		templates = GameManager.Instance.templates;
 		newEntryChance = templates.newEntryChance;
 
-		Invoke(nameof(Spawn), openingDirection / 10f);
+		//Invoke(nameof(Spawn), 0.01f); //0.01f means that 100 rooms should be spawned every second - so room generation is much faster
+		Invoke(nameof(Spawn), openingDirection / 100f);
 	}
 
 	//private IEnumerator Delay()
@@ -97,6 +99,10 @@ public class RoomSpawner : MonoBehaviour
 				{
 					room = RoomPool.Instance.GetPooledRoom(templates.bossRoom.name);
 				}
+				//GameObject newRoom = Instantiate(room);
+				//newRoom.name = newRoom.name.Replace("(Clone)", "");
+				room = Instantiate(room);
+				room.name = room.name.Replace("(Clone)", "");
 
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				room.SetActive(true);
@@ -112,8 +118,11 @@ public class RoomSpawner : MonoBehaviour
 	private void SpawnClosedRoom()
 	{
 		room = RoomPool.Instance.GetPooledRoom(templates.closedRoom.name);
+		room = Instantiate(room);
+		room.name = room.name.Replace("(Clone)", "");
 		//room = Instantiate(templates.closedRoom);
-
+		//GameObject newRoom = Instantiate(room);
+		//newRoom.name = room.name;
 		room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
 		room.SetActive(true);
@@ -154,6 +163,7 @@ public class RoomSpawner : MonoBehaviour
 			GameObject newRoom = null;
 			if (room.name.Equals("U"))
 			{
+				//newRoom = Instantiate(templates.exitRooms.);
 				newRoom = RoomPool.Instance.GetPooledRoom("UExit");
 			}
 			else if (room.name.Equals("D"))
@@ -178,6 +188,20 @@ public class RoomSpawner : MonoBehaviour
 		return room;
 	}
 
+	private GameObject ReturnExitRoom(string name)
+	{
+		foreach (GameObject room in templates.exitRooms)
+		{
+			if (room.name.Equals(name))
+			{
+				return room;
+			}
+		}
+
+		print("NO ROOM FOUND");
+		return null;
+	}
+
 	void OnTriggerEnter2D(Collider2D other){
 		//occurs when 2 rooms attempt to spawn a room at the same area
 		if(other.CompareTag("SpawnPoint")){
@@ -185,7 +209,8 @@ public class RoomSpawner : MonoBehaviour
 			{
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
-					Invoke(nameof(SpawnClosedRoom), openingDirection / 10f);
+					Invoke(nameof(SpawnClosedRoom), openingDirection / 100f);
+					//Invoke(nameof(SpawnClosedRoom), 0.01f);
 				}
 				spawned = true;
 			}
