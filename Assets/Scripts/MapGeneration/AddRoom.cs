@@ -18,8 +18,19 @@ namespace Assets.Scripts.MapGeneration
 			{
 				//List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
 				//GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, transform.rotation, walls, name, null, null));
+				int rand = Random.Range(0, 10); 
 
-				if (Random.Range(0, 10) <= 9) {Invoke(nameof(ExtendRoom), 1.5f);}
+				if (extended)
+				{
+					if (rand <= 3) { Invoke(nameof(ExtendRoom), 1.5f); }
+				}
+				else
+				{
+					if (rand <= 9) { Invoke(nameof(ExtendRoom), 1.5f); }
+				}
+
+
+				//if (Random.Range(0, 10) <= 9) {Invoke(nameof(ExtendRoom), 1.5f);}
 			}
 
 			//activate all walls if the room is an exit or has a limited number of empty surrounding rooms

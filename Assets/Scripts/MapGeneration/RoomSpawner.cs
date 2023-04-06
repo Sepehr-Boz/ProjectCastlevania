@@ -180,7 +180,7 @@ public class RoomSpawner : MonoBehaviour
 			}
 
 			newRoom.transform.SetPositionAndRotation(room.transform.position, room.transform.rotation);
-			newRoom.transform.Find("Portal").GetComponent<AddScene>().scene = SceneManager.GetSceneByBuildIndex(Random.Range(0, SceneManager.sceneCountInBuildSettings - 1)).name;
+			//newRoom.transform.Find("Portal").GetComponent<AddScene>().scene = SceneManager.GetSceneByBuildIndex(Random.Range(0, SceneManager.sceneCountInBuildSettings - 1)).name;
 
 			return newRoom;
 		}

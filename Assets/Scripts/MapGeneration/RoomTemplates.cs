@@ -257,7 +257,7 @@ public class RoomTemplates : MonoBehaviour
 				if (room != null && !room.name.Contains("C"))
 				{
 					rooms[rooms.ElementAt(i).Key] = room;
-					room.GetComponent<AddRoom>().extended = true;
+					//room.GetComponent<AddRoom>().extended = true;
 				}
 			}
 			catch
@@ -371,6 +371,9 @@ public class RoomTemplates : MonoBehaviour
 		//remove the walls enum from each room
 		a.transform.Find("Walls").Find("South").gameObject.SetActive(false);
 		b.transform.Find("Walls").Find("North").gameObject.SetActive(false);
+
+		a.GetComponent<AddRoom>().extended = true;
+		b.GetComponent<AddRoom>().extended = true;
 	}
 	private void DisableHorizontalWalls(GameObject a, GameObject b)
 	{
@@ -379,9 +382,13 @@ public class RoomTemplates : MonoBehaviour
 			return;
 		}
 
-
+		//set the walls inactive
 		a.transform.Find("Walls").Find("East").gameObject.SetActive(false);
 		b.transform.Find("Walls").Find("West").gameObject.SetActive(false);
+
+		//set the extended variable to true
+		a.GetComponent<AddRoom>().extended = true;
+		b.GetComponent<AddRoom>().extended = true;
 	}
 
 	#endregion

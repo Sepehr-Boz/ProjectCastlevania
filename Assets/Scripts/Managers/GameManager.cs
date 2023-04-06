@@ -56,6 +56,9 @@ public class GameManager : MonoBehaviour
 
 	private void SceneChanged(Scene current, Scene next)
 	{
+		//unload the resources from the previous scene to allow more memory and cpu/gpu power for the new scene
+		Resources.UnloadUnusedAssets();
+
 		thisArea.rooms.Clear();
 	}
 
@@ -72,27 +75,27 @@ public class GameManager : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			Resources.UnloadUnusedAssets(); //unload previous scene assets from previous scenes
+			//Resources.UnloadUnusedAssets(); //unload previous scene assets from previous scenes
 			SceneManager.LoadScene("Area1"); //load new scene
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha2))
 		{
-			Resources.UnloadUnusedAssets();
+			//Resources.UnloadUnusedAssets();
 			SceneManager.LoadScene("Area2");
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3))
 		{
-			Resources.UnloadUnusedAssets();
+			//Resources.UnloadUnusedAssets();
 			SceneManager.LoadScene("Area3");
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha4))
 		{
-			Resources.UnloadUnusedAssets();
+			//Resources.UnloadUnusedAssets();
 			SceneManager.LoadScene("Area4");
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha5))
 		{
-			Resources.UnloadUnusedAssets();
+			//Resources.UnloadUnusedAssets();
 			SceneManager.LoadScene("Area5");
 		}
 
@@ -105,8 +108,10 @@ public class GameManager : MonoBehaviour
 	}
 
 	//load the new scene
-	public void ChangeScene(string newScene)
+	public void ChangeScene(string newScene, Vector2 newPos)
 	{
-		SceneManager.LoadScene(newScene);
+		SceneManager.LoadScene(newScene, LoadSceneMode.Single);
+		//SceneManager.LoadScene(newScene);
+		PlayerManager.Instance.currentPlayer.transform.position = newPos;
 	}
 }
