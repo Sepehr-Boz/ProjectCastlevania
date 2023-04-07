@@ -71,6 +71,7 @@ public class RoomTemplates : MonoBehaviour
 
 	private void Start()
 	{
+		#region adding extension method
 		if (GameManager.Instance.thisArea.area == Area.AREA1)
 		{
 			extendFunction.AddListener(HorizontalExtend);
@@ -81,7 +82,7 @@ public class RoomTemplates : MonoBehaviour
 		}
 		else if (GameManager.Instance.thisArea.area == Area.AREA3)
 		{
-			extendFunction.AddListener(EnlargeRoom);
+			extendFunction.AddListener(ThreexThreeRoom);
 		}
 		else if (GameManager.Instance.thisArea.area == Area.AREA4)
 		{
@@ -92,20 +93,17 @@ public class RoomTemplates : MonoBehaviour
 		else if (GameManager.Instance.thisArea.area == Area.AREA5)
 		{
 			//next mlistener, maybe do nothing?
+			extendFunction.AddListener(TwoxTwoRoom);
 		}
 		else if (GameManager.Instance.thisArea.area == Area.TESTING)
 		{
 			//test case
 			extendFunction.AddListener(HorizontalExtend);
+			//extendFunction.AddListener(TwoxTwoRoom);
 		}
+		#endregion
 
 		List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;
-		//add the entry room
-		//List<Wall> walls = new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-
-		//GameManager.Instance.thisArea.roomsData.Add(new RoomData(start.transform.position, start.transform.rotation, walls, start.name, new List<GameObject>(), new List<GameObject>()));
-		////set them inactive - RoomTemplates will either enable or keep them disabled
-		//start.SetActive(false);
 
 		//check if rooms are empty
 		if (AreRoomsEmpty())
@@ -115,26 +113,10 @@ public class RoomTemplates : MonoBehaviour
 
 			//add the first room/ entry room to room data and set it active
 			List<Wall> walls = new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-
 			GameManager.Instance.thisArea.roomsData.Add(new RoomData(start.transform.position, start.transform.rotation, walls, start.name, new List<GameObject>(), new List<GameObject>()));
-			//set them inactive - RoomTemplates will either enable or keep them disabled
 			start.SetActive(true);
 
-			//getting and spawning start rooms onto the map
-			//GameObject tmp;
-			//foreach (RoomData data in roomsData)
-			//{
-			//	//get pooled object
-			//	tmp = RoomPool.Instance.GetPooledRoom(data.name);
-			//	tmp = Instantiate(tmp);
-			//	tmp.name = tmp.name.Replace("(Clone)", "");
-			//	//set the spawn points active
-			//	tmp.transform.Find("SpawnPoints").gameObject.SetActive(true);
-			//	//move room to the correct position
-			//	tmp.transform.SetPositionAndRotation(data.position, data.rotation);
-			//	//set the room active
-			//	tmp.SetActive(true);
-			//}
+			//copy the walls of the map - 10f is a decent estimate for how long it should take maximum for the map to generate
 			Invoke(nameof(CopyWallsData), 10f);
 		}
 		else
@@ -144,21 +126,9 @@ public class RoomTemplates : MonoBehaviour
 			//if the rooms arent empty then set all spawnpoints inactive so rooms dont keep spawning
 			InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.01f);
 		}
-
-		//Invoke(nameof(DeleteUnusedRooms), 15f); //not needed as rooms are instantiated now
 	}
 
-
-	//private void DeleteUnusedRooms()
-	//{
-	//	foreach (GameObject pooledRoom in RoomPool.Instance.pooledObjects)
-	//	{
-	//		if (!pooledRoom.activeInHierarchy)
-	//		{
-	//			Destroy(pooledRoom, 0.1f);
-	//		}
-	//	}
-	//}
+	#region map generation methods
 
 	private void SpawnRoomFromRoomData()
 	{
@@ -229,6 +199,7 @@ public class RoomTemplates : MonoBehaviour
 
 		i++;
 
+		//cancel the repeating invoke of this function when all rooms have been spawned
 		if (i >= GameManager.Instance.thisArea.roomsData.Count)
 		{
 			CancelInvoke(nameof(SpawnRoomFromRoomData));
@@ -242,8 +213,6 @@ public class RoomTemplates : MonoBehaviour
 		return GameManager.Instance.thisArea.roomsData.Count < 5;
 		//returns true if empty, false if not empty
 	}
-
-	#region extending rooms
 
 	private void CopyWallsData()
 	{
@@ -269,7 +238,9 @@ public class RoomTemplates : MonoBehaviour
 		print("WALLS COPIED");
 	}
 
+	#endregion
 
+	#region extending rooms
 
 	public Dictionary<string, GameObject> GetAdjacentRooms(Vector2 currentPos)
 	{
@@ -327,6 +298,8 @@ public class RoomTemplates : MonoBehaviour
 		return count;
 	}
 
+	#region extension methods
+
 	public void HorizontalExtend(Dictionary<string, GameObject> connectedRooms)
 	{
 		//current room is middle index
@@ -345,9 +318,6 @@ public class RoomTemplates : MonoBehaviour
 
 		DisableHorizontalWalls(rooms[0], rooms[1]);
 		DisableHorizontalWalls(rooms[1], rooms[2]);
-
-		//DisableHorizontalWalls(rooms[3], rooms[4]);
-		//DisableHorizontalWalls(rooms[4], rooms[5]);
 
 		//find if any rooms are horizontal to the currentroom
 		//pass the valid rooms to the correct DisableWalls function
@@ -370,7 +340,22 @@ public class RoomTemplates : MonoBehaviour
 		DisableVerticalWalls(rooms[0], rooms[1]);
 		DisableVerticalWalls(rooms[1], rooms[2]);
 	}
-	public void EnlargeRoom(Dictionary<string, GameObject> connectedRooms)
+
+	public void TwoxTwoRoom(Dictionary<string, GameObject> connectedRooms)
+	{
+		//connected rooms in top left, top, left, centre
+
+		//disable rooms horizontally
+		DisableHorizontalWalls(connectedRooms["TOPLEFT"], connectedRooms["TOP"]);
+		DisableHorizontalWalls(connectedRooms["LEFT"], connectedRooms["CENTRE"]);
+
+		//disable rooms vertically
+		DisableVerticalWalls(connectedRooms["TOPLEFT"], connectedRooms["LEFT"]);
+		DisableVerticalWalls(connectedRooms["TOP"], connectedRooms["CENTRE"]);
+	}
+
+
+	public void ThreexThreeRoom(Dictionary<string, GameObject> connectedRooms)
 	{
 		//need rooms in every direction including diagonally
 		//disable horizontal walls
@@ -430,19 +415,14 @@ public class RoomTemplates : MonoBehaviour
 
 	#endregion
 
+	#endregion
 
+
+	#region getting rooms
 
 	//substitute for room pool so room pool can be removed from the scenes and room templates can be used instead as rooms will be instantiated instead of pooled
 	public GameObject GetRoom(string roomName = null)
 	{
-		if (roomName == null)
-		{
-			print("no room found - GetRoom");
-			return null;
-		}
-
-
-		//GameObject tmp = null;
 		//loop through all rooms and return the prefab that is needed
 		foreach (GameObject room in allRooms)
 		{
@@ -452,8 +432,9 @@ public class RoomTemplates : MonoBehaviour
 				return room;
 			}
 		}
+
+		//if nothing is passed then return null
 		return null;
-		//return tmp;
 	}
 
 	public GameObject GetExitRoom(string exitName = null)
@@ -468,4 +449,6 @@ public class RoomTemplates : MonoBehaviour
 
 		return null;
 	}
+
+	#endregion
 }

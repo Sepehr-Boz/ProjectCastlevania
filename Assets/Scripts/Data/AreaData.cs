@@ -19,8 +19,6 @@ namespace Assets.Scripts.Data
 
 		public List<GameObject> rooms;
 		[SerializeField]public List<RoomData> roomsData;
-
-		//public int numExits = 2; //depreceated as room spawner now references movetoscenes in room templates
 	}
 }
 
@@ -105,8 +103,6 @@ public enum Wall
 
 	public void RemoveInactiveWall(string wall)
 	{
-		//Debug.Log(wall);
-
 		if (wall == "North")
 		{
 			this.activeWalls.Remove(Wall.NORTH);

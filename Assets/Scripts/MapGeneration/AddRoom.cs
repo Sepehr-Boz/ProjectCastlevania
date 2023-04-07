@@ -16,8 +16,6 @@ namespace Assets.Scripts.MapGeneration
 			//when generating maps from rooms data then the number of rooms and roomsdata wont match up so check for if the number of rooms and rooms data are the same
 			if (GameManager.Instance.thisArea.rooms.Count == GameManager.Instance.thisArea.roomsData.Count)
 			{
-				//List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-				//GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, transform.rotation, walls, name, null, null));
 				int rand = Random.Range(0, 10); 
 
 				if (extended)
@@ -28,9 +26,6 @@ namespace Assets.Scripts.MapGeneration
 				{
 					if (rand <= 9) { Invoke(nameof(ExtendRoom), 1.5f); }
 				}
-
-
-				//if (Random.Range(0, 10) <= 9) {Invoke(nameof(ExtendRoom), 1.5f);}
 			}
 
 			//activate all walls if the room is an exit or has a limited number of empty surrounding rooms
@@ -42,11 +37,8 @@ namespace Assets.Scripts.MapGeneration
 			RoomTemplates templates = RoomTemplates.Instance;
 			//get the adjacent rooms
 			var adjRooms = templates.GetAdjacentRooms(transform.position);
-			//var adjRooms = GameManager.Instance.templates.GetAdjacentRooms(this.gameObject);
-
 			//call the correct method from templates
 			templates.extendFunction.Invoke(adjRooms);
-			//GameManager.Instance.templates.extendFunction.Invoke(adjRooms);
 		}
 
 		private void ActivateWalls()

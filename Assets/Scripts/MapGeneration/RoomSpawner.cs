@@ -36,19 +36,10 @@ public class RoomSpawner : MonoBehaviour
 		Destroy(gameObject, waitTime);
 
 		templates = RoomTemplates.Instance;
-
-		//templates = GameManager.Instance.templates;
 		newEntryChance = templates.newEntryChance;
 
-		//Invoke(nameof(Spawn), 0.01f); //0.01f means that 100 rooms should be spawned every second - so room generation is much faster
 		Invoke(nameof(Spawn), openingDirection / 100f);
 	}
-
-	//private IEnumerator Delay()
-	//{
-	//	yield return new WaitForSeconds(waitTime);
-	//	gameObject.SetActive(false);
-	//}
 
 	//spawning the next room
 	void Spawn(){
@@ -58,62 +49,51 @@ public class RoomSpawner : MonoBehaviour
 			if(openingDirection == 1){
 				// Need to spawn a room with a BOTTOM door.
 				rand = Random.Range(0, templates.bottomRooms.Length);
-				//room = RoomPool.Instance.GetPooledRoom(templates.bottomRooms[rand].name);
 				room = RoomTemplates.Instance.bottomRooms[rand];
-				//room = Instantiate(templates.bottomRooms[rand]);
-
-			} else if(openingDirection == 2){
+			} 
+			else if(openingDirection == 2){
 				// Need to spawn a room with a TOP door.
 				rand = Random.Range(0, templates.topRooms.Length);
-				//room = RoomPool.Instance.GetPooledRoom(templates.topRooms[rand].name);
 				room = RoomTemplates.Instance.topRooms[rand];
-				//room = Instantiate(templates.topRooms[rand]);
-
-			} else if(openingDirection == 3){
+			}
+			else if(openingDirection == 3){
 				// Need to spawn a room with a LEFT door.
 				rand = Random.Range(0, templates.leftRooms.Length);
-				//room = RoomPool.Instance.GetPooledRoom(templates.leftRooms[rand].name);
 				room = RoomTemplates.Instance.leftRooms[rand];
-				//room = Instantiate(templates.leftRooms[rand]);
-
-			} else if(openingDirection == 4){
+			}
+			else if(openingDirection == 4){
 				// Need to spawn a room with a RIGHT door.
 				rand = Random.Range(0, templates.rightRooms.Length);
-				//room = RoomPool.Instance.GetPooledRoom(templates.rightRooms[rand].name);
 				room = RoomTemplates.Instance.rightRooms[rand];
-				//room = Instantiate(templates.rightRooms[rand]);
-
 			}
 
 			//check that the room isnt null
 			if (room != null)
 			{
-
-				//room.transform.SetPositionAndRotation(transform.position, transform.rotation);
+				//check if room can be an exit
 				room = MakeExit(room);
-
 
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
 				int rand = Random.Range(0, 100);
-				//if (rand <= newEntryChance || (Vector2)transform.position == templates.startRooms[0] || (Vector2)transform.position == templates.startRooms[1] || (Vector2)transform.position == templates.startRooms[2] || (Vector2)transform.position == templates.startRooms[3])
+				//check if room should be an entry room
 				if (rand <= newEntryChance || templates.startRooms.Contains((Vector2)transform.position))
 				{
-					//print("open room has replaced da room");
-					//room = RoomPool.Instance.GetPooledRoom(templates.openRoom.name);
 					room = RoomTemplates.Instance.openRoom;
 				}
+				//check if room should be a boss room
 				else if (templates.bossRooms.Contains((Vector2)transform.position))
 				{
-					//room = RoomPool.Instance.GetPooledRoom(templates.bossRoom.name);
 					room = RoomTemplates.Instance.bossRoom;
 				}
-				//GameObject newRoom = Instantiate(room);
-				//newRoom.name = newRoom.name.Replace("(Clone)", "");
+
+				//instantiate new room and remove the clone from its name
 				room = Instantiate(room);
 				room.name = room.name.Replace("(Clone)", "");
 
+				//move the room to the new position and set it active
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				room.SetActive(true);
+				//add new room to room data
 				List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
 				GameManager.Instance.thisArea.roomsData.Add(new RoomData(room.transform.position, room.transform.rotation, walls, room.name, new List<GameObject>(), new List<GameObject>()));
 			}
@@ -125,16 +105,15 @@ public class RoomSpawner : MonoBehaviour
 
 	private void SpawnClosedRoom()
 	{
-		//room = RoomPool.Instance.GetPooledRoom(templates.closedRoom.name);
+		//get closed room
 		room = RoomTemplates.Instance.closedRoom;
+		//instantiate new closed room and remove clone
 		room = Instantiate(room);
 		room.name = room.name.Replace("(Clone)", "");
-		//room = Instantiate(templates.closedRoom);
-		//GameObject newRoom = Instantiate(room);
-		//newRoom.name = room.name;
+		//move to position and set active
 		room.transform.SetPositionAndRotation(transform.position, transform.rotation);
-
 		room.SetActive(true);
+		//add to room data
 		List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
 		GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
 		Destroy(gameObject);
@@ -160,60 +139,34 @@ public class RoomSpawner : MonoBehaviour
 			return room;
 		}
 
-		//check if theres availability for any more exits to be added to the scene
-		//if (GameManager.Instance.thisArea.numExits <= 0)
-		//{
-		//	return room;
-		//}
-
 		//check if room can be changed into an exit
 		if (CheckIfCanBeExit(room))
 		{
+			//get the according exit dependent on the name of the current room
 			GameObject newRoom = null;
 			if (room.name.Equals("U"))
 			{
-				//newRoom = Instantiate(templates.exitRooms.);
-				//newRoom = RoomPool.Instance.GetPooledRoom("UExit");
 				newRoom = RoomTemplates.Instance.GetExitRoom("UExit");
 			}
 			else if (room.name.Equals("D"))
 			{
-				//newRoom = RoomPool.Instance.GetPooledRoom("DExit");
 				newRoom = RoomTemplates.Instance.GetExitRoom("DExit");
 			}
 			else if (room.name.Equals("L"))
 			{
-				//newRoom = RoomPool.Instance.GetPooledRoom("LExit");
 				newRoom = RoomTemplates.Instance.GetExitRoom("LExit");
 			}
 			else if (room.name.Equals("R"))
 			{
-				//newRoom = RoomPool.Instance.GetPooledRoom("RExit");
 				newRoom = RoomTemplates.Instance.GetExitRoom("RExit");
 			}
-
+			//return exit room
 			newRoom.transform.SetPositionAndRotation(room.transform.position, room.transform.rotation);
-			//newRoom.transform.Find("Portal").GetComponent<AddScene>().scene = SceneManager.GetSceneByBuildIndex(Random.Range(0, SceneManager.sceneCountInBuildSettings - 1)).name;
-
 			return newRoom;
 		}
 
 		return room;
 	}
-
-	//private GameObject ReturnExitRoom(string name)
-	//{
-	//	foreach (GameObject room in templates.exitRooms)
-	//	{
-	//		if (room.name.Equals(name))
-	//		{
-	//			return room;
-	//		}
-	//	}
-
-	//	print("NO ROOM FOUND");
-	//	return null;
-	//}
 
 	void OnTriggerEnter2D(Collider2D other){
 		//occurs when 2 rooms attempt to spawn a room at the same area
@@ -223,8 +176,8 @@ public class RoomSpawner : MonoBehaviour
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
 					Invoke(nameof(SpawnClosedRoom), openingDirection / 100f);
-					//Invoke(nameof(SpawnClosedRoom), 0.01f);
 				}
+
 				spawned = true;
 			}
 			catch{}

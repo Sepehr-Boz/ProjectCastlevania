@@ -42,11 +42,6 @@ public class PlayerController : MonoBehaviour
 	{
 		//set health back to max health
 		health = maxHealth;
-
-		//this.Invoke(() => Debug.Log("Lambdas also work"), 1f);
-		//this.Invoke(() => transform.position *= 1.1f, 3f); //move after a second to trigger FOCUS and move camera to correct position
-
-		//this.Invoke(() => transform.position += new Vector2(0.1f, 0.1f), 1f);
 	}
 
 	private void FixedUpdate()
@@ -58,6 +53,7 @@ public class PlayerController : MonoBehaviour
 		rigidBody.velocity = velocity * moveForce;
 	}
 
+	//FOR TESTING
 	public void DecreaseHealth(InputAction.CallbackContext context)
 	{
 		health -= 10;
@@ -76,18 +72,3 @@ public class PlayerController : MonoBehaviour
 	}
 	#endregion
 }
-
-
-//public static class Utility
-//{
-//	public static void Invoke(this MonoBehaviour mb, Action f, float delay)
-//	{
-//		mb.StartCoroutine(InvokeRoutine(f, delay));
-//	}
-
-//	private static IEnumerator InvokeRoutine(System.Action f, float delay)
-//	{
-//		yield return new WaitForSeconds(delay);
-//		f();
-//	}
-//}
