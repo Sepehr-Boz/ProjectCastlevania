@@ -39,17 +39,20 @@ namespace Assets.Scripts.MapGeneration
 
 		private void ExtendRoom()
 		{
+			RoomTemplates templates = RoomTemplates.Instance;
 			//get the adjacent rooms
-			var adjRooms = GameManager.Instance.templates.GetAdjacentRooms(this.gameObject);
+			var adjRooms = templates.GetAdjacentRooms(transform.position);
+			//var adjRooms = GameManager.Instance.templates.GetAdjacentRooms(this.gameObject);
 
 			//call the correct method from templates
-			GameManager.Instance.templates.extendFunction.Invoke(adjRooms);
+			templates.extendFunction.Invoke(adjRooms);
+			//GameManager.Instance.templates.extendFunction.Invoke(adjRooms);
 		}
 
 		private void ActivateWalls()
 		{
-			RoomTemplates templates = GameManager.Instance.templates;
-			var adjRooms = templates.GetAdjacentRooms(gameObject);
+			RoomTemplates templates = RoomTemplates.Instance;
+			var adjRooms = templates.GetAdjacentRooms(transform.position);
 
 			//check for the number of empty rooms or if the name has exit in it
 			if (templates.CountEmptyRooms(adjRooms) >= 5 || name.Contains("Exit"))

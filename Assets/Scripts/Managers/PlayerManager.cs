@@ -41,6 +41,8 @@ public class PlayerManager : MonoBehaviour
 
 		DontDestroyOnLoad(players[0].player);
 		DontDestroyOnLoad(players[1].player);
+
+		currentPlayer = playerA;
 	}
 	#endregion
 

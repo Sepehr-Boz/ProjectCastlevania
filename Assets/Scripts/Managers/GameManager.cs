@@ -10,7 +10,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 	public AreaData thisArea;
-	public RoomTemplates templates;
 
 	public Cinemachine.CinemachineVirtualCamera virtualCamera;
 
@@ -38,7 +37,7 @@ public class GameManager : MonoBehaviour
 	{
 
 		//delay setting templates active so that rooms can be pooled before having to be accessed
-		StartCoroutine(TemplateDelay());
+		//StartCoroutine(TemplateDelay());
 
 		SceneManager.activeSceneChanged += SceneChanged;
 
@@ -48,11 +47,11 @@ public class GameManager : MonoBehaviour
 		Application.targetFrameRate = targetFPS;
 	}
 
-	private IEnumerator TemplateDelay()
-	{
-		yield return new WaitForSeconds(1);
-		templates.gameObject.SetActive(true);
-	}
+	//private IEnumerator TemplateDelay()
+	//{
+	//	yield return new WaitForSeconds(1);
+	//	templates.gameObject.SetActive(true);
+	//}
 
 	private void SceneChanged(Scene current, Scene next)
 	{

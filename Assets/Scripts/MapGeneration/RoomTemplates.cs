@@ -24,11 +24,15 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject openRoom;
 	public GameObject bossRoom;
 	public GameObject[] exitRooms;
+
+	public GameObject[] allRooms; //used when spawning rooms from rooms data
+
 	public GameObject start;
 
-	[Header("Room data")]
-	private List<GameObject> rooms;
-	private List<RoomData> roomsData;
+	[Header("Map Details")]
+	public List<string> moveToScenes; //queue structure, portals will fetch from here, roomspawner will check if can spawn exit by checking length of this
+	//private List<GameObject> rooms;
+	//private List<RoomData> roomsData;
 	public Vector2[] startRooms = new Vector2[4];
 	public Vector2[] bossRooms = new Vector2[2];
 
@@ -43,6 +47,26 @@ public class RoomTemplates : MonoBehaviour
 
 	[Range(0, 100)]
 	public int newEntryChance = 1;
+
+
+	//make room templates a singleton as it is the most commonly and referenced object in every scene
+	#region singleton
+	private static RoomTemplates _instance;
+
+	public static RoomTemplates Instance
+	{
+		get
+		{
+			return _instance;
+		}
+	}
+
+	private void Awake()
+	{
+		_instance = this;
+	}
+	#endregion
+
 
 
 	private void Start()
@@ -125,22 +149,33 @@ public class RoomTemplates : MonoBehaviour
 	}
 
 
-	private void DeleteUnusedRooms()
-	{
-		foreach (GameObject pooledRoom in RoomPool.Instance.pooledObjects)
-		{
-			if (!pooledRoom.activeInHierarchy)
-			{
-				Destroy(pooledRoom, 0.1f);
-			}
-		}
-	}
+	//private void DeleteUnusedRooms()
+	//{
+	//	foreach (GameObject pooledRoom in RoomPool.Instance.pooledObjects)
+	//	{
+	//		if (!pooledRoom.activeInHierarchy)
+	//		{
+	//			Destroy(pooledRoom, 0.1f);
+	//		}
+	//	}
+	//}
 
 	private void SpawnRoomFromRoomData()
 	{
-		GameObject tmp = RoomPool.Instance.GetPooledRoom(GameManager.Instance.thisArea.roomsData[i].name);
+		//GameObject tmp = RoomPool.Instance.GetPooledRoom(GameManager.Instance.thisArea.roomsData[i].name);
+		print("Spawning rooms - SpawnRoomFromRoomData");
+
+		print(GameManager.Instance.thisArea.roomsData[i].name + "SpawnRoomFromRoomData");
+		GameObject tmp = GetRoom(GameManager.Instance.thisArea.roomsData[i].name);
+		print("tmp gotten - SpawnRoomFromRoomData");
+
 		tmp = Instantiate(tmp);
+
+		print("tmp instantiated - SpawnRoomFromRoomData");
+
 		tmp.name = tmp.name.Replace("(Clone)", "");
+
+		print("tmp renamed - SpawnRoomFromRoomData");
 		//set the SpawnPoints parent false so that the points stop spawning rooms
 		foreach (Transform point in tmp.transform.Find("SpawnPoints"))
 		{
@@ -154,6 +189,8 @@ public class RoomTemplates : MonoBehaviour
 		}
 
 		tmp.transform.SetPositionAndRotation(GameManager.Instance.thisArea.roomsData[i].position, GameManager.Instance.thisArea.roomsData[i].rotation);
+
+		print("tmp position set - SpawnRoomFromRoomData");
 		//set all walls inactive first
 		foreach (Transform wall in tmp.transform.Find("Walls"))
 		{
@@ -192,7 +229,7 @@ public class RoomTemplates : MonoBehaviour
 
 		i++;
 
-		if (i >= rooms.Count)
+		if (i >= GameManager.Instance.thisArea.roomsData.Count)
 		{
 			CancelInvoke(nameof(SpawnRoomFromRoomData));
 		}
@@ -234,7 +271,7 @@ public class RoomTemplates : MonoBehaviour
 
 
 
-	public Dictionary<string, GameObject> GetAdjacentRooms(GameObject currentRoom)
+	public Dictionary<string, GameObject> GetAdjacentRooms(Vector2 currentPos)
 	{
 		//check if currentroom has already been extended and if it has then return
 		//check for any rooms above, below, to the right, left, and diagonally of the current room
@@ -249,7 +286,7 @@ public class RoomTemplates : MonoBehaviour
 		GameObject room = null;
 		for (int i = 0; i < 9; i++)
 		{
-			newPos = (Vector2)currentRoom.transform.position + directions[i];
+			newPos = currentPos + directions[i];
 			try
 			{
 				room = Physics2D.OverlapCircle(newPos, 1f).transform.root.gameObject;
@@ -392,4 +429,43 @@ public class RoomTemplates : MonoBehaviour
 	}
 
 	#endregion
+
+
+
+	//substitute for room pool so room pool can be removed from the scenes and room templates can be used instead as rooms will be instantiated instead of pooled
+	public GameObject GetRoom(string roomName = null)
+	{
+		if (roomName == null)
+		{
+			print("no room found - GetRoom");
+			return null;
+		}
+
+
+		//GameObject tmp = null;
+		//loop through all rooms and return the prefab that is needed
+		foreach (GameObject room in allRooms)
+		{
+			if (room.name.Equals(roomName))
+			{
+				print("room found - GetRoom");
+				return room;
+			}
+		}
+		return null;
+		//return tmp;
+	}
+
+	public GameObject GetExitRoom(string exitName = null)
+	{
+		foreach (GameObject room in exitRooms)
+		{
+			if (room.name.Equals(exitName))
+			{
+				return room;
+			}
+		}
+
+		return null;
+	}
 }

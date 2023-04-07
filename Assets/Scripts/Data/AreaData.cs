@@ -20,8 +20,7 @@ namespace Assets.Scripts.Data
 		public List<GameObject> rooms;
 		[SerializeField]public List<RoomData> roomsData;
 
-		public int numExits = 2;
-
+		//public int numExits = 2; //depreceated as room spawner now references movetoscenes in room templates
 	}
 }
 
