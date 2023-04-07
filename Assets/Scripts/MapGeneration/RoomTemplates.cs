@@ -98,9 +98,11 @@ public class RoomTemplates : MonoBehaviour
 		else if (GameManager.Instance.thisArea.area == Area.TESTING)
 		{
 			//test case
-			extendFunction.AddListener(HorizontalExtend);
+			//extendFunction.AddListener(HorizontalExtend);
 			//extendFunction.AddListener(TwoxTwoRoom);
 		}
+
+		//print("The number of methods is -RoomTemplates : " + extendFunction.ge);
 		#endregion
 
 		List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;

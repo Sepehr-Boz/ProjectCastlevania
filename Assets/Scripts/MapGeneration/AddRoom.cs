@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace Assets.Scripts.MapGeneration
@@ -37,8 +38,18 @@ namespace Assets.Scripts.MapGeneration
 			RoomTemplates templates = RoomTemplates.Instance;
 			//get the adjacent rooms
 			var adjRooms = templates.GetAdjacentRooms(transform.position);
+			
 			//call the correct method from templates
-			templates.extendFunction.Invoke(adjRooms);
+			//get the random index of the method to be called
+			int randFunc = Random.Range(0, templates.extendFunction.GetPersistentEventCount());
+			//get the method using the method name
+			System.Reflection.MethodInfo method = templates.GetType().GetMethod(templates.extendFunction.GetPersistentMethodName(randFunc));
+			if (method != null)
+			{
+				print("method performed is " + randFunc + templates.extendFunction.GetPersistentMethodName(randFunc));
+				//invoke the method from templates and pass in the adjRooms as a parameter
+				method.Invoke(templates, new object[] { adjRooms });
+			}
 		}
 
 		private void ActivateWalls()
