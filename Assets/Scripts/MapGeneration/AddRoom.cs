@@ -19,13 +19,13 @@ namespace Assets.Scripts.MapGeneration
 			{
 				int rand = Random.Range(0, 10); 
 
-				if (extended)
+				if (!extended)
 				{
-					if (rand <= 3) { Invoke(nameof(ExtendRoom), 1.5f); }
+					if (rand <= 9) { Invoke(nameof(ExtendRoom), 1.5f); }
 				}
 				else
 				{
-					if (rand <= 9) { Invoke(nameof(ExtendRoom), 1.5f); }
+					if (rand <= 1) { Invoke(nameof(ExtendRoom), 1.5f); }
 				}
 			}
 
@@ -49,6 +49,7 @@ namespace Assets.Scripts.MapGeneration
 				print("method performed is " + randFunc + templates.extendFunction.GetPersistentMethodName(randFunc));
 				//invoke the method from templates and pass in the adjRooms as a parameter
 				method.Invoke(templates, new object[] { adjRooms });
+				//templates.Invoke(nameof(method), new object[] { adjRooms });
 			}
 		}
 

@@ -139,6 +139,8 @@ public class RoomSpawner : MonoBehaviour
 			return room;
 		}
 
+		room = EndRoom(room);
+
 		//check if room can be changed into an exit
 		if (CheckIfCanBeExit(room))
 		{
@@ -167,6 +169,38 @@ public class RoomSpawner : MonoBehaviour
 
 		return room;
 	}
+
+	private GameObject EndRoom(GameObject room)
+	{
+		//check if the length of room is 50 to max
+		if (GameManager.Instance.thisArea.roomsData.Count >= GameManager.Instance.thisArea.maxMapSize - 20)
+		{
+			//change the room to an end room based on the opening direction
+			if (openingDirection == 1)
+			{
+				room = templates.GetRoom("D");
+			}
+			else if (openingDirection == 2)
+			{
+				//room = RoomTemplates.Instance.topRooms[0];
+				room = templates.GetRoom("U");
+			}
+			else if (openingDirection == 3)
+			{
+				//room = RoomTemplates.Instance.rightRooms[0];
+				room = templates.GetRoom("L");
+			}
+			else if (openingDirection == 4)
+			{
+				//room = RoomTemplates.Instance.leftRooms[0];
+				room = templates.GetRoom("R");
+			}
+
+		}
+
+		return room;
+	}
+
 
 	void OnTriggerEnter2D(Collider2D other){
 		//occurs when 2 rooms attempt to spawn a room at the same area

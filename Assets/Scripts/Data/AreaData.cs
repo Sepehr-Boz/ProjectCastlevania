@@ -19,6 +19,8 @@ namespace Assets.Scripts.Data
 
 		public List<GameObject> rooms;
 		[SerializeField]public List<RoomData> roomsData;
+
+		public int maxMapSize;
 	}
 }
 

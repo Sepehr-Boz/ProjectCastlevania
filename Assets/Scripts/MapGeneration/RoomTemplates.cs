@@ -71,6 +71,7 @@ public class RoomTemplates : MonoBehaviour
 
 	private void Start()
 	{
+		/*
 		#region adding extension method
 		if (GameManager.Instance.thisArea.area == Area.AREA1)
 		{
@@ -104,6 +105,8 @@ public class RoomTemplates : MonoBehaviour
 
 		//print("The number of methods is -RoomTemplates : " + extendFunction.ge);
 		#endregion
+		*/
+
 
 		List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;
 
@@ -264,7 +267,8 @@ public class RoomTemplates : MonoBehaviour
 			{
 				room = Physics2D.OverlapCircle(newPos, 1f).transform.root.gameObject;
 
-				if (room != null && !room.name.Contains("C"))
+				//ignore closed rooms, boss rooms, and exit rooms
+				if (room != null && !room.name.Contains("C") && !room.name.Equals("BossRoom") && !room.name.Contains("Exit"))
 				{
 					rooms[rooms.ElementAt(i).Key] = room;
 					//room.GetComponent<AddRoom>().extended = true;

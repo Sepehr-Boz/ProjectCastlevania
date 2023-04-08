@@ -18,3 +18,4 @@ MonoBehaviour:
   objects: []
   rooms: []
   roomsData: []
+  maxMapSize: 100
