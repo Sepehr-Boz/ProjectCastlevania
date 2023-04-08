@@ -18,4 +18,4 @@ MonoBehaviour:
   objects: []
   rooms: []
   roomsData: []
-  numExits: 2
+  maxMapSize: 100
