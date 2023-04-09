@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.MapGeneration
 {
@@ -8,8 +9,21 @@ namespace Assets.Scripts.MapGeneration
 	{
 		public bool extended = false;
 
+		//private Renderer renderer;
+		//private float time = 3f;
+
 		private void Start()
 		{
+			////define the renderer
+			//try
+			//{
+			//	renderer = transform.Find("Walls").GetComponent<TilemapRenderer>();
+			//}
+			//catch
+			//{
+			//	renderer=null;
+			//}
+
 			//add self to rooms
 			GameManager.Instance.thisArea.rooms.Add(this.gameObject);
 
@@ -31,6 +45,8 @@ namespace Assets.Scripts.MapGeneration
 
 			//activate all walls if the room is an exit or has a limited number of empty surrounding rooms
 			Invoke(nameof(ActivateWalls), 3f);
+
+			//Invoke(nameof(Update), 3f);
 		}
 
 		private void ExtendRoom()
@@ -67,5 +83,34 @@ namespace Assets.Scripts.MapGeneration
 				}
 			}
 		}
+
+		//private void Update()
+		//{
+		//	if (name.Contains("C"))
+		//	{
+		//		CancelInvoke(nameof(Update));
+		//	}
+
+
+		//	if (time <= 0)
+		//	{
+		//		//set inactive if not visible
+		//		if (!renderer.isVisible || renderer == null)
+		//		{
+		//			print(name + " is not visible ");
+		//			gameObject.SetActive(false);
+		//			print(name + "has been set inactive");
+		//		}
+		//		else
+		//		{
+		//			//set active if is visible
+		//			gameObject.SetActive(true);
+		//		}
+		//	}
+		//	else
+		//	{
+		//		time -= Time.deltaTime;
+		//	}
+		//}
 	}
 }

@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+		PlayerManager.Instance.gameObject.SetActive(true);
+
 		SceneManager.activeSceneChanged += SceneChanged;
 
 		//set target fps
@@ -62,9 +64,9 @@ public class GameManager : MonoBehaviour
 	}
 
 	//load the new scene
-	public void ChangeScene(string newScene, Vector2 newPos)
+	public void ChangeScene(string newScene)
 	{
 		SceneManager.LoadScene(newScene, LoadSceneMode.Single);
-		PlayerManager.Instance.currentPlayer.transform.position = newPos;
+		//PlayerManager.Instance.currentPlayer.transform.position = newPos;
 	}
 }

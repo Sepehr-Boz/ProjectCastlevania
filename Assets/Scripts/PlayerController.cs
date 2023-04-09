@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviour
 	private Vector2 velocity;
 
 	[Header("Health")]
-	public int health = 20;
-	public int maxHealth = 20;
+	public int hp;
+	public int maxHP;
 
 
 	public void Start()
@@ -41,22 +41,24 @@ public class PlayerController : MonoBehaviour
 	private void OnEnable()
 	{
 		//set health back to max health
-		health = maxHealth;
+		hp = maxHP;
 	}
 
 	private void FixedUpdate()
 	{
-		//if (health <= 0)
-		//{
-		//	PlayerManager.Instance.SwitchPlayer();
-		//}
+		if (hp <= 0)
+		{
+			PlayerManager.Instance.SwitchPlayer(gameObject);
+		}
+
+
 		rigidBody.velocity = velocity * moveForce;
 	}
 
 	//FOR TESTING
 	public void DecreaseHealth(InputAction.CallbackContext context)
 	{
-		health -= 10;
+		hp -= 10;
 	}
 
 	#region movements

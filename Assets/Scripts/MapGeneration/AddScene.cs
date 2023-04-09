@@ -35,8 +35,9 @@ public class AddScene : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            GameManager.Instance.ChangeScene(scene, position);
-            //move the current player to position
-        }
+            GameManager.Instance.ChangeScene(scene);
+			//move the current player to position
+			PlayerManager.Instance.currentPlayer.transform.position = position;
+		}
     }
 }

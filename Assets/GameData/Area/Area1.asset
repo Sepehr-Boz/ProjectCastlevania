@@ -17,5 +17,665 @@ MonoBehaviour:
   enemies: []
   objects: []
   rooms: []
-  roomsData: []
+  roomsData:
+  - position: {x: 0, y: 0, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 0, y: 10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DR
+    enemies: []
+    objects: []
+  - position: {x: 0, y: -10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 10, y: 0, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: L
+    enemies: []
+    objects: []
+  - position: {x: -10, y: 0, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 0, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UR
+    enemies: []
+    objects: []
+  - position: {x: 10, y: 10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: 10, y: -10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: L
+    enemies: []
+    objects: []
+  - position: {x: -10, y: 10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DR
+    enemies: []
+    objects: []
+  - position: {x: 0, y: -10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 10, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: -20, y: 0, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -10, y: -10, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: C 1
+    enemies: []
+    objects: []
+  - position: {x: 20, y: 10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: -20, y: 10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DR
+    enemies: []
+    objects: []
+  - position: {x: -20, y: -10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: ULR
+    enemies: []
+    objects: []
+  - position: {x: 20, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: -20, y: 0, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 30, y: 10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LExit
+    enemies: []
+    objects: []
+  - position: {x: 30, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DL
+    enemies: []
+    objects: []
+  - position: {x: -30, y: -10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: -30, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: C 1
+    enemies: []
+    objects: []
+  - position: {x: 30, y: -30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -40, y: -10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: 30, y: -40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: ULR
+    enemies: []
+    objects: []
+  - position: {x: 40, y: -30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DL
+    enemies: []
+    objects: []
+  - position: {x: 30, y: -30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 30, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DL
+    enemies: []
+    objects: []
+  - position: {x: -50, y: -10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 20, y: -40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: 40, y: -40, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: C 1
+    enemies: []
+    objects: []
+  - position: {x: 20, y: -30, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: C 1
+    enemies: []
+    objects: []
+  - position: {x: 30, y: -30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: ULR
+    enemies: []
+    objects: []
+  - position: {x: -50, y: 0, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 30, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DL
+    enemies: []
+    objects: []
+  - position: {x: -50, y: 10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DExit
+    enemies: []
+    objects: []
+  - position: {x: -50, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UR
+    enemies: []
+    objects: []
+  - position: {x: -50, y: -10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: U
+    enemies: []
+    objects: []
+  - position: {x: -40, y: 0, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -60, y: -10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: R
+    enemies: []
+    objects: []
+  - position: {x: 10, y: -40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: -60, y: 0, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: -40, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DL
+    enemies: []
+    objects: []
+  - position: {x: -40, y: 10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -50, y: -10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DL
+    enemies: []
+    objects: []
+  - position: {x: 0, y: -40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UR
+    enemies: []
+    objects: []
+  - position: {x: -70, y: 0, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DR
+    enemies: []
+    objects: []
+  - position: {x: -40, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 0, y: -30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DLR
+    enemies: []
+    objects: []
+  - position: {x: -40, y: 30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DLR
+    enemies: []
+    objects: []
+  - position: {x: -40, y: -30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: ULR
+    enemies: []
+    objects: []
+  - position: {x: -50, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: U
+    enemies: []
+    objects: []
+  - position: {x: -70, y: -10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: U
+    enemies: []
+    objects: []
+  - position: {x: -40, y: 10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UL
+    enemies: []
+    objects: []
+  - position: {x: -30, y: 10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: -30, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: L
+    enemies: []
+    objects: []
+  - position: {x: 10, y: -30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: -50, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UR
+    enemies: []
+    objects: []
+  - position: {x: -10, y: -30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -30, y: 30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: -30, y: -30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -50, y: 30, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: C 1
+    enemies: []
+    objects: []
+  - position: {x: -10, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -50, y: -30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: -10, y: -40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UR
+    enemies: []
+    objects: []
+  - position: {x: -40, y: 10, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: R
+    enemies: []
+    objects: []
+  - position: {x: -30, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: D
+    enemies: []
+    objects: []
+  - position: {x: -30, y: -40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: ULR
+    enemies: []
+    objects: []
+  - position: {x: -20, y: -30, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: C 1
+    enemies: []
+    objects: []
+  - position: {x: -20, y: 30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DL
+    enemies: []
+    objects: []
+  - position: {x: -20, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -60, y: -30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: -20, y: -40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -40, y: -40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -20, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -70, y: -30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -70, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DR
+    enemies: []
+    objects: []
+  - position: {x: -20, y: -50, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UR
+    enemies: []
+    objects: []
+  - position: {x: -40, y: -50, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -70, y: -40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: U
+    enemies: []
+    objects: []
+  - position: {x: -10, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UL
+    enemies: []
+    objects: []
+  - position: {x: -60, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -50, y: -40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: -80, y: -30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: R
+    enemies: []
+    objects: []
+  - position: {x: -40, y: -60, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: U
+    enemies: []
+    objects: []
+  - position: {x: -10, y: -50, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UL
+    enemies: []
+    objects: []
+  - position: {x: -30, y: -50, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: L
+    enemies: []
+    objects: []
+  - position: {x: -10, y: 30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: D
+    enemies: []
+    objects: []
+  - position: {x: -50, y: -50, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: C 1
+    enemies: []
+    objects: []
+  - position: {x: -50, y: -20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: -10, y: -40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: D
+    enemies: []
+    objects: []
+  - position: {x: -60, y: -40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: R
+    enemies: []
+    objects: []
+  - position: {x: -10, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: ULR
+    enemies: []
+    objects: []
+  - position: {x: 0, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: 10, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: -10, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: LR
+    enemies: []
+    objects: []
+  - position: {x: 20, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 20, y: 30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: D
+    enemies: []
+    objects: []
+  - position: {x: 30, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 30, y: 30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DLR
+    enemies: []
+    objects: []
+  - position: {x: 40, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: L
+    enemies: []
+    objects: []
+  - position: {x: 40, y: 30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 40, y: 40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: D
+    enemies: []
+    objects: []
+  - position: {x: 40, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: U
+    enemies: []
+    objects: []
+  - position: {x: 50, y: 30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: UDLR
+    enemies: []
+    objects: []
+  - position: {x: 50, y: 40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DR
+    enemies: []
+    objects: []
+  - position: {x: 50, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: U
+    enemies: []
+    objects: []
+  - position: {x: 60, y: 30, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: DL
+    enemies: []
+    objects: []
+  - position: {x: 60, y: 20, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: U
+    enemies: []
+    objects: []
+  - position: {x: 60, y: 40, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+    activeWalls: 00000000020000000100000003000000
+    name: L
+    enemies: []
+    objects: []
   maxMapSize: 100
