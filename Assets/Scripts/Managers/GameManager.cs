@@ -10,7 +10,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 	public AreaData thisArea;
-	public RoomTemplates templates;
 
 	public Cinemachine.CinemachineVirtualCamera virtualCamera;
 
@@ -36,33 +35,18 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		//delay setting templates active so that rooms can be pooled before having to be accessed
-		StartCoroutine(TemplateDelay());
-
 		SceneManager.activeSceneChanged += SceneChanged;
-
 
 		//set target fps
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = targetFPS;
 	}
 
-	private IEnumerator TemplateDelay()
-	{
-		yield return new WaitForSeconds(1);
-		templates.gameObject.SetActive(true);
-	}
-
 	private void SceneChanged(Scene current, Scene next)
 	{
-		print(current.name);
-		print(next.name);
+		//unload the resources from the previous scene to allow more memory and cpu/gpu power for the new scene
+		Resources.UnloadUnusedAssets();
 
-		if (current.name == "MazeA" || current.name == "MazeB")
-		{
-			//deletes room data before moving to the next scene
-			thisArea.roomsData.Clear();
-		}
 		thisArea.rooms.Clear();
 	}
 
@@ -74,46 +58,13 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		//FOR TESTING
 		Application.targetFrameRate = targetFPS;
-
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			SceneManager.LoadScene("MazeA");
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha2))
-		{
-			SceneManager.LoadScene("MazeB");
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha3))
-		{
-			SceneManager.LoadScene("AreaA");
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha4))
-		{
-			SceneManager.LoadScene("AreaB");
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha5))
-		{
-			SceneManager.LoadScene("AreaC");
-		}
-
-
-		
 	}
 
-
-	//load the correct scene
-	//called whenever the player is switched
-	public void LoadScene(PlayerData currentPlayer)
+	//load the new scene
+	public void ChangeScene(string newScene, Vector2 newPos)
 	{
-		SceneManager.LoadScene(currentPlayer.currentArea.ToString());
+		SceneManager.LoadScene(newScene, LoadSceneMode.Single);
+		PlayerManager.Instance.currentPlayer.transform.position = newPos;
 	}
-
-
-
-
-
-
-
 }
