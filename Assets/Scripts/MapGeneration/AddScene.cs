@@ -16,6 +16,15 @@ public class AddScene : MonoBehaviour
         //get the first index scene from room templates and remove it from the list so it cant be another portal with the same scene to move to
         scene = RoomTemplates.Instance.moveToScenes[0];
         RoomTemplates.Instance.moveToScenes.RemoveAt(0);
+
+        if (scene == null || scene == "")
+        {
+            //change name to not have exit
+            transform.root.name.Replace("Exit", "");
+            //destroy self as the portal wont lead anywhere
+            Destroy(gameObject);
+        }
+
 		position = Vector2.zero;
 
 		print("scene to move to is " + scene);
