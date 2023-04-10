@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		PlayerManager.Instance.gameObject.SetActive(true);
+		//PlayerManager.Instance.gameObject.SetActive(true);
 
 		SceneManager.activeSceneChanged += SceneChanged;
 
@@ -60,7 +60,10 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		Application.targetFrameRate = targetFPS;
+		if (Input.GetKeyDown(KeyCode.T))
+		{
+			Time.timeScale = 1;
+		}
 	}
 
 	//load the new scene

@@ -4,6 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -70,20 +72,17 @@ public class RoomSpawner : MonoBehaviour
 			//check that the room isnt null
 			if (room != null)
 			{
+				//change the current room if necessary
+				//room = ChangeRoom(room);
+
 				//check if room can be an exit
 				room = MakeExit(room);
 
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
 				int rand = Random.Range(0, 100);
-				//check if room should be an entry room
-				if (rand <= newEntryChance || templates.startRooms.Contains((Vector2)transform.position))
+				if (rand <= newEntryChance)
 				{
 					room = RoomTemplates.Instance.openRoom;
-				}
-				//check if room should be a boss room
-				else if (templates.bossRooms.Contains((Vector2)transform.position))
-				{
-					room = RoomTemplates.Instance.bossRoom;
 				}
 
 				//instantiate new room and remove the clone from its name
@@ -103,7 +102,7 @@ public class RoomSpawner : MonoBehaviour
 	}
 
 
-	private void SpawnClosedRoom()
+	private GameObject SpawnClosedRoom()
 	{
 		//get closed room
 		room = RoomTemplates.Instance.closedRoom;
@@ -117,13 +116,15 @@ public class RoomSpawner : MonoBehaviour
 		List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
 		GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
 		Destroy(gameObject);
+
+		return room;
 	}
 
 	private bool CheckIfCanBeExit(GameObject room)
 	{
 		if ((room.name == "U" || room.name == "D" || room.name == "L" || room.name == "R") && (RoomTemplates.Instance.moveToScenes.Count > 0))
 		{
-			print("can be an exit");
+			//print("can be an exit");
 			return true;
 		}
 
@@ -134,11 +135,13 @@ public class RoomSpawner : MonoBehaviour
 	{
 		//check if its an edge room
 		var adjRooms = templates.GetAdjacentRooms(transform.position);
+		//if theres less than 5 empty rooms then return the current room as it would be valid
 		if (templates.CountEmptyRooms(adjRooms) <= 4)
 		{
 			return room;
 		}
 
+		//otherwise make the room an exit
 		room = EndRoom(room);
 
 		//check if room can be changed into an exit
@@ -173,7 +176,7 @@ public class RoomSpawner : MonoBehaviour
 	private GameObject EndRoom(GameObject room)
 	{
 		//check if the length of room is 50 to max
-		if (GameManager.Instance.thisArea.roomsData.Count >= GameManager.Instance.thisArea.maxMapSize - 20)
+		if (GameManager.Instance.thisArea.roomsData.Count >= GameManager.Instance.thisArea.maxMapSize - 30)
 		{
 			//change the room to an end room based on the opening direction
 			if (openingDirection == 1)
@@ -201,6 +204,72 @@ public class RoomSpawner : MonoBehaviour
 		return room;
 	}
 
+	//private GameObject ChangeRoom(GameObject currentRoom)
+	//{
+	//	//get the neighbours of the current position
+	//	var adjRooms = RoomTemplates.Instance.GetAdjacentRooms(transform.position);
+	//	//check if current room is valid
+	//	bool valid = false;
+	//	if (currentRoom.name.Contains("U"))
+	//	{
+	//		if (adjRooms["TOP"] == null || adjRooms["TOP"].name.Contains("D"))
+	//		{
+	//			valid = true;
+	//		}
+	//		else
+	//		{
+	//			valid = false;
+	//		}
+	//	}
+	//	if (currentRoom.name.Contains("D"))
+	//	{
+	//		if (adjRooms["BOTTOM"] == null || adjRooms["BOTTOM"].name.Contains("U"))
+	//		{
+	//			valid = true;
+	//		}
+	//		else
+	//		{
+	//			valid = false;
+	//		}
+	//	}
+	//	if (currentRoom.name.Contains("L"))
+	//	{
+	//		if (adjRooms["LEFT"] == null || adjRooms["LEFT"].name.Contains("R"))
+	//		{
+	//			valid = true;
+	//		}
+	//		else
+	//		{
+	//			valid = false;
+	//		}
+	//	}
+	//	if (currentRoom.name.Contains("R"))
+	//	{
+	//		if (adjRooms["RIGHT"] == null || adjRooms["RIGHT"].name.Contains("L"))
+	//		{
+	//			valid = true;
+	//		}
+	//		else
+	//		{
+	//			valid = false;
+	//		}
+	//	}
+
+	//	if (valid)
+	//	{
+	//		return currentRoom;
+	//	}
+	//	else
+	//	{
+	//		//otherwise disable the walls between 2 rooms
+	//		//find the adjacent room that is closed off to the current room
+	//		if (adjRooms["TOP"] != null && !adjRooms["TOP"].name.Contains("D"))
+	//		{
+	//			RoomTemplates.Instance.VerticalExtend(adjRooms["TOP"], currentRoom)
+	//		}
+	//	}
+	//}
+
 
 	void OnTriggerEnter2D(Collider2D other){
 		//occurs when 2 rooms attempt to spawn a room at the same area
@@ -210,6 +279,8 @@ public class RoomSpawner : MonoBehaviour
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
 					Invoke(nameof(SpawnClosedRoom), openingDirection / 100f);
+
+					//disable the walls based on the current and collided opening direction
 				}
 
 				spawned = true;

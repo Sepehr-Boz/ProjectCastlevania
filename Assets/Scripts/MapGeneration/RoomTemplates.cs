@@ -27,14 +27,14 @@ public class RoomTemplates : MonoBehaviour
 
 	public GameObject[] allRooms; //used when spawning rooms from rooms data
 
-	public GameObject start;
+	public GameObject[] start;
 
 	[Header("Map Details")]
 	public List<string> moveToScenes; //queue structure, portals will fetch from here, roomspawner will check if can spawn exit by checking length of this
 	//private List<GameObject> rooms;
 	//private List<RoomData> roomsData;
-	public Vector2[] startRooms = new Vector2[4];
-	public Vector2[] bossRooms = new Vector2[2];
+	//public Vector2[] startRooms = new Vector2[4];
+	//public Vector2[] bossRooms = new Vector2[2];
 
 	private int i = 0; //used when spawning rooms from roomsdata
 	private readonly Vector2[] directions =
@@ -117,9 +117,12 @@ public class RoomTemplates : MonoBehaviour
 			print("rooms are empty");
 
 			//add the first room/ entry room to room data and set it active
-			List<Wall> walls = new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-			GameManager.Instance.thisArea.roomsData.Add(new RoomData(start.transform.position, start.transform.rotation, walls, start.name, new List<GameObject>(), new List<GameObject>()));
-			start.SetActive(true);
+			foreach (GameObject startRoom in start)
+			{
+				List<Wall> walls = new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+				GameManager.Instance.thisArea.roomsData.Add(new RoomData(startRoom.transform.position, startRoom.transform.rotation, walls, startRoom.name, new List<GameObject>(), new List<GameObject>()));
+				startRoom.SetActive(true);
+			}
 
 			//copy the walls of the map - 10f is a decent estimate for how long it should take maximum for the map to generate
 			Invoke(nameof(CopyWallsData), 10f);
@@ -276,7 +279,7 @@ public class RoomTemplates : MonoBehaviour
 			}
 			catch
 			{
-				print("no room found - GetAdjacentRooms");
+				//print("no room found - GetAdjacentRooms");
 			}
 			if (room == null)
 			{
@@ -300,7 +303,7 @@ public class RoomTemplates : MonoBehaviour
 			}
 		}
 
-		print("The number of empty adjacent rooms is " + count);
+		//print("The number of empty adjacent rooms is " + count);
 		return count;
 	}
 
@@ -388,7 +391,7 @@ public class RoomTemplates : MonoBehaviour
 		DisableVerticalWalls(connectedRooms["RIGHT"], connectedRooms["BOTTOMRIGHT"]);
 	}
 
-	private void DisableVerticalWalls(GameObject a, GameObject b)
+	public void DisableVerticalWalls(GameObject a, GameObject b)
 	{
 		if (a == null || b == null)
 		{
@@ -403,7 +406,7 @@ public class RoomTemplates : MonoBehaviour
 		a.GetComponent<AddRoom>().extended = true;
 		b.GetComponent<AddRoom>().extended = true;
 	}
-	private void DisableHorizontalWalls(GameObject a, GameObject b)
+	public void DisableHorizontalWalls(GameObject a, GameObject b)
 	{
 		if (a == null || b == null)
 		{
@@ -434,7 +437,7 @@ public class RoomTemplates : MonoBehaviour
 		{
 			if (room.name.Equals(roomName))
 			{
-				print("room found - GetRoom");
+				//print("room found - GetRoom");
 				return room;
 			}
 		}

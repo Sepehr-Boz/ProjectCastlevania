@@ -24,6 +24,33 @@ namespace Assets.Scripts.MapGeneration
 			//	renderer=null;
 			//}
 
+			//check if room is a closed one
+			if (name.Contains("C"))
+			{
+				Invoke(nameof(ExtendClosedRoom), 2f);
+
+
+				//if (adjRooms["TOP"] != null && adjRooms["TOP"].name.Contains("D"))
+				//{
+				//	transform.Find("Walls").Find("North").gameObject.SetActive(false);
+				//}
+				//if (adjRooms["BOTTOM"] != null && adjRooms["BOTTOM"].name.Contains("U"))
+				//{
+				//	transform.Find("Walls").Find("South").gameObject.SetActive(false);
+				//}
+				//if (adjRooms["LEFT"] != null && adjRooms["LEFT"].name.Contains("R"))
+				//{
+				//	transform.Find("Walls").Find("West").gameObject.SetActive(false);
+				//}
+				//if (adjRooms["RIGHT"] != null && adjRooms["RIGHT"].name.Contains("L"))
+				//{
+				//	transform.Find("Walls").Find("East").gameObject.SetActive(false);
+				//}
+			}
+
+
+
+
 			//add self to rooms
 			GameManager.Instance.thisArea.rooms.Add(this.gameObject);
 
@@ -49,6 +76,23 @@ namespace Assets.Scripts.MapGeneration
 			//Invoke(nameof(Update), 3f);
 		}
 
+		private void ExtendClosedRoom()
+		{
+			//get surrounding rooms
+			var adjRooms = RoomTemplates.Instance.GetAdjacentRooms(transform.position);
+			if (adjRooms["TOP"] != null && adjRooms["BOTTOM"] != null)
+			{
+				RoomTemplates.Instance.DisableVerticalWalls(adjRooms["TOP"], gameObject);
+				RoomTemplates.Instance.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
+			}
+			else if (adjRooms["LEFT"] != null && adjRooms["RIGHT"] != null)
+			{
+				RoomTemplates.Instance.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
+				RoomTemplates.Instance.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
+			}
+		}
+
+
 		private void ExtendRoom()
 		{
 			RoomTemplates templates = RoomTemplates.Instance;
@@ -67,6 +111,40 @@ namespace Assets.Scripts.MapGeneration
 				method.Invoke(templates, new object[] { adjRooms });
 				//templates.Invoke(nameof(method), new object[] { adjRooms });
 			}
+
+
+			////add random chance to extend to closed off rooms
+			//int rand = Random.Range(0, 1);
+			//if (rand == 0)
+			//{
+			//	//find the closed off room
+
+			//	//if the adjacent room isnt empty, isnt a closed room, and doesnt have an exit to the current room
+			//	if (adjRooms["TOP"] != null && !adjRooms["TOP"].name.Contains("C") && !adjRooms["TOP"].name.Contains("D"))
+			//	{
+			//		RoomTemplates.Instance.DisableVerticalWalls(adjRooms["TOP"], gameObject);
+			//		return;
+			//	}
+			//	if (adjRooms["BOTTOM"] != null && !adjRooms["BOTTOM"].name.Contains("C") && !adjRooms["BOTTOM"].name.Contains("U"))
+			//	{
+			//		RoomTemplates.Instance.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
+			//		return;
+			//	}
+			//	if (adjRooms["LEFT"] != null && !adjRooms["LEFT"].name.Contains("C") && !adjRooms["LEFT"].name.Contains("R"))
+			//	{
+			//		RoomTemplates.Instance.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
+			//		return;
+			//	}
+			//	if (adjRooms["RIGHT"] != null && !adjRooms["RIGHT"].name.Contains("C") && !adjRooms["RIGHT"].name.Contains("L"))
+			//	{
+			//		RoomTemplates.Instance.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
+			//		return;
+			//	}
+			//}
+			//else
+			//{
+			//	return;
+			//}
 		}
 
 		private void ActivateWalls()
