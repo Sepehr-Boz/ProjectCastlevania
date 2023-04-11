@@ -9,47 +9,13 @@ namespace Assets.Scripts.MapGeneration
 	{
 		public bool extended = false;
 
-		//private Renderer renderer;
-		//private float time = 3f;
-
 		private void Start()
 		{
-			////define the renderer
-			//try
-			//{
-			//	renderer = transform.Find("Walls").GetComponent<TilemapRenderer>();
-			//}
-			//catch
-			//{
-			//	renderer=null;
-			//}
-
 			//check if room is a closed one
 			if (name.Contains("C"))
 			{
 				Invoke(nameof(ExtendClosedRoom), 2f);
-
-
-				//if (adjRooms["TOP"] != null && adjRooms["TOP"].name.Contains("D"))
-				//{
-				//	transform.Find("Walls").Find("North").gameObject.SetActive(false);
-				//}
-				//if (adjRooms["BOTTOM"] != null && adjRooms["BOTTOM"].name.Contains("U"))
-				//{
-				//	transform.Find("Walls").Find("South").gameObject.SetActive(false);
-				//}
-				//if (adjRooms["LEFT"] != null && adjRooms["LEFT"].name.Contains("R"))
-				//{
-				//	transform.Find("Walls").Find("West").gameObject.SetActive(false);
-				//}
-				//if (adjRooms["RIGHT"] != null && adjRooms["RIGHT"].name.Contains("L"))
-				//{
-				//	transform.Find("Walls").Find("East").gameObject.SetActive(false);
-				//}
 			}
-
-
-
 
 			//add self to rooms
 			GameManager.Instance.thisArea.rooms.Add(this.gameObject);
@@ -72,8 +38,6 @@ namespace Assets.Scripts.MapGeneration
 
 			//activate all walls if the room is an exit or has a limited number of empty surrounding rooms
 			Invoke(nameof(ActivateWalls), 3f);
-
-			//Invoke(nameof(Update), 3f);
 		}
 
 		private void ExtendClosedRoom()
@@ -111,40 +75,6 @@ namespace Assets.Scripts.MapGeneration
 				method.Invoke(templates, new object[] { adjRooms });
 				//templates.Invoke(nameof(method), new object[] { adjRooms });
 			}
-
-
-			////add random chance to extend to closed off rooms
-			//int rand = Random.Range(0, 1);
-			//if (rand == 0)
-			//{
-			//	//find the closed off room
-
-			//	//if the adjacent room isnt empty, isnt a closed room, and doesnt have an exit to the current room
-			//	if (adjRooms["TOP"] != null && !adjRooms["TOP"].name.Contains("C") && !adjRooms["TOP"].name.Contains("D"))
-			//	{
-			//		RoomTemplates.Instance.DisableVerticalWalls(adjRooms["TOP"], gameObject);
-			//		return;
-			//	}
-			//	if (adjRooms["BOTTOM"] != null && !adjRooms["BOTTOM"].name.Contains("C") && !adjRooms["BOTTOM"].name.Contains("U"))
-			//	{
-			//		RoomTemplates.Instance.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
-			//		return;
-			//	}
-			//	if (adjRooms["LEFT"] != null && !adjRooms["LEFT"].name.Contains("C") && !adjRooms["LEFT"].name.Contains("R"))
-			//	{
-			//		RoomTemplates.Instance.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
-			//		return;
-			//	}
-			//	if (adjRooms["RIGHT"] != null && !adjRooms["RIGHT"].name.Contains("C") && !adjRooms["RIGHT"].name.Contains("L"))
-			//	{
-			//		RoomTemplates.Instance.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
-			//		return;
-			//	}
-			//}
-			//else
-			//{
-			//	return;
-			//}
 		}
 
 		private void ActivateWalls()
@@ -161,34 +91,5 @@ namespace Assets.Scripts.MapGeneration
 				}
 			}
 		}
-
-		//private void Update()
-		//{
-		//	if (name.Contains("C"))
-		//	{
-		//		CancelInvoke(nameof(Update));
-		//	}
-
-
-		//	if (time <= 0)
-		//	{
-		//		//set inactive if not visible
-		//		if (!renderer.isVisible || renderer == null)
-		//		{
-		//			print(name + " is not visible ");
-		//			gameObject.SetActive(false);
-		//			print(name + "has been set inactive");
-		//		}
-		//		else
-		//		{
-		//			//set active if is visible
-		//			gameObject.SetActive(true);
-		//		}
-		//	}
-		//	else
-		//	{
-		//		time -= Time.deltaTime;
-		//	}
-		//}
 	}
 }

@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class TrapController : MonoBehaviour
 {
+    protected Collider2D collider;
+
     [SerializeField] protected GameObject projectile;
     [SerializeField] protected Vector2 shootDir;
     [SerializeField] protected float shootSpeed;
@@ -13,17 +15,13 @@ public class TrapController : MonoBehaviour
 
     protected void Start()
     {
-        if (!GetComponent<Collider2D>())
-        {
-            //if theres no collider add one
-            gameObject.AddComponent<Collider2D>();
-        }
+        collider = GetComponent<Collider2D>();
     }
 
 	protected void Shoot()
 	{
 		GameObject proj = Instantiate(projectile);
-		proj.transform.position = transform.position;
+		proj.transform.position = (Vector2)transform.position + shootDir * 2f;
 		proj.SetActive(true);
 
 		proj.GetComponent<Rigidbody2D>().velocity = shootDir * shootSpeed;

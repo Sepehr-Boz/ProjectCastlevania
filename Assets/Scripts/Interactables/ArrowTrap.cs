@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class ArrowTrap : TrapController
 {
-	private Collider2D collider;
-
-
-	private void Start()
-	{
-		collider = GetComponent<Collider2D>();
-	}
-
-
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		//if pressed then play the particle effect at the collider location

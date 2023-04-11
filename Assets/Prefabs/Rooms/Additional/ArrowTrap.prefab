@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab46a62f3c4a4d249b61b3c5316aad98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 0}
+  projectile: {fileID: 3103558705875542181, guid: a33ec461ea66e9e4b91e7c306901f8e5, type: 3}
   shootDir: {x: 0, y: 0}
-  shootSpeed: 0
-  interactEffect: {fileID: 0}
+  shootSpeed: 5
+  interactEffect: {fileID: 8826445842891663480, guid: d4e5134494fe7f44ebd01bea08abdfad, type: 3}

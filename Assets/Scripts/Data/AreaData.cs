@@ -14,7 +14,8 @@ namespace Assets.Scripts.Data
 		public Area area;
 		public Color colour;
 
-		public List<GameObject> enemies; //list of enemies that CAN BE SPAWNED //NOT THE ONES THAT HAVE BEEN SPAWNED
+		public List<EnemyData> enemies;
+		//public List<GameObject> enemies; //list of enemies that CAN BE SPAWNED //NOT THE ONES THAT HAVE BEEN SPAWNED
 		public List<GameObject> objects; //list of objects that CAN BE SPAWNED //NOT THE ONES THAT HAVE BEEN SPAWNED
 
 		public List<GameObject> rooms;
@@ -138,4 +139,21 @@ public enum Wall
 	}
 
 	#endregion
+}
+
+[System.Serializable]public struct EnemyData
+{
+	public Vector3 position;
+	public Quaternion rotation;
+
+	public string name;
+	public int hp;
+
+	public EnemyData(Vector3 pos, Quaternion rot, string enemyName, int currentHP)
+	{
+		this.position = pos;
+		this.rotation = rot;
+		this.name = enemyName;
+		this.hp = currentHP;
+	}
 }

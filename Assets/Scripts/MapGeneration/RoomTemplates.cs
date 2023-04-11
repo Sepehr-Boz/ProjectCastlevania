@@ -71,43 +71,6 @@ public class RoomTemplates : MonoBehaviour
 
 	private void Start()
 	{
-		/*
-		#region adding extension method
-		if (GameManager.Instance.thisArea.area == Area.AREA1)
-		{
-			extendFunction.AddListener(HorizontalExtend);
-		}
-		else if (GameManager.Instance.thisArea.area == Area.AREA2)
-		{
-			extendFunction.AddListener(VerticalExtend);
-		}
-		else if (GameManager.Instance.thisArea.area == Area.AREA3)
-		{
-			extendFunction.AddListener(ThreexThreeRoom);
-		}
-		else if (GameManager.Instance.thisArea.area == Area.AREA4)
-		{
-			//next listener, can add multiple methods
-			extendFunction.AddListener(HorizontalExtend);
-			extendFunction.AddListener(VerticalExtend);
-		}
-		else if (GameManager.Instance.thisArea.area == Area.AREA5)
-		{
-			//next mlistener, maybe do nothing?
-			extendFunction.AddListener(TwoxTwoRoom);
-		}
-		else if (GameManager.Instance.thisArea.area == Area.TESTING)
-		{
-			//test case
-			//extendFunction.AddListener(HorizontalExtend);
-			//extendFunction.AddListener(TwoxTwoRoom);
-		}
-
-		//print("The number of methods is -RoomTemplates : " + extendFunction.ge);
-		#endregion
-		*/
-
-
 		List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;
 
 		//check if rooms are empty
@@ -241,9 +204,16 @@ public class RoomTemplates : MonoBehaviour
 			}
 			//remove the inactive walls from the roomsdata enum at the i index
 
+			Destroy(room);
+
 		}
 
 		print("WALLS COPIED");
+
+		//clear rooms list
+		GameManager.Instance.thisArea.rooms.Clear();
+		//spawn rooms from rooms data
+		InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.01f);
 	}
 
 	#endregion
