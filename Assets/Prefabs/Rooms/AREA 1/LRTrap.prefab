@@ -2705,8 +2705,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3103558705875542181, guid: a33ec461ea66e9e4b91e7c306901f8e5, type: 3}
     - target: {fileID: 4196560156109372763, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
+      propertyPath: shootDir.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4196560156109372763, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
       propertyPath: shootDir.y
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4196560156109372763, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
       propertyPath: shootSpeed

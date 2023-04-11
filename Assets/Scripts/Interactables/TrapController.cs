@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,6 +9,7 @@ public class TrapController : MonoBehaviour
     protected Collider2D collider;
 
     [SerializeField] protected GameObject projectile;
+    //shoot dir should only be in the range of -1 and 1
     [SerializeField] protected Vector2 shootDir;
     [SerializeField] protected float shootSpeed;
 

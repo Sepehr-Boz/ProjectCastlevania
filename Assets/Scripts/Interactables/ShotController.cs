@@ -12,7 +12,16 @@ public class ShotController : MonoBehaviour
     private void Start()
     {
         collider = GetComponent<Collider2D>();
-        StartCoroutine(EnableShot());
+
+        //set the shoot inactive when not visible so it doesnt damage enemies when not in view
+        if (!GetComponent<Renderer>().isVisible)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+			StartCoroutine(EnableShot());
+		}
     }
 
     private IEnumerator EnableShot()

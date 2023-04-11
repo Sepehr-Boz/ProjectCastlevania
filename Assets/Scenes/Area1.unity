@@ -255,7 +255,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
       propertyPath: allRooms.Array.size
-      value: 24
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
       propertyPath: start.Array.data[0]
@@ -271,7 +271,7 @@ PrefabInstance:
       objectReference: {fileID: 1805624470}
     - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
       propertyPath: topRooms.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
       propertyPath: bossRooms.Array.size
@@ -283,7 +283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
       propertyPath: leftRooms.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
       propertyPath: rightRooms.Array.size
@@ -356,7 +356,7 @@ PrefabInstance:
     - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
       propertyPath: topRooms.Array.data[5]
       value: 
-      objectReference: {fileID: 7161991503107603654, guid: a60638b7d5c2bdc4282c1cb5c7069808, type: 3}
+      objectReference: {fileID: 1060287152593398060, guid: abdf5eb7b01000840a4d033d38ba4e7e, type: 3}
     - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
       propertyPath: topRooms.Array.data[6]
       value: 
@@ -418,6 +418,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5933915601611941470, guid: 2910337cce220b644a919f61cd8b5dd6, type: 3}
     - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
+      propertyPath: allRooms.Array.data[24]
+      value: 
+      objectReference: {fileID: 1060287152593398060, guid: abdf5eb7b01000840a4d033d38ba4e7e, type: 3}
+    - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
       propertyPath: exitRooms.Array.data[0]
       value: 
       objectReference: {fileID: 7289422100793448187, guid: 37a26671dc431864fb56b1dbfbe1831b, type: 3}
@@ -461,6 +465,10 @@ PrefabInstance:
       propertyPath: leftRooms.Array.data[6]
       value: 
       objectReference: {fileID: 8179812656853620782, guid: 0acb2273a2d212f409fd698c7b495aa1, type: 3}
+    - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
+      propertyPath: leftRooms.Array.data[7]
+      value: 
+      objectReference: {fileID: 1060287152593398060, guid: abdf5eb7b01000840a4d033d38ba4e7e, type: 3}
     - target: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
       propertyPath: moveToScenes.Array.size
       value: 2
