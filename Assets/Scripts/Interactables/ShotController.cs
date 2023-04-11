@@ -38,6 +38,7 @@ public class ShotController : MonoBehaviour
             collision.gameObject.GetComponent<PlayerController>().hp -= damage;
         }
 
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

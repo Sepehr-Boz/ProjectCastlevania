@@ -128,3 +128,4 @@ MonoBehaviour:
   shootDir: {x: 0, y: 0}
   shootSpeed: 5
   interactEffect: {fileID: 8826445842891663480, guid: d4e5134494fe7f44ebd01bea08abdfad, type: 3}
+  startDelay: 1

@@ -10,7 +10,7 @@ public class LaserTrap : TrapController
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating(nameof(Shoot), shootInterval, shootInterval);
+        InvokeRepeating(nameof(Shoot), startDelay, shootInterval);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

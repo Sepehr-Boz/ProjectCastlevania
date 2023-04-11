@@ -1,9 +1,4 @@
-﻿using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.FullSerializer;
-using UnityEditor.SearchService;
-using UnityEditorInternal;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Data

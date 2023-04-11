@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4196560156109372761}
   - component: {fileID: 4196560156109372760}
-  - component: {fileID: 4196560156109372763}
   - component: {fileID: 4196560156109372762}
+  - component: {fileID: 4196560156109372763}
   m_Layer: 0
   m_Name: LaserTrap
   m_TagString: Untagged
@@ -86,23 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4196560156109372763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4196560156109372765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 764f7928cb45c934f85c86308c16e7f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectile: {fileID: 3103558705875542181, guid: a33ec461ea66e9e4b91e7c306901f8e5, type: 3}
-  shootDir: {x: 0, y: 1}
-  shootSpeed: 5
-  interactEffect: {fileID: 8826445842891663480, guid: d4e5134494fe7f44ebd01bea08abdfad, type: 3}
-  shootInterval: 3
 --- !u!61 &4196560156109372762
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -129,3 +112,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4196560156109372763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4196560156109372765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 764f7928cb45c934f85c86308c16e7f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 3103558705875542181, guid: a33ec461ea66e9e4b91e7c306901f8e5, type: 3}
+  shootDir: {x: 0, y: 1}
+  shootSpeed: 5
+  interactEffect: {fileID: 8826445842891663480, guid: d4e5134494fe7f44ebd01bea08abdfad, type: 3}
+  startDelay: 1
+  shootInterval: 0.5

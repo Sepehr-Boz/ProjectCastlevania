@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpikeTrap : TrapController
@@ -13,6 +12,8 @@ public class SpikeTrap : TrapController
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        collider = GetComponent<Collider2D>();
+
         collider.enabled = false;
 
         StartCoroutine(Stab());
@@ -20,6 +21,9 @@ public class SpikeTrap : TrapController
 
     private IEnumerator Stab()
     {
+        yield return new WaitForSeconds(startDelay);
+
+
         while (true)
         {
 			collider.enabled = true;

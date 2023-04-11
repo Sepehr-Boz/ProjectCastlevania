@@ -83,5 +83,6 @@ MonoBehaviour:
   shootDir: {x: 0, y: 0}
   shootSpeed: 0
   interactEffect: {fileID: 0}
-  attackInterval: 0
-  damage: 0
+  startDelay: 1
+  attackInterval: 2
+  damage: 1

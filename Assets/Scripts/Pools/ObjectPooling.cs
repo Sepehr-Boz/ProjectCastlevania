@@ -14,7 +14,7 @@ namespace Assets.Scripts.Pools
 
 		public bool objectsPooled = false;
 
-		public void Start()
+		protected void Start()
 		{
 			GameObject tmp;
 			int n = objectsToPool.Length;
