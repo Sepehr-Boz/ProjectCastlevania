@@ -658,6 +658,18 @@ PrefabInstance:
       propertyPath: start.Array.data[2]
       value: 
       objectReference: {fileID: 1805624470}
+    - target: {fileID: 432199419, guid: af1c0a4d14003734a8ecc55f8fd539f0, type: 3}
+      propertyPath: moveToScenes.Array.data[1].newPos.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 432199419, guid: af1c0a4d14003734a8ecc55f8fd539f0, type: 3}
+      propertyPath: moveToScenes.Array.data[0].sceneName
+      value: Area2
+      objectReference: {fileID: 0}
+    - target: {fileID: 432199419, guid: af1c0a4d14003734a8ecc55f8fd539f0, type: 3}
+      propertyPath: moveToScenes.Array.data[1].sceneName
+      value: Area3
+      objectReference: {fileID: 0}
     - target: {fileID: 126779639661370544, guid: af1c0a4d14003734a8ecc55f8fd539f0, type: 3}
       propertyPath: m_Name
       value: RoomManager

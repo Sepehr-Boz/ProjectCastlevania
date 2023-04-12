@@ -17,7 +17,9 @@ public class AddScene : MonoBehaviour
         mapCreation = GameObject.FindGameObjectWithTag("Rooms").GetComponent<MapCreation>();
         //add random scene and position
         //get the first index scene from room templates and remove it from the list so it cant be another portal with the same scene to move to
-        scene = mapCreation.moveToScenes[0];
+        scene = mapCreation.moveToScenes[0].sceneName;
+        position = mapCreation.moveToScenes[0].newPos;
+        //scene = mapCreation.moveToScenes[0];
         mapCreation.moveToScenes.RemoveAt(0);
 
         if (scene == null || scene == "")

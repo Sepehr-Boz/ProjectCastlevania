@@ -152,3 +152,21 @@ public enum Wall
 		this.hp = currentHP;
 	}
 }
+
+
+
+
+[System.Serializable]
+public class ListNode<T>
+{
+	public T val; //T has to be specified in the class name, but when calling it the T has to specified
+				  //public Vector2 position;
+	public ListNode<T> next;
+	//public TargetNode next;
+
+	public ListNode(T value, ListNode<T> next)
+	{
+		this.val = value;
+		this.next = next;
+	}
+}

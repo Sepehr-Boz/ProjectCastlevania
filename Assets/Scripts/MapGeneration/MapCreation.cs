@@ -11,8 +11,9 @@ public class MapCreation : MonoBehaviour
 
 
 	public GameObject[] start;
-	public List<string> moveToScenes;
-	[SerializeField] private List<string> scenesCopy;
+	//public List<string> moveToScenes;
+	public List<SceneEntry> moveToScenes;
+	private List<SceneEntry> scenesCopy;
 
     private int i = 0;
 
@@ -47,7 +48,7 @@ public class MapCreation : MonoBehaviour
 		if (AreRoomsEmpty())
 		{
 			//make a copy of the move to scenes so that on first map generation then the portals can have a list of scenes to get from
-			scenesCopy = new List<string>(moveToScenes);
+			scenesCopy = new List<SceneEntry>(moveToScenes);
 
 
 			//if empty then generate a new map
@@ -217,4 +218,17 @@ public class MapCreation : MonoBehaviour
 	}
 
 	#endregion
+}
+
+
+[System.Serializable]public struct SceneEntry
+{
+	public string sceneName; //scene name - have to be manually added
+	public Vector2 newPos; //positions are where the start rooms are in the next scene - have to be manually added
+
+	public SceneEntry(string name, Vector2 pos)
+	{
+		this.sceneName = name;
+		this.newPos = pos;
+	}
 }

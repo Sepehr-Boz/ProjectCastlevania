@@ -9,7 +9,7 @@ public class EnemyController : MonoBehaviour
 {
     [Header("Movement")]
     [Range(0f, 1f)]
-    public float moveSpeed;
+    [SerializeField]protected float moveSpeed;
     public Vector2 target;
 
     [Header("Combar")]
