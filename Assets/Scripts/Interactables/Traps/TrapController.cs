@@ -22,7 +22,7 @@ public class TrapController : MonoBehaviour
         collider = GetComponent<Collider2D>();
     }
 
-	protected void Shoot()
+	public void Shoot()
 	{
         //GameObject proj = Instantiate(projectile);
         GameObject proj = ProjectilePool.Instance.GetProjectile("Shot");

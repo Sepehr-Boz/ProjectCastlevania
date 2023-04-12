@@ -178,6 +178,7 @@ public class RoomSpawner : MonoBehaviour
 		//check if the length of room is 50 to max
 		if (GameManager.Instance.thisArea.roomsData.Count >= GameManager.Instance.thisArea.maxMapSize - 30)
 		{
+			print("room length is almost at the max: " + GameManager.Instance.thisArea.roomsData.Count + " / " + GameManager.Instance.thisArea.maxMapSize);
 			//change the room to an end room based on the opening direction
 			if (openingDirection == 1)
 			{

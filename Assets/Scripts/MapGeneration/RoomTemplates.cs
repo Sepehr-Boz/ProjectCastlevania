@@ -77,7 +77,7 @@ public class RoomTemplates : MonoBehaviour
 		if (AreRoomsEmpty())
 		{
 			//if empty then generate a new map
-			print("rooms are empty");
+			print("MAKE NEW MAP");
 
 			//add the first room/ entry room to room data and set it active
 			foreach (GameObject startRoom in start)
@@ -92,7 +92,7 @@ public class RoomTemplates : MonoBehaviour
 		}
 		else
 		{
-			print("rooms arent empty");
+			print("SPAWN EXISTENT MAP");
 
 			//if the rooms arent empty then set all spawnpoints inactive so rooms dont keep spawning
 			InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.01f);
@@ -104,19 +104,19 @@ public class RoomTemplates : MonoBehaviour
 	private void SpawnRoomFromRoomData()
 	{
 		//GameObject tmp = RoomPool.Instance.GetPooledRoom(GameManager.Instance.thisArea.roomsData[i].name);
-		print("Spawning rooms - SpawnRoomFromRoomData");
+		//print("Spawning rooms - SpawnRoomFromRoomData");
 
-		print(GameManager.Instance.thisArea.roomsData[i].name + "SpawnRoomFromRoomData");
+		//print(GameManager.Instance.thisArea.roomsData[i].name + "SpawnRoomFromRoomData");
 		GameObject tmp = GetRoom(GameManager.Instance.thisArea.roomsData[i].name);
-		print("tmp gotten - SpawnRoomFromRoomData");
+		//print("tmp gotten - SpawnRoomFromRoomData");
 
 		tmp = Instantiate(tmp);
 
-		print("tmp instantiated - SpawnRoomFromRoomData");
+		//print("tmp instantiated - SpawnRoomFromRoomData");
 
 		tmp.name = tmp.name.Replace("(Clone)", "");
 
-		print("tmp renamed - SpawnRoomFromRoomData");
+		//print("tmp renamed - SpawnRoomFromRoomData");
 		//set the SpawnPoints parent false so that the points stop spawning rooms
 		foreach (Transform point in tmp.transform.Find("SpawnPoints"))
 		{
@@ -131,7 +131,7 @@ public class RoomTemplates : MonoBehaviour
 
 		tmp.transform.SetPositionAndRotation(GameManager.Instance.thisArea.roomsData[i].position, GameManager.Instance.thisArea.roomsData[i].rotation);
 
-		print("tmp position set - SpawnRoomFromRoomData");
+		//print("tmp position set - SpawnRoomFromRoomData");
 		//set all walls inactive first
 		foreach (Transform wall in tmp.transform.Find("Walls"))
 		{

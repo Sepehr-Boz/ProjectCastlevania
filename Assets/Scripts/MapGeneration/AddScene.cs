@@ -27,7 +27,7 @@ public class AddScene : MonoBehaviour
 
 		position = Vector2.zero;
 
-		print("scene to move to is " + scene);
+		//print("scene to move to is " + scene);
     }
 
 
