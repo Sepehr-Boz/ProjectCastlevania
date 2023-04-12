@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class LaserTrap : TrapController
 {
+    private Collider2D collider;
+
     [SerializeField] private float shootInterval;
     //[SerializeField] private bool isHit = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        collider = GetComponent<Collider2D>();
+
         InvokeRepeating(nameof(Shoot), startDelay, shootInterval);
     }
 

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4196560156109372761}
   - component: {fileID: 4196560156109372760}
   - component: {fileID: 4196560156109372762}
-  - component: {fileID: 4196560156109372763}
+  - component: {fileID: 158162229612857074}
   m_Layer: 0
   m_Name: LaserTrap
   m_TagString: Untagged
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4196560156109372763
+--- !u!114 &158162229612857074
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 3103558705875542181, guid: a33ec461ea66e9e4b91e7c306901f8e5, type: 3}
-  shootDir: {x: 0, y: 1}
+  shootDir: {x: 0, y: 0}
   shootSpeed: 5
   interactEffect: {fileID: 8826445842891663480, guid: d4e5134494fe7f44ebd01bea08abdfad, type: 3}
   startDelay: 1

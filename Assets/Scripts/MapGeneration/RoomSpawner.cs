@@ -25,6 +25,9 @@ public class RoomSpawner : MonoBehaviour
 	[Header("References")]
 	//private RoomPool roomPool;
 	private RoomTemplates templates;
+	private MapCreation mapCreation;
+	private ExtensionMethods extensions;
+
 	private GameObject room = null;
 
 	[Header("Spawning")]
@@ -37,8 +40,17 @@ public class RoomSpawner : MonoBehaviour
 		//must destroy instead of setting inactive as the rooms will continue to spawn on top of each other even when set inactive
 		Destroy(gameObject, waitTime);
 
-		templates = RoomTemplates.Instance;
-		newEntryChance = templates.newEntryChance;
+
+		GameObject roomsRef = GameObject.FindGameObjectWithTag("Rooms");
+		templates = roomsRef.GetComponent<RoomTemplates>();
+		mapCreation = roomsRef.GetComponent<MapCreation>();
+		extensions = roomsRef.GetComponent<ExtensionMethods>();
+		//templates = RoomTemplates.Instance;
+		//mapCreation = MapCreation.Instance;
+		//extensions = ExtensionMethods.Instance;
+
+
+		newEntryChance = extensions.newEntryChance;
 
 		Invoke(nameof(Spawn), openingDirection / 100f);
 	}
@@ -51,22 +63,22 @@ public class RoomSpawner : MonoBehaviour
 			if(openingDirection == 1){
 				// Need to spawn a room with a BOTTOM door.
 				rand = Random.Range(0, templates.bottomRooms.Length);
-				room = RoomTemplates.Instance.bottomRooms[rand];
+				room = templates.bottomRooms[rand];
 			} 
 			else if(openingDirection == 2){
 				// Need to spawn a room with a TOP door.
 				rand = Random.Range(0, templates.topRooms.Length);
-				room = RoomTemplates.Instance.topRooms[rand];
+				room = templates.topRooms[rand];
 			}
 			else if(openingDirection == 3){
 				// Need to spawn a room with a LEFT door.
 				rand = Random.Range(0, templates.leftRooms.Length);
-				room = RoomTemplates.Instance.leftRooms[rand];
+				room = templates.leftRooms[rand];
 			}
 			else if(openingDirection == 4){
 				// Need to spawn a room with a RIGHT door.
 				rand = Random.Range(0, templates.rightRooms.Length);
-				room = RoomTemplates.Instance.rightRooms[rand];
+				room = templates.rightRooms[rand];
 			}
 
 			//check that the room isnt null
@@ -82,7 +94,7 @@ public class RoomSpawner : MonoBehaviour
 				int rand = Random.Range(0, 100);
 				if (rand <= newEntryChance)
 				{
-					room = RoomTemplates.Instance.openRoom;
+					room = templates.openRoom;
 				}
 
 				//instantiate new room and remove the clone from its name
@@ -93,7 +105,7 @@ public class RoomSpawner : MonoBehaviour
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				room.SetActive(true);
 				//add new room to room data
-				List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+				List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
 				GameManager.Instance.thisArea.roomsData.Add(new RoomData(room.transform.position, room.transform.rotation, walls, room.name, new List<GameObject>(), new List<GameObject>()));
 			}
 
@@ -105,7 +117,7 @@ public class RoomSpawner : MonoBehaviour
 	private GameObject SpawnClosedRoom()
 	{
 		//get closed room
-		room = RoomTemplates.Instance.closedRoom;
+		room = templates.closedRoom;
 		//instantiate new closed room and remove clone
 		room = Instantiate(room);
 		room.name = room.name.Replace("(Clone)", "");
@@ -113,7 +125,7 @@ public class RoomSpawner : MonoBehaviour
 		room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 		room.SetActive(true);
 		//add to room data
-		List<Wall> walls = new List<Wall> { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+		List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
 		GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
 		Destroy(gameObject);
 
@@ -122,7 +134,7 @@ public class RoomSpawner : MonoBehaviour
 
 	private bool CheckIfCanBeExit(GameObject room)
 	{
-		if ((room.name == "U" || room.name == "D" || room.name == "L" || room.name == "R") && (RoomTemplates.Instance.moveToScenes.Count > 0))
+		if ((room.name == "U" || room.name == "D" || room.name == "L" || room.name == "R") && (mapCreation.moveToScenes.Count > 0))
 		{
 			//print("can be an exit");
 			return true;
@@ -134,9 +146,9 @@ public class RoomSpawner : MonoBehaviour
 	private GameObject MakeExit(GameObject room)
 	{
 		//check if its an edge room
-		var adjRooms = templates.GetAdjacentRooms(transform.position);
+		var adjRooms = extensions.GetAdjacentRooms(transform.position);
 		//if theres less than 5 empty rooms then return the current room as it would be valid
-		if (templates.CountEmptyRooms(adjRooms) <= 4)
+		if (extensions.CountEmptyRooms(adjRooms) <= 4)
 		{
 			return room;
 		}
@@ -151,19 +163,19 @@ public class RoomSpawner : MonoBehaviour
 			GameObject newRoom = null;
 			if (room.name.Equals("U"))
 			{
-				newRoom = RoomTemplates.Instance.GetExitRoom("UExit");
+				newRoom = templates.GetExitRoom("UExit");
 			}
 			else if (room.name.Equals("D"))
 			{
-				newRoom = RoomTemplates.Instance.GetExitRoom("DExit");
+				newRoom = templates.GetExitRoom("DExit");
 			}
 			else if (room.name.Equals("L"))
 			{
-				newRoom = RoomTemplates.Instance.GetExitRoom("LExit");
+				newRoom = templates.GetExitRoom("LExit");
 			}
 			else if (room.name.Equals("R"))
 			{
-				newRoom = RoomTemplates.Instance.GetExitRoom("RExit");
+				newRoom = templates.GetExitRoom("RExit");
 			}
 			//return exit room
 			newRoom.transform.SetPositionAndRotation(room.transform.position, room.transform.rotation);
@@ -204,72 +216,6 @@ public class RoomSpawner : MonoBehaviour
 
 		return room;
 	}
-
-	//private GameObject ChangeRoom(GameObject currentRoom)
-	//{
-	//	//get the neighbours of the current position
-	//	var adjRooms = RoomTemplates.Instance.GetAdjacentRooms(transform.position);
-	//	//check if current room is valid
-	//	bool valid = false;
-	//	if (currentRoom.name.Contains("U"))
-	//	{
-	//		if (adjRooms["TOP"] == null || adjRooms["TOP"].name.Contains("D"))
-	//		{
-	//			valid = true;
-	//		}
-	//		else
-	//		{
-	//			valid = false;
-	//		}
-	//	}
-	//	if (currentRoom.name.Contains("D"))
-	//	{
-	//		if (adjRooms["BOTTOM"] == null || adjRooms["BOTTOM"].name.Contains("U"))
-	//		{
-	//			valid = true;
-	//		}
-	//		else
-	//		{
-	//			valid = false;
-	//		}
-	//	}
-	//	if (currentRoom.name.Contains("L"))
-	//	{
-	//		if (adjRooms["LEFT"] == null || adjRooms["LEFT"].name.Contains("R"))
-	//		{
-	//			valid = true;
-	//		}
-	//		else
-	//		{
-	//			valid = false;
-	//		}
-	//	}
-	//	if (currentRoom.name.Contains("R"))
-	//	{
-	//		if (adjRooms["RIGHT"] == null || adjRooms["RIGHT"].name.Contains("L"))
-	//		{
-	//			valid = true;
-	//		}
-	//		else
-	//		{
-	//			valid = false;
-	//		}
-	//	}
-
-	//	if (valid)
-	//	{
-	//		return currentRoom;
-	//	}
-	//	else
-	//	{
-	//		//otherwise disable the walls between 2 rooms
-	//		//find the adjacent room that is closed off to the current room
-	//		if (adjRooms["TOP"] != null && !adjRooms["TOP"].name.Contains("D"))
-	//		{
-	//			RoomTemplates.Instance.VerticalExtend(adjRooms["TOP"], currentRoom)
-	//		}
-	//	}
-	//}
 
 
 	void OnTriggerEnter2D(Collider2D other){

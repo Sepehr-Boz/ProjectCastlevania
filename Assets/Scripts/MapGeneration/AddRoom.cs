@@ -9,12 +9,17 @@ namespace Assets.Scripts.MapGeneration
 	{
 		public bool extended = false;
 
+		private ExtensionMethods extensions;
+
 		private void Start()
 		{
+			extensions = GameObject.FindGameObjectWithTag("Rooms").GetComponent<ExtensionMethods>();
+			//extensions = ExtensionMethods.Instance;
+
 			//check if room is a closed one
 			if (name.Contains("C"))
 			{
-				Invoke(nameof(ExtendClosedRoom), 2f);
+				Invoke(nameof(ExtendClosedRoom), 1f);
 			}
 
 			//add self to rooms
@@ -28,62 +33,62 @@ namespace Assets.Scripts.MapGeneration
 
 				if (!extended)
 				{
-					if (rand <= 9) { Invoke(nameof(ExtendRoom), 1.5f); }
+					if (rand <= 9) { Invoke(nameof(ExtendRoom), 1f); }
 				}
 				else
 				{
-					if (rand <= 1) { Invoke(nameof(ExtendRoom), 1.5f); }
+					if (rand <= 1) { Invoke(nameof(ExtendRoom), 1f); }
 				}
 			}
 
 			//activate all walls if the room is an exit or has a limited number of empty surrounding rooms
-			Invoke(nameof(ActivateWalls), 3f);
+			Invoke(nameof(ActivateWalls), 2f);
 		}
 
 		private void ExtendClosedRoom()
 		{
 			//get surrounding rooms
-			var adjRooms = RoomTemplates.Instance.GetAdjacentRooms(transform.position);
+			var adjRooms = extensions.GetAdjacentRooms(transform.position);
 			if (adjRooms["TOP"] != null && adjRooms["BOTTOM"] != null)
 			{
-				RoomTemplates.Instance.DisableVerticalWalls(adjRooms["TOP"], gameObject);
-				RoomTemplates.Instance.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
+				extensions.DisableVerticalWalls(adjRooms["TOP"], gameObject);
+				extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
 			}
 			else if (adjRooms["LEFT"] != null && adjRooms["RIGHT"] != null)
 			{
-				RoomTemplates.Instance.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
-				RoomTemplates.Instance.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
+				extensions.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
+				extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
 			}
 		}
 
 
 		private void ExtendRoom()
 		{
-			RoomTemplates templates = RoomTemplates.Instance;
+			//ExtensionMethods extensions = ExtensionMethods.Instance;
 			//get the adjacent rooms
-			var adjRooms = templates.GetAdjacentRooms(transform.position);
+			var adjRooms = extensions.GetAdjacentRooms(transform.position);
 			
 			//call the correct method from templates
 			//get the random index of the method to be called
-			int randFunc = Random.Range(0, templates.extendFunction.GetPersistentEventCount());
+			int randFunc = Random.Range(0, extensions.extendFunction.GetPersistentEventCount());
 			//get the method using the method name
-			System.Reflection.MethodInfo method = templates.GetType().GetMethod(templates.extendFunction.GetPersistentMethodName(randFunc));
+			System.Reflection.MethodInfo method = extensions.GetType().GetMethod(extensions.extendFunction.GetPersistentMethodName(randFunc));
 			if (method != null)
 			{
-				print("method performed is " + randFunc + templates.extendFunction.GetPersistentMethodName(randFunc));
+				print("method performed is " + randFunc + extensions.extendFunction.GetPersistentMethodName(randFunc));
 				//invoke the method from templates and pass in the adjRooms as a parameter
-				method.Invoke(templates, new object[] { adjRooms });
+				method.Invoke(extensions, new object[] { adjRooms });
 				//templates.Invoke(nameof(method), new object[] { adjRooms });
 			}
 		}
 
 		private void ActivateWalls()
 		{
-			RoomTemplates templates = RoomTemplates.Instance;
-			var adjRooms = templates.GetAdjacentRooms(transform.position);
+			//ExtensionMethods extensions = ExtensionMethods.Instance;
+			var adjRooms = extensions.GetAdjacentRooms(transform.position);
 
 			//check for the number of empty rooms or if the name has exit in it
-			if (templates.CountEmptyRooms(adjRooms) >= 5 || name.Contains("Exit"))
+			if (extensions.CountEmptyRooms(adjRooms) >= 5 || name.Contains("Exit"))
 			{
 				foreach (Transform wall in transform.Find("Walls"))
 				{

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SpikeTrap : TrapController
 {
+    private Collider2D collider;
     private SpriteRenderer spriteRenderer;
 
     [SerializeField] private float attackInterval;
@@ -13,7 +14,7 @@ public class SpikeTrap : TrapController
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         collider = GetComponent<Collider2D>();
-
+        //collider = GetComponent<Collider2D>();
         collider.enabled = false;
 
         StartCoroutine(Stab());

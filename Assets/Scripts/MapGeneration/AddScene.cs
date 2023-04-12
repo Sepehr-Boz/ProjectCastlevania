@@ -7,15 +7,18 @@ using Random = UnityEngine.Random;
 
 public class AddScene : MonoBehaviour
 {
+    private MapCreation mapCreation;
+
     public string scene;
     public Vector2 position;
 
     private void Start()
     {
+        mapCreation = GameObject.FindGameObjectWithTag("Rooms").GetComponent<MapCreation>();
         //add random scene and position
         //get the first index scene from room templates and remove it from the list so it cant be another portal with the same scene to move to
-        scene = RoomTemplates.Instance.moveToScenes[0];
-        RoomTemplates.Instance.moveToScenes.RemoveAt(0);
+        scene = mapCreation.moveToScenes[0];
+        mapCreation.moveToScenes.RemoveAt(0);
 
         if (scene == null || scene == "")
         {

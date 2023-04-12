@@ -672,12 +672,65 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2896685879717200126, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
   m_PrefabInstance: {fileID: 180164718}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 432199417}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4cc06f72d4f395498251132a4123e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &432199417 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2896685879717200127, guid: 995c91b1307e91c448f59bc71f18822f, type: 3}
+  m_PrefabInstance: {fileID: 180164718}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &432199418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432199417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c4b96d9917b804abeaad7ae2227d62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  extendFunction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 432199418}
+        m_TargetAssemblyTypeName: ExtensionMethods, Assembly-CSharp
+        m_MethodName: HorizontalExtend
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  newEntryChance: 20
+--- !u!114 &432199419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432199417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a011b34cb783e4249958abc17897d539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  start:
+  - {fileID: 1613166927}
+  - {fileID: 2089048134}
+  - {fileID: 1805624470}
+  moveToScenes:
+  - Area2
+  - Area3
+  scenesCopy: []
 --- !u!1001 &696341262
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1141,6 +1194,10 @@ PrefabInstance:
     - target: {fileID: 5250574314092716922, guid: 890769855070a084bba7acf32af82291, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7417487759748561704, guid: 890769855070a084bba7acf32af82291, type: 3}
+      propertyPath: amountToPool
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7512708906017488664, guid: 890769855070a084bba7acf32af82291, type: 3}
       propertyPath: m_Name
