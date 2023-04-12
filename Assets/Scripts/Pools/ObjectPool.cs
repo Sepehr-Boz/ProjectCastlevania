@@ -22,9 +22,9 @@ namespace Assets.Scripts.Pools
 		//}
 		//#endregion
 
-		private void Start()
-		{
-			base.Start();
-		}
+		//private void Start()
+		//{
+		//	base.Start();
+		//}
 	}
 }

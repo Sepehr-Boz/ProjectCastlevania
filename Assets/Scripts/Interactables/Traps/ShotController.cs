@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class ShotController : MonoBehaviour
 {
-    private Collider2D collider;
+    //may get warning message saying that collider hides inherited member Component.collider
+    //what that means is that every gameobject already has a variable named 'collider' set to it that references the collider attached to the gameobject
+    //HOWEVER, Component.collider is depreceated so can't use it anymore and have to define collider in script
+    //have to user new Collider collider as the warning message will still appear even though its depreceated -_- bruh
+    private new Collider2D collider;
 
     public int damage = 1;
     public float delay = 1f;

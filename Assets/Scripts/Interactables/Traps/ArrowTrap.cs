@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ArrowTrap : TrapController
 {
-	[SerializeField] private Collider2D collider;
+	[SerializeField] private new Collider2D collider;
 
 
 	private void OnTriggerEnter2D(Collider2D collision)

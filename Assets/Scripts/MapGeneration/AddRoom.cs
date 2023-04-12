@@ -75,7 +75,7 @@ namespace Assets.Scripts.MapGeneration
 			System.Reflection.MethodInfo method = extensions.GetType().GetMethod(extensions.extendFunction.GetPersistentMethodName(randFunc));
 			if (method != null)
 			{
-				print("method performed is " + randFunc + extensions.extendFunction.GetPersistentMethodName(randFunc));
+				//print("method performed is " + randFunc + extensions.extendFunction.GetPersistentMethodName(randFunc));
 				//invoke the method from templates and pass in the adjRooms as a parameter
 				method.Invoke(extensions, new object[] { adjRooms });
 				//templates.Invoke(nameof(method), new object[] { adjRooms });

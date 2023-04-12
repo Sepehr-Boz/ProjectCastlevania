@@ -25,7 +25,7 @@ public class ProjectilePool : ObjectPooling
 	#endregion
 
 
-	private void Start()
+	private new void Start()
 	{
 		base.Start();
 
