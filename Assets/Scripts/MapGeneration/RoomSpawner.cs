@@ -98,15 +98,28 @@ public class RoomSpawner : MonoBehaviour
 				}
 
 				//instantiate new room and remove the clone from its name
-				room = Instantiate(room);
-				room.name = room.name.Replace("(Clone)", "");
+				GameObject newRoom = Instantiate(room);
+				newRoom.name = newRoom.name.Replace("(Clone)", "");
 
 				//move the room to the new position and set it active
-				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
-				room.SetActive(true);
+				newRoom.transform.SetPositionAndRotation(transform.position, transform.rotation);
+				newRoom.SetActive(true);
+
+				//make new roomdata and room node
+				RoomData data = new(room, transform.position, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
+				RoomNode newNode = new(newRoom, data, null);
+
+				//add new node to the tails next
+				mapCreation.tail.next = newNode;
+				//iterate tail in mapcreation to the new node
+				mapCreation.tail = mapCreation.tail.next;
+
+				//increment current map size
+				GameManager.Instance.thisArea.currentMapSize++;
+
 				//add new room to room data
-				List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-				GameManager.Instance.thisArea.roomsData.Add(new RoomData(room.transform.position, room.transform.rotation, walls, room.name, new List<GameObject>(), new List<GameObject>()));
+				//List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+				//GameManager.Instance.thisArea.roomsData.Add(new RoomData(room.transform.position, room.transform.rotation, walls, room.name, new List<GameObject>(), new List<GameObject>()));
 			}
 
 			spawned = true;
@@ -114,6 +127,7 @@ public class RoomSpawner : MonoBehaviour
 	}
 
 
+	//slight change could be made - SpawnClosedRoom doesnt need to return anything so change to void???
 	private GameObject SpawnClosedRoom()
 	{
 		//get closed room
@@ -125,8 +139,20 @@ public class RoomSpawner : MonoBehaviour
 		room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 		room.SetActive(true);
 		//add to room data
-		List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-		GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
+		//List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+		//GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
+
+		//make new roomdata and roomnode
+		RoomData data = new(templates.closedRoom, transform.position, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
+		RoomNode newNode = new(room, data, null);
+
+		//add to tail and increment tail to next
+		mapCreation.tail.next = newNode;
+		mapCreation.tail = mapCreation.tail.next;
+
+		//increment current map size
+		GameManager.Instance.thisArea.currentMapSize++;
+
 		Destroy(gameObject);
 
 		return room;
@@ -188,9 +214,11 @@ public class RoomSpawner : MonoBehaviour
 	private GameObject EndRoom(GameObject room)
 	{
 		//check if the length of room is 50 to max
-		if (GameManager.Instance.thisArea.roomsData.Count >= GameManager.Instance.thisArea.maxMapSize - 30)
+		//if (GameManager.Instance.thisArea.roomsData.Count >= GameManager.Instance.thisArea.maxMapSize - 30)
+		if (GameManager.Instance.thisArea.currentMapSize >= GameManager.Instance.thisArea.maxMapSize - 30)
 		{
-			print("room length is almost at the max: " + GameManager.Instance.thisArea.roomsData.Count + " / " + GameManager.Instance.thisArea.maxMapSize);
+			//print("room length is almost at the max: " + GameManager.Instance.thisArea.roomsData.Count + " / " + GameManager.Instance.thisArea.maxMapSize);
+			print("room length is almost at the max: " + GameManager.Instance.thisArea.currentMapSize + " / " + GameManager.Instance.thisArea.maxMapSize);
 			//change the room to an end room based on the opening direction
 			if (openingDirection == 1)
 			{
