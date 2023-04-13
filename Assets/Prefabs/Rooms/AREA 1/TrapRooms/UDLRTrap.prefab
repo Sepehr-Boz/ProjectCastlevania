@@ -2773,6 +2773,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2849567333205021867}
     m_Modifications:
+    - target: {fileID: 158162229612857074, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
+      propertyPath: shootDir.y
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 4196560156109372761, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -2839,6 +2843,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6389789327501283896}
     m_Modifications:
+    - target: {fileID: 158162229612857074, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
+      propertyPath: shootDir.x
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 4196560156109372761, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -2909,6 +2917,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 707465181176899669}
     m_Modifications:
+    - target: {fileID: 158162229612857074, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
+      propertyPath: shootDir.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4196560156109372761, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -2971,6 +2983,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4269514789192973795}
     m_Modifications:
+    - target: {fileID: 158162229612857074, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
+      propertyPath: shootDir.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4196560156109372761, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
       propertyPath: m_RootOrder
       value: 0

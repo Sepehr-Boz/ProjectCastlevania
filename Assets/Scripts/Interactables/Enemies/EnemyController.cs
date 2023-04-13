@@ -12,7 +12,9 @@ public class EnemyController : MonoBehaviour
     [SerializeField]protected float moveSpeed;
     public Vector2 target;
 
-    [Header("Combar")]
+    [Header("Combat")]
+    //int IDamageable.hp { get; set; }
+    //int IDamageable.maxHP { get; set; }
     public int hp;
     public int maxHP;
 

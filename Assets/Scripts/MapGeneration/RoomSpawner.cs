@@ -105,8 +105,11 @@ public class RoomSpawner : MonoBehaviour
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				room.SetActive(true);
 				//add new room to room data
-				List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-				GameManager.Instance.thisArea.roomsData.Add(new RoomData(room.transform.position, room.transform.rotation, walls, room.name, new List<GameObject>(), new List<GameObject>()));
+				//List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+				//GameManager.Instance.thisArea.roomsData.Add(new RoomData(room.transform.position, room.transform.rotation, walls, room.name, new List<GameObject>(), new List<GameObject>()));
+
+				RoomData newData = new RoomData(transform.position, room.name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
+				GameManager.Instance.thisArea.roomsData.Add(newData);
 			}
 
 			spawned = true;
@@ -125,8 +128,13 @@ public class RoomSpawner : MonoBehaviour
 		room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 		room.SetActive(true);
 		//add to room data
-		List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-		GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
+		//List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+		//GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
+
+		RoomData newData = new RoomData(transform.position, room.name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
+		GameManager.Instance.thisArea.roomsData.Add(newData);
+
+		
 		Destroy(gameObject);
 
 		return room;

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
 using UnityEngine;
+using System.Linq.Expressions;
+using Unity.VisualScripting;
 
 public class ExtensionMethods : MonoBehaviour
 {
@@ -191,8 +193,16 @@ public class ExtensionMethods : MonoBehaviour
 
 		//disable the north walls between the 2 rooms
 		//remove the walls enum from each room
-		a.transform.Find("Walls").Find("South").gameObject.SetActive(false);
-		b.transform.Find("Walls").Find("North").gameObject.SetActive(false);
+		try
+		{
+			a.transform.Find("Walls").Find("South").gameObject.SetActive(false);
+			b.transform.Find("Walls").Find("North").gameObject.SetActive(false);
+		}
+		catch
+		{
+			print(a.name);
+			print(b.name);
+		}
 
 		a.GetComponent<AddRoom>().extended = true;
 		b.GetComponent<AddRoom>().extended = true;

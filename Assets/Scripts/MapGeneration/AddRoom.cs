@@ -10,25 +10,28 @@ namespace Assets.Scripts.MapGeneration
 		public bool extended = false;
 
 		private ExtensionMethods extensions;
+		private MapCreation mapCreation;
 
 		private void Start()
 		{
 			extensions = GameObject.FindGameObjectWithTag("Rooms").GetComponent<ExtensionMethods>();
+			mapCreation = GameObject.FindGameObjectWithTag("Rooms").GetComponent<MapCreation>();
 			//extensions = ExtensionMethods.Instance;
-
-			//check if room is a closed one
-			if (name.Contains("C"))
-			{
-				Invoke(nameof(ExtendClosedRoom), 1f);
-			}
 
 			//add self to rooms
 			GameManager.Instance.thisArea.rooms.Add(this.gameObject);
 
 			//extend rooms if the map hasnt already been generated
 			//when generating maps from rooms data then the number of rooms and roomsdata wont match up so check for if the number of rooms and rooms data are the same
-			if (GameManager.Instance.thisArea.rooms.Count == GameManager.Instance.thisArea.roomsData.Count)
+			//if (GameManager.Instance.thisArea.rooms.Count == GameManager.Instance.thisArea.roomsData.Count)
+			if (mapCreation.isNewMap)
 			{
+				//check if room is a closed one
+				if (name.Contains("C"))
+				{
+					Invoke(nameof(ExtendClosedRoom), 1f);
+				}
+
 				int rand = Random.Range(0, 10); 
 
 				if (!extended)
@@ -43,6 +46,15 @@ namespace Assets.Scripts.MapGeneration
 
 			//activate all walls if the room is an exit or has a limited number of empty surrounding rooms
 			Invoke(nameof(ActivateWalls), 2f);
+
+			//Invoke(nameof(ParentRoom), 3f);
+		}
+
+		private void ParentRoom()
+		{
+			Transform mapParent = mapCreation.mapParent;
+
+			transform.parent = mapParent;
 		}
 
 		private void ExtendClosedRoom()

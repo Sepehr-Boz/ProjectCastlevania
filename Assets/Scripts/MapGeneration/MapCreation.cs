@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,6 +9,10 @@ public class MapCreation : MonoBehaviour
 	[Header("Other scripts")]
 	private RoomTemplates templates;
 	//private ExtensionMethods extensions;
+
+
+	public Transform mapParent;
+	public bool isNewMap = true;
 
 
 	public GameObject[] start;
@@ -38,6 +43,13 @@ public class MapCreation : MonoBehaviour
 
 	private void Start()
 	{
+		//find mapParent if not added
+		if (!mapParent)
+		{
+			mapParent = GameObject.Find("Map").transform;
+		}
+
+
 		templates = GetComponent<RoomTemplates>();
 		//extensions = GetComponent<ExtensionMethods>();
 
@@ -57,8 +69,11 @@ public class MapCreation : MonoBehaviour
 			//add the first room/ entry room to room data and set it active
 			foreach (GameObject startRoom in start)
 			{
-				List<Wall> walls = new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-				GameManager.Instance.thisArea.roomsData.Add(new RoomData(startRoom.transform.position, startRoom.transform.rotation, walls, startRoom.name, new List<GameObject>(), new List<GameObject>()));
+				//List<Wall> walls = new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+				RoomData newData = new RoomData(startRoom.transform.position, startRoom.name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
+				//GameManager.Instance.thisArea.roomsData.Add(new RoomData(startRoom.transform.position, startRoom.transform.rotation, walls, startRoom.name, new List<GameObject>(), new List<GameObject>()));
+				GameManager.Instance.thisArea.roomsData.Add(newData);
+
 				startRoom.SetActive(true);
 			}
 
@@ -83,11 +98,16 @@ public class MapCreation : MonoBehaviour
 		//GameObject tmp = RoomPool.Instance.GetPooledRoom(GameManager.Instance.thisArea.roomsData[i].name);
 		//print("Spawning rooms - SpawnRoomFromRoomData");
 
+		isNewMap = false;
+
 		//print(GameManager.Instance.thisArea.roomsData[i].name + "SpawnRoomFromRoomData");
 		GameObject tmp = templates.GetRoom(GameManager.Instance.thisArea.roomsData[i].name);
 		//print("tmp gotten - SpawnRoomFromRoomData");
 
 		tmp = Instantiate(tmp);
+
+		//add the room as a child to mapParent
+		tmp.transform.parent = mapParent;
 
 		//print("tmp instantiated - SpawnRoomFromRoomData");
 
@@ -106,41 +126,56 @@ public class MapCreation : MonoBehaviour
 			Destroy(point.gameObject);
 		}
 
-		tmp.transform.SetPositionAndRotation(GameManager.Instance.thisArea.roomsData[i].position, GameManager.Instance.thisArea.roomsData[i].rotation);
+		tmp.transform.position = GameManager.Instance.thisArea.roomsData[i].position;
+		//tmp.transform.SetPositionAndRotation(GameManager.Instance.thisArea.roomsData[i].position, GameManager.Instance.thisArea.roomsData[i].rotation);
+
+
+
+		//for each wall check if its enum equivalent exists in activewalls and if so then set active otherwise destroy the wall
+		List<Wall> activeWalls = GameManager.Instance.thisArea.roomsData[i].activeWalls;
+		//check for each enum if the active walls contains it
+		tmp.transform.Find("Walls").Find("North").gameObject.SetActive(activeWalls.Contains(Wall.NORTH));//will set true if contains and false if doesnt contain
+		tmp.transform.Find("Walls").Find("East").gameObject.SetActive(activeWalls.Contains(Wall.EAST));
+		tmp.transform.Find("Walls").Find("South").gameObject.SetActive(activeWalls.Contains(Wall.SOUTH));
+		tmp.transform.Find("Walls").Find("West").gameObject.SetActive(activeWalls.Contains(Wall.WEST));
+		//^ faster method than 1) loop through walls and set them inactive then 2) loop through active walls and set the correct walls active
+
+
+
 
 		//print("tmp position set - SpawnRoomFromRoomData");
 		//set all walls inactive first
-		foreach (Transform wall in tmp.transform.Find("Walls"))
-		{
-			wall.gameObject.SetActive(false);
-		}
+		//foreach (Transform wall in tmp.transform.Find("Walls"))
+		//{
+		//	wall.gameObject.SetActive(false);
+		//}
 
 
-		//set active walls active
-		List<Wall> activeWalls = GameManager.Instance.thisArea.roomsData[i].GetActiveWalls();
-		foreach (Wall activeWall in activeWalls)
-		{
-			if (activeWall == Wall.NORTH)
-			{
-				tmp.transform.Find("Walls").Find("North").gameObject.SetActive(true);
-			}
-			else if (activeWall == Wall.EAST)
-			{
-				tmp.transform.Find("Walls").Find("East").gameObject.SetActive(true);
-			}
-			else if (activeWall == Wall.SOUTH)
-			{
-				tmp.transform.Find("Walls").Find("South").gameObject.SetActive(true);
-			}
-			else if (activeWall == Wall.WEST)
-			{
-				tmp.transform.Find("Walls").Find("West").gameObject.SetActive(true);
-			}
-			else
-			{
-				print("error has occurred");
-			}
-		}
+		////set active walls active
+		//List<Wall> activeWalls = GameManager.Instance.thisArea.roomsData[i].GetActiveWalls();
+		//foreach (Wall activeWall in activeWalls)
+		//{
+		//	if (activeWall == Wall.NORTH)
+		//	{
+		//		tmp.transform.Find("Walls").Find("North").gameObject.SetActive(true);
+		//	}
+		//	else if (activeWall == Wall.EAST)
+		//	{
+		//		tmp.transform.Find("Walls").Find("East").gameObject.SetActive(true);
+		//	}
+		//	else if (activeWall == Wall.SOUTH)
+		//	{
+		//		tmp.transform.Find("Walls").Find("South").gameObject.SetActive(true);
+		//	}
+		//	else if (activeWall == Wall.WEST)
+		//	{
+		//		tmp.transform.Find("Walls").Find("West").gameObject.SetActive(true);
+		//	}
+		//	else
+		//	{
+		//		print("error has occurred");
+		//	}
+		//}
 
 		//when rooms are set active they are added to rooms because of the code in AddRoom.cs Start()
 		tmp.SetActive(true);
