@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -11,14 +10,11 @@ namespace Assets.Scripts.MapGeneration
 		public bool extended = false;
 
 		private ExtensionMethods extensions;
-		private MapCreation mapCreation;
 
 		private void Start()
 		{
 			extensions = GameObject.FindGameObjectWithTag("Rooms").GetComponent<ExtensionMethods>();
-			mapCreation = GameObject.FindGameObjectWithTag("Rooms").GetComponent<MapCreation>();
 			//extensions = ExtensionMethods.Instance;
-
 
 			//check if room is a closed one
 			if (name.Contains("C"))
@@ -26,51 +22,14 @@ namespace Assets.Scripts.MapGeneration
 				Invoke(nameof(ExtendClosedRoom), 1f);
 			}
 
-
-			//add self to the current tail
-			if (mapCreation.tail.roomInstance == null)
-			{
-				//if the current room instance in the tail is empty then add itself
-				mapCreation.tail.roomInstance = gameObject;
-			}
-
 			//add self to rooms
-			//GameManager.Instance.thisArea.rooms.Add(this.gameObject);
-
+			GameManager.Instance.thisArea.rooms.Add(this.gameObject);
 
 			//extend rooms if the map hasnt already been generated
 			//when generating maps from rooms data then the number of rooms and roomsdata wont match up so check for if the number of rooms and rooms data are the same
-			//if (GameManager.Instance.thisArea.rooms.Count == GameManager.Instance.thisArea.roomsData.Count)
-
-			StartCoroutine(IsNewMap());
-			//if (IsNewMap())
-			//{
-			//	int rand = Random.Range(0, 10); 
-
-			//	if (!extended)
-			//	{
-			//		if (rand <= 9) { Invoke(nameof(ExtendRoom), 1f); }
-			//	}
-			//	else
-			//	{
-			//		if (rand <= 1) { Invoke(nameof(ExtendRoom), 1f); }
-			//	}
-			//}
-
-			//activate all walls if the room is an exit or has a limited number of empty surrounding rooms
-			Invoke(nameof(ActivateWalls), 2.5f);
-		}
-
-		private IEnumerator IsNewMap()
-		{
-			int start = GameManager.Instance.thisArea.currentMapSize;
-			yield return new WaitForSeconds(0.5f);
-			int end = GameManager.Instance.thisArea.currentMapSize;
-
-			if (start < end)
+			if (GameManager.Instance.thisArea.rooms.Count == GameManager.Instance.thisArea.roomsData.Count)
 			{
-				//extend rooms
-				int rand = Random.Range(0, 10);
+				int rand = Random.Range(0, 10); 
 
 				if (!extended)
 				{
@@ -82,6 +41,8 @@ namespace Assets.Scripts.MapGeneration
 				}
 			}
 
+			//activate all walls if the room is an exit or has a limited number of empty surrounding rooms
+			Invoke(nameof(ActivateWalls), 2f);
 		}
 
 		private void ExtendClosedRoom()

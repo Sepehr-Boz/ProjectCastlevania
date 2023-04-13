@@ -49,12 +49,12 @@ public class GameManager : MonoBehaviour
 		//unload the resources from the previous scene to allow more memory and cpu/gpu power for the new scene
 		Resources.UnloadUnusedAssets();
 
-		//thisArea.rooms.Clear();
+		thisArea.rooms.Clear();
 	}
 
 	private void OnApplicationQuit()
 	{
-		//thisArea.rooms.Clear();
+		thisArea.rooms.Clear();
 	}
 
 
