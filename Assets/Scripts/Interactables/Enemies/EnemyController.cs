@@ -7,19 +7,21 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class EnemyController : MonoBehaviour
 {
-    [Header("Movement")]
+	[Header("Combat")]
+	//int IDamageable.hp { get; set; }
+	//int IDamageable.maxHP { get; set; }
+	public int hp;
+	public int maxHP;
+
+	protected new Rigidbody2D rigidbody;
+	protected new Collider2D collider;
+
+
+
+	[Header("Movement")]
     [Range(0f, 1f)]
     [SerializeField]protected float moveSpeed;
     public Vector2 target;
-
-    [Header("Combat")]
-    //int IDamageable.hp { get; set; }
-    //int IDamageable.maxHP { get; set; }
-    public int hp;
-    public int maxHP;
-
-    protected new Rigidbody2D rigidbody;
-    protected new Collider2D collider;
 
     protected void Start()
     {

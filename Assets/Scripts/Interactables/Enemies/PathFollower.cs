@@ -5,23 +5,33 @@ using UnityEngine;
 
 public class PathFollower : EnemyController
 {
+
+	[Header("Paths")]
+	[Space(2)]
+	[SerializeField] private float stateInterval;
+	[SerializeField] private Vector2 startPos;
 	public List<Vector2> pathPoints;
+	[SerializeField] private float radius = 1f;
+
+
 	[SerializeField] private ListNode<Vector2> path;
+	[SerializeField] private bool isFollowPath = false;
 
 	//[SerializeField] private float radius = 1f;
 
 	private new void Start()
 	{
+		for (int i = 0; i < pathPoints.Count; i++)
+		{
+			pathPoints[i] *= radius;
+		}
+
 		path = TurnPointsIntoTargetNode();
 		target = path.val;
+
+		StartCoroutine(SwitchTarget());
 		//target = new Vector2(Mathf.Sin(Time.time) * radius, Mathf.Cos(Time.time) * radius);
 	}
-
-	//private new void FixedUpdate()
-	//{
-	//	//move towards target
-	//	base.FixedUpdate();
-	//}
 
 	private void Update()
 	{
@@ -30,7 +40,29 @@ public class PathFollower : EnemyController
 		if ((Vector2)transform.position == target)
 		{
 			path = path.next;
+			//target = path.val;
+		}
+
+		//switch between rest and circle based on isFollowPath
+		if (isFollowPath)
+		{
 			target = path.val;
+		}
+		else
+		{
+			target = startPos;
+		}
+
+	}
+
+	private IEnumerator SwitchTarget()
+	{
+		while (true)
+		{
+			isFollowPath = false;
+			yield return new WaitForSeconds(stateInterval);
+			isFollowPath = true;
+			yield return new WaitForSeconds(stateInterval);
 		}
 	}
 
@@ -39,24 +71,6 @@ public class PathFollower : EnemyController
 	//T specified to Vector2
 	private ListNode<Vector2> TurnPointsIntoTargetNode()
 	{
-		//List<ListNode<Vector2>> tempList = new();
-
-		//foreach (Vector2 point in pathPoints)
-		//{
-		//	ListNode<Vector2> newTarget = new ListNode<Vector2>(point, null);
-		//	tempList.Add(newTarget);
-		//}
-
-		//for (int i = 0; i < tempList.Count; i++)
-		//{
-		//	if (i == tempList.Count - 1)
-		//	{
-		//		tempList[i].next = tempList[0];
-		//		continue;
-		//	}
-		//	tempList[i].next = tempList[i + 1];
-		//}
-
 		ListNode<Vector2> head = new(pathPoints[0], null);
 
 		var newNode = head;

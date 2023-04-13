@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6362629797593343473}
   - component: {fileID: 6362629797593343472}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemySquarePath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,15 +99,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401ad0021e0eac14698f9aeec4d5c1df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.1
+  moveSpeed: 0.25
   target: {x: 0, y: 0}
+  hp: 0
+  maxHP: 0
+  stateInterval: 5
+  startPos: {x: 0, y: 0}
   pathPoints:
-  - {x: 2, y: -4}
-  - {x: -2, y: -4}
-  - {x: -2, y: 4}
-  - {x: 2, y: 4}
+  - {x: -1, y: 1}
+  - {x: 1, y: 1}
+  - {x: 1, y: -1}
+  - {x: -1, y: -1}
+  radius: 5
   path:
-    position: {x: 0, y: 0}
+    val: {x: 0, y: 0}
+    next:
+      val: {x: 0, y: 0}
+      next:
+        val: {x: 0, y: 0}
+        next:
+          val: {x: 0, y: 0}
+          next:
+            val: {x: 0, y: 0}
+            next:
+              val: {x: 0, y: 0}
+              next:
+                val: {x: 0, y: 0}
+                next:
+                  val: {x: 0, y: 0}
+                  next:
+                    val: {x: 0, y: 0}
+                    next:
+                      val: {x: 0, y: 0}
+                      next:
+                        val: {x: 0, y: 0}
+  isFollowPath: 0
 --- !u!50 &6362629797593343473
 Rigidbody2D:
   serializedVersion: 4
