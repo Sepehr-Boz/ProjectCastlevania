@@ -148,18 +148,22 @@ public enum Wall
 
 [System.Serializable]public struct EnemyData
 {
-	public Vector3 position;
+	public Vector2 position;
 	public Quaternion rotation;
 
 	public string name;
 	public int hp;
 
-	public EnemyData(Vector3 pos, Quaternion rot, string enemyName, int currentHP)
+	public GameObject enemyRef;
+
+	public EnemyData(Vector2 pos, Quaternion rot, string enemyName, int currentHP, GameObject enemy)
 	{
 		this.position = pos;
 		this.rotation = rot;
 		this.name = enemyName;
 		this.hp = currentHP;
+
+		this.enemyRef = enemy;
 	}
 }
 
