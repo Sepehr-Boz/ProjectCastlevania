@@ -6,7 +6,7 @@ namespace Assets.Scripts.Data
 	[CreateAssetMenu(fileName = "AreaData")]
 	public class AreaData : ScriptableObject
 	{
-		public Area area;
+		//public Area area;
 		public Color colour;
 
 		[Header("Additionals")]
@@ -24,16 +24,16 @@ namespace Assets.Scripts.Data
 	}
 }
 
-public enum Area
-{
-	AREA1,
-	AREA2,
-	AREA3,
-	AREA4,
-	AREA5,
+//public enum Area
+//{
+//	AREA1,
+//	AREA2,
+//	AREA3,
+//	AREA4,
+//	AREA5,
 
-	TESTING
-}
+//	TESTING
+//}
 
 public enum Wall
 {
