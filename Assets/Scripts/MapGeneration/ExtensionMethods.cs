@@ -6,14 +6,15 @@ using UnityEngine.Events;
 using UnityEngine;
 using System.Linq.Expressions;
 using Unity.VisualScripting;
+using System;
 
 public class ExtensionMethods : MonoBehaviour
 {
 	private readonly Vector2[] directions =
 	{
-		new Vector2(-10, 10),new Vector2(0, 10),new Vector2(10, 10),
-		new Vector2(-10, 0),new Vector2(0, 0),new Vector2(10, 0),
-		new Vector2(-10, -10),new Vector2(0, -10),new Vector2(10, -10),
+		new Vector2(-20, 10),new Vector2(0, 10),new Vector2(20, 10),
+		new Vector2(-20, 0),new Vector2(0, 0),new Vector2(20, 0),
+		new Vector2(-20, -10),new Vector2(0, -10),new Vector2(20, -10),
 	};
 
 
@@ -64,10 +65,24 @@ public class ExtensionMethods : MonoBehaviour
 				//keep looping up through the parent transform until the parent is non existent or the parent is Map
 				//should now work evene when rooms are childed to Map
 				room = Physics2D.OverlapCircle(newPos, 1f).gameObject;
-				while (room.transform.parent.name != "Map" || room.transform.parent == null)
+				//print("room name is " + room.name);
+				if (room == null)
 				{
-					room = transform.parent.gameObject;
+					continue;
 				}
+				print(room.transform.parent.name);
+
+				do
+				{
+					room = room.transform.parent.gameObject;
+				}
+				while (room.transform.parent.name != "Map");
+
+				//while (room.transform.parent.name != "Map")
+				//{
+				//	room = transform.parent.gameObject;
+				//	print("parented room is " + room.name);
+				//}
 				//room = Physics2D.OverlapCircle(newPos, 1f).transform.root.gameObject;
 
 				//ignore closed rooms, boss rooms, and exit rooms
@@ -77,14 +92,15 @@ public class ExtensionMethods : MonoBehaviour
 					//room.GetComponent<AddRoom>().extended = true;
 				}
 			}
-			catch
+			catch(Exception e)
 			{
-				//print("no room found - GetAdjacentRooms");
+				print("error: " + e.ToString());
+				print("no room found - GetAdjacentRooms");
 			}
-			if (room == null)
-			{
-				continue;
-			}
+			//if (room == null)
+			//{
+			//	continue;
+			//}
 		}
 		//to see if there are any active rooms, check for any FOCUS gameobject and if there is then get the parent room
 		//check in the AddRoom component for the variable extended, if its false add to rooms, otherwise dont as it will have already been extended

@@ -59,6 +59,8 @@ public class MapCreation : MonoBehaviour
 		//check if rooms are empty
 		if (AreRoomsEmpty())
 		{
+			isNewMap = true;
+
 			//make a copy of the move to scenes so that on first map generation then the portals can have a list of scenes to get from
 			scenesCopy = new List<SceneEntry>(moveToScenes);
 
