@@ -19,13 +19,16 @@ namespace Assets.Scripts.MapGeneration
 			//extensions = ExtensionMethods.Instance;
 
 			//add self to rooms
-			GameManager.Instance.thisArea.rooms.Add(this.gameObject);
+			//GameManager.Instance.thisArea.rooms.Add(this.gameObject);
 
 			//extend rooms if the map hasnt already been generated
 			//when generating maps from rooms data then the number of rooms and roomsdata wont match up so check for if the number of rooms and rooms data are the same
 			//if (GameManager.Instance.thisArea.rooms.Count == GameManager.Instance.thisArea.roomsData.Count)
 			if (mapCreation.isNewMap)
 			{
+				RoomData newData = new RoomData(transform.position, name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
+				GameManager.Instance.thisArea.rooms.Add(newData);
+
 				//check if room is a closed one
 				if (name.Contains("C"))
 				{
@@ -59,7 +62,8 @@ namespace Assets.Scripts.MapGeneration
 
 		private void ExtendClosedRoom()
 		{
-			//get surrounding rooms
+			//get surrounding
+			//
 			var adjRooms = extensions.GetAdjacentRooms(transform.position);
 			if (adjRooms["TOP"] != null && adjRooms["BOTTOM"] != null)
 			{

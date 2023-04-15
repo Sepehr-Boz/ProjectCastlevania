@@ -15,11 +15,9 @@ namespace Assets.Scripts.Data
 		//public List<GameObject> enemies; //list of enemies that CAN BE SPAWNED //NOT THE ONES THAT HAVE BEEN SPAWNED
 		public List<GameObject> objects; //list of objects that CAN BE SPAWNED //NOT THE ONES THAT HAVE BEEN SPAWNED
 
-		[Header("Rooms")]
-		[Space(3)]
-		public List<GameObject> rooms;
-		[SerializeField]public List<RoomData> roomsData;
 
+		//public List<GameObject> rooms;
+		[SerializeField]public List<RoomData> rooms;
 		public int maxMapSize;
 	}
 }

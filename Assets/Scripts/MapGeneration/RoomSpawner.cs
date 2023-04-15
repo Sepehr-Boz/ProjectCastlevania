@@ -99,17 +99,19 @@ public class RoomSpawner : MonoBehaviour
 
 				//instantiate new room and remove the clone from its name
 				room = Instantiate(room);
+				room.transform.parent = mapCreation.mapParent;
 				room.name = room.name.Replace("(Clone)", "");
+
 
 				//move the room to the new position and set it active
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 				room.SetActive(true);
 				//add new room to room data
 				//List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-				//GameManager.Instance.thisArea.roomsData.Add(new RoomData(room.transform.position, room.transform.rotation, walls, room.name, new List<GameObject>(), new List<GameObject>()));
+				//GameManager.Instance.thisArea.rooms.Add(new RoomData(room.transform.position, room.transform.rotation, walls, room.name, new List<GameObject>(), new List<GameObject>()));
 
-				RoomData newData = new RoomData(transform.position, room.name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
-				GameManager.Instance.thisArea.roomsData.Add(newData);
+				//RoomData newData = new RoomData(transform.position, room.name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
+				//GameManager.Instance.thisArea.rooms.Add(newData);
 			}
 
 			spawned = true;
@@ -124,15 +126,16 @@ public class RoomSpawner : MonoBehaviour
 		//instantiate new closed room and remove clone
 		room = Instantiate(room);
 		room.name = room.name.Replace("(Clone)", "");
+		room.transform.parent = mapCreation.mapParent;
 		//move to position and set active
 		room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 		room.SetActive(true);
 		//add to room data
 		//List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-		//GameManager.Instance.thisArea.roomsData.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
+		//GameManager.Instance.thisArea.rooms.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
 
-		RoomData newData = new RoomData(transform.position, room.name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
-		GameManager.Instance.thisArea.roomsData.Add(newData);
+		//RoomData newData = new RoomData(transform.position, room.name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
+		//GameManager.Instance.thisArea.rooms.Add(newData);
 
 		
 		Destroy(gameObject);
@@ -196,9 +199,9 @@ public class RoomSpawner : MonoBehaviour
 	private GameObject EndRoom(GameObject room)
 	{
 		//check if the length of room is 50 to max
-		if (GameManager.Instance.thisArea.roomsData.Count >= GameManager.Instance.thisArea.maxMapSize - 30)
+		if (GameManager.Instance.thisArea.rooms.Count >= GameManager.Instance.thisArea.maxMapSize - 30)
 		{
-			print("room length is almost at the max: " + GameManager.Instance.thisArea.roomsData.Count + " / " + GameManager.Instance.thisArea.maxMapSize);
+			print("room length is almost at the max: " + GameManager.Instance.thisArea.rooms.Count + " / " + GameManager.Instance.thisArea.maxMapSize);
 			//change the room to an end room based on the opening direction
 			if (openingDirection == 1)
 			{

@@ -54,7 +54,7 @@ public class MapCreation : MonoBehaviour
 		//extensions = GetComponent<ExtensionMethods>();
 
 
-		List<RoomData> roomsData = GameManager.Instance.thisArea.roomsData;
+		List<RoomData> roomsData = GameManager.Instance.thisArea.rooms;
 
 		//check if rooms are empty
 		if (AreRoomsEmpty())
@@ -72,7 +72,7 @@ public class MapCreation : MonoBehaviour
 				//List<Wall> walls = new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
 				RoomData newData = new RoomData(startRoom.transform.position, startRoom.name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
 				//GameManager.Instance.thisArea.roomsData.Add(new RoomData(startRoom.transform.position, startRoom.transform.rotation, walls, startRoom.name, new List<GameObject>(), new List<GameObject>()));
-				GameManager.Instance.thisArea.roomsData.Add(newData);
+				GameManager.Instance.thisArea.rooms.Add(newData);
 
 				startRoom.SetActive(true);
 			}
@@ -85,6 +85,7 @@ public class MapCreation : MonoBehaviour
 		else
 		{
 			print("SPAWN EXISTENT MAP");
+			isNewMap = false;
 
 			//if the rooms arent empty then set all spawnpoints inactive so rooms dont keep spawning
 			InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.01f);
@@ -101,7 +102,7 @@ public class MapCreation : MonoBehaviour
 		isNewMap = false;
 
 		//print(GameManager.Instance.thisArea.roomsData[i].name + "SpawnRoomFromRoomData");
-		GameObject tmp = templates.GetRoom(GameManager.Instance.thisArea.roomsData[i].name);
+		GameObject tmp = templates.GetRoom(GameManager.Instance.thisArea.rooms[i].name);
 		//print("tmp gotten - SpawnRoomFromRoomData");
 
 		tmp = Instantiate(tmp);
@@ -126,13 +127,13 @@ public class MapCreation : MonoBehaviour
 			Destroy(point.gameObject);
 		}
 
-		tmp.transform.position = GameManager.Instance.thisArea.roomsData[i].position;
+		tmp.transform.position = GameManager.Instance.thisArea.rooms[i].position;
 		//tmp.transform.SetPositionAndRotation(GameManager.Instance.thisArea.roomsData[i].position, GameManager.Instance.thisArea.roomsData[i].rotation);
 
 
 
 		//for each wall check if its enum equivalent exists in activewalls and if so then set active otherwise destroy the wall
-		List<Wall> activeWalls = GameManager.Instance.thisArea.roomsData[i].activeWalls;
+		List<Wall> activeWalls = GameManager.Instance.thisArea.rooms[i].activeWalls;
 		//check for each enum if the active walls contains it
 		tmp.transform.Find("Walls").Find("North").gameObject.SetActive(activeWalls.Contains(Wall.NORTH));//will set true if contains and false if doesnt contain
 		tmp.transform.Find("Walls").Find("East").gameObject.SetActive(activeWalls.Contains(Wall.EAST));
@@ -183,7 +184,7 @@ public class MapCreation : MonoBehaviour
 		i++;
 
 		//cancel the repeating invoke of this function when all rooms have been spawned
-		if (i >= GameManager.Instance.thisArea.roomsData.Count)
+		if (i >= GameManager.Instance.thisArea.rooms.Count)
 		{
 			CancelInvoke(nameof(SpawnRoomFromRoomData));
 		}
@@ -193,39 +194,87 @@ public class MapCreation : MonoBehaviour
 	//check if room data in the area isnt empty
 	private bool AreRoomsEmpty()
 	{
-		return GameManager.Instance.thisArea.roomsData.Count < 5;
+		return GameManager.Instance.thisArea.rooms.Count < 5;
 		//returns true if empty, false if not empty
 	}
 
 	private void CopyWallsData()
 	{
-		List<GameObject> rooms = GameManager.Instance.thisArea.rooms;
+		//List<GameObject> rooms = GameManager.Instance.thisArea.rooms;
 
-		for (int i = 0; i < rooms.Count; i++)
+		//for (int i = 0; i < rooms.Count; i++)
+		//{
+		//	//get the current room
+		//	GameObject room = rooms[i];
+
+		////get the inactive walls
+		//foreach (Transform wall in room.transform.Find("Walls").transform)
+		//{
+		//	if (!wall.gameObject.activeInHierarchy)
+		//	{
+		//		GameManager.Instance.thisArea.roomsData[i].RemoveInactiveWall(wall.name);
+		//	}
+		//}
+		////remove the inactive walls from the roomsdata enum at the i index
+
+		//	Destroy(room);
+
+		//}
+
+		//loop through all the rooms childed to map
+		int index = 0;
+		foreach (Transform child in mapParent.transform)
 		{
-			//get the current room
-			GameObject room = rooms[i];
+			//get the room
+			GameObject room = child.gameObject;
 
-			//get the inactive walls
-			foreach (Transform wall in room.transform.Find("Walls").transform)
+			//find which walls are inactive and remove them from rooms in areadata
+			foreach (Transform wall in child.Find("Walls"))
 			{
 				if (!wall.gameObject.activeInHierarchy)
 				{
-					GameManager.Instance.thisArea.roomsData[i].RemoveInactiveWall(wall.name);
+					GameManager.Instance.thisArea.rooms[index].RemoveInactiveWall(wall.name);
 				}
 			}
-			//remove the inactive walls from the roomsdata enum at the i index
 
+			//destroy the room and increment the index to refer to the next room data
 			Destroy(room);
-
+			index++;
 		}
+
+		//print(index);
+
+		//for (int i = 0; i < mapParent.transform.childCount; i++)
+		//{
+		//	GameObject room = mapParent.GetChild(i).gameObject;
+
+		//	//get the inactive walls
+		//	foreach (Transform wall in room.transform.Find("Walls").transform)
+		//	{
+		//		if (!wall.gameObject.activeInHierarchy)
+		//		{
+		//			GameManager.Instance.thisArea.rooms[i].RemoveInactiveWall(wall.name);
+		//		}
+		//	}
+		//	//remove the inactive walls from the rooms enum at the i index
+
+		//	//Destroy(room, 0.2f);
+		//}
+
+		//print(i);
+
+
+		//foreach (Transform room in mapParent.transform)
+		//{
+		//	Destroy(room.gameObject);
+		//}
 
 		print("WALLS COPIED");
 
 		//copy move to scenes so that when getting scenes again on generation then the scenes can be gotten again
 		moveToScenes = scenesCopy;
 		//clear rooms list
-		GameManager.Instance.thisArea.rooms.Clear();
+		//GameManager.Instance.thisArea.rooms.Clear();
 		//spawn rooms from rooms data
 		InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.01f);
 	}
@@ -235,9 +284,9 @@ public class MapCreation : MonoBehaviour
 	{
 		while (true)
 		{
-			int start = GameManager.Instance.thisArea.roomsData.Count;
+			int start = GameManager.Instance.thisArea.rooms.Count;
 			yield return new WaitForSeconds(0.5f);
-			int end = GameManager.Instance.thisArea.roomsData.Count;
+			int end = GameManager.Instance.thisArea.rooms.Count;
 
 			print("Start: " + start);
 			print("End: " + end);

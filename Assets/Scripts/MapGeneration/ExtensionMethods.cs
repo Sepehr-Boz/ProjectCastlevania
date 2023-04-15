@@ -61,7 +61,14 @@ public class ExtensionMethods : MonoBehaviour
 			newPos = currentPos + directions[i];
 			try
 			{
-				room = Physics2D.OverlapCircle(newPos, 1f).transform.root.gameObject;
+				//keep looping up through the parent transform until the parent is non existent or the parent is Map
+				//should now work evene when rooms are childed to Map
+				room = Physics2D.OverlapCircle(newPos, 1f).gameObject;
+				while (room.transform.parent.name != "Map" || room.transform.parent == null)
+				{
+					room = transform.parent.gameObject;
+				}
+				//room = Physics2D.OverlapCircle(newPos, 1f).transform.root.gameObject;
 
 				//ignore closed rooms, boss rooms, and exit rooms
 				if (room != null && !room.name.Contains("C") && !room.name.Equals("BossRoom") && !room.name.Contains("Exit"))
