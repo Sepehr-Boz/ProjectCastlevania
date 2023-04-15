@@ -34,21 +34,26 @@ namespace Assets.Scripts.MapGeneration
 				{
 					Invoke(nameof(ExtendClosedRoom), 1f);
 				}
-
-				int rand = Random.Range(0, 10); 
-
-				if (!extended)
-				{
-					if (rand <= 9) { Invoke(nameof(ExtendRoom), 1f); }
-				}
 				else
 				{
-					if (rand <= 1) { Invoke(nameof(ExtendRoom), 1f); }
+					int rand = Random.Range(0, 10);
+
+					if (!extended)
+					{
+						if (rand <= 6) { Invoke(nameof(ExtendRoom), 1f); }
+					}
+					else
+					{
+						if (rand == 0) { Invoke(nameof(ExtendRoom), 1f); }
+					}
 				}
 			}
 
-			//activate all walls if the room is an exit or has a limited number of empty surrounding rooms
-			Invoke(nameof(ActivateWalls), 2f);
+			if (!name.Contains("C"))
+			{
+				//activate all walls if the room is an exit or has a limited number of empty surrounding rooms
+				Invoke(nameof(ActivateWalls), 2f);
+			}
 
 			//Invoke(nameof(ParentRoom), 3f);
 		}
@@ -104,7 +109,7 @@ namespace Assets.Scripts.MapGeneration
 			var adjRooms = extensions.GetAdjacentRooms(transform.position);
 
 			//check for the number of empty rooms or if the name has exit in it
-			if (extensions.CountEmptyRooms(adjRooms) >= 5 || name.Contains("Exit"))
+			if (extensions.CountEmptyRooms(adjRooms) >= 3 || name.Contains("Exit"))
 			{
 				foreach (Transform wall in transform.Find("Walls"))
 				{

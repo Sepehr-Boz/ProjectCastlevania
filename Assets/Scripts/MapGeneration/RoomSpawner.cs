@@ -159,7 +159,7 @@ public class RoomSpawner : MonoBehaviour
 		//check if its an edge room
 		var adjRooms = extensions.GetAdjacentRooms(transform.position);
 		//if theres less than 5 empty rooms then return the current room as it would be valid
-		if (extensions.CountEmptyRooms(adjRooms) <= 4)
+		if (extensions.CountEmptyRooms(adjRooms) < 4)
 		{
 			return room;
 		}

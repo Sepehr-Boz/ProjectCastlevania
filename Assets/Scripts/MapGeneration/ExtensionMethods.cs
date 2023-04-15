@@ -12,9 +12,9 @@ public class ExtensionMethods : MonoBehaviour
 {
 	private readonly Vector2[] directions =
 	{
-		new Vector2(-20, 10),new Vector2(0, 10),new Vector2(20, 10),
-		new Vector2(-20, 0),new Vector2(0, 0),new Vector2(20, 0),
-		new Vector2(-20, -10),new Vector2(0, -10),new Vector2(20, -10),
+		new Vector2(-10, 10),new Vector2(0, 10),new Vector2(10, 10),
+		new Vector2(-10, 0),new Vector2(0, 0),new Vector2(10, 0),
+		new Vector2(-10, -10),new Vector2(0, -10),new Vector2(10, -10),
 	};
 
 
