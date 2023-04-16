@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+		//PlayerManager.Instance.gameObject.SetActive(true);
+
 		SceneManager.activeSceneChanged += SceneChanged;
 
 		//set target fps
@@ -47,24 +50,32 @@ public class GameManager : MonoBehaviour
 		//unload the resources from the previous scene to allow more memory and cpu/gpu power for the new scene
 		Resources.UnloadUnusedAssets();
 
-		thisArea.rooms.Clear();
+		//thisArea.rooms.Clear();
 	}
 
 	private void OnApplicationQuit()
 	{
-		thisArea.rooms.Clear();
+		//thisArea.rooms.Clear();
+
+		//update the player player infos before quitting the game to save progress
+		PlayerManager.Instance.currentData.currentScene = SceneManager.GetActiveScene().name;
+		PlayerManager.Instance.currentData.currentPos = PlayerManager.Instance.currentPlayer.transform.position;
+		PlayerManager.Instance.currentData.currentHP = PlayerManager.Instance.currentPlayer.GetComponent<PlayerController>().hp;
 	}
 
 
 	private void Update()
 	{
-		Application.targetFrameRate = targetFPS;
+		if (Input.GetKeyDown(KeyCode.T))
+		{
+			Time.timeScale = 1;
+		}
 	}
 
 	//load the new scene
-	public void ChangeScene(string newScene, Vector2 newPos)
+	public void ChangeScene(string newScene)
 	{
 		SceneManager.LoadScene(newScene, LoadSceneMode.Single);
-		PlayerManager.Instance.currentPlayer.transform.position = newPos;
+		//PlayerManager.Instance.currentPlayer.transform.position = newPos;
 	}
 }

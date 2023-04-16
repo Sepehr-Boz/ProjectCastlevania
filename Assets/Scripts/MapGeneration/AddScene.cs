@@ -7,15 +7,20 @@ using Random = UnityEngine.Random;
 
 public class AddScene : MonoBehaviour
 {
+    private MapCreation mapCreation;
+
     public string scene;
     public Vector2 position;
 
     private void Start()
     {
+        mapCreation = GameObject.FindGameObjectWithTag("Rooms").GetComponent<MapCreation>();
         //add random scene and position
         //get the first index scene from room templates and remove it from the list so it cant be another portal with the same scene to move to
-        scene = RoomTemplates.Instance.moveToScenes[0];
-        RoomTemplates.Instance.moveToScenes.RemoveAt(0);
+        scene = mapCreation.moveToScenes[0].sceneName;
+        position = mapCreation.moveToScenes[0].newPos;
+        //scene = mapCreation.moveToScenes[0];
+        mapCreation.moveToScenes.RemoveAt(0);
 
         if (scene == null || scene == "")
         {
@@ -27,7 +32,7 @@ public class AddScene : MonoBehaviour
 
 		position = Vector2.zero;
 
-		print("scene to move to is " + scene);
+		//print("scene to move to is " + scene);
     }
 
 
@@ -35,8 +40,15 @@ public class AddScene : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            GameManager.Instance.ChangeScene(scene, position);
-            //move the current player to position
-        }
+            //update the playerdata info
+            PlayerManager.Instance.currentData.currentScene = scene;
+            PlayerManager.Instance.currentData.currentPos = position;
+            PlayerManager.Instance.currentData.currentHP = PlayerManager.Instance.currentPlayer.GetComponent<PlayerController>().hp;
+
+
+            GameManager.Instance.ChangeScene(scene);
+			//move the current player to position
+			//PlayerManager.Instance.currentPlayer.transform.position = position;
+		}
     }
 }

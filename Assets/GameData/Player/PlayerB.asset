@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b05ab5fb1d707d45b52cb1d371cdbb9, type: 3}
   m_Name: PlayerB
   m_EditorClassIdentifier: 
-  name: Douglas
   player: {fileID: 4658608385305577907, guid: f2224aedbf5c389499c5ce12b171c21b, type: 3}
-  moveSpeed: 10
-  position: {x: 0, y: 0, z: 0}
-  rotation: {x: 0, y: 0, z: 0, w: 0}
-  currentArea: 1
+  currentHP: 50
+  maxHP: 50
+  currentPos: {x: 0.18711326, y: 10.876695}
+  currentScene: Area1
