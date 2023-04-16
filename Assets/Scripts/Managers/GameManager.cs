@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -55,6 +56,11 @@ public class GameManager : MonoBehaviour
 	private void OnApplicationQuit()
 	{
 		//thisArea.rooms.Clear();
+
+		//update the player player infos before quitting the game to save progress
+		PlayerManager.Instance.currentData.currentScene = SceneManager.GetActiveScene().name;
+		PlayerManager.Instance.currentData.currentPos = PlayerManager.Instance.currentPlayer.transform.position;
+		PlayerManager.Instance.currentData.currentHP = PlayerManager.Instance.currentPlayer.GetComponent<PlayerController>().hp;
 	}
 
 

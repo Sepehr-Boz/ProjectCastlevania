@@ -171,23 +171,27 @@ public class RoomSpawner : MonoBehaviour
 		if (CheckIfCanBeExit(room))
 		{
 			//get the according exit dependent on the name of the current room
-			GameObject newRoom = null;
-			if (room.name.Equals("U"))
-			{
-				newRoom = templates.GetExitRoom("UExit");
-			}
-			else if (room.name.Equals("D"))
-			{
-				newRoom = templates.GetExitRoom("DExit");
-			}
-			else if (room.name.Equals("L"))
-			{
-				newRoom = templates.GetExitRoom("LExit");
-			}
-			else if (room.name.Equals("R"))
-			{
-				newRoom = templates.GetExitRoom("RExit");
-			}
+
+			//get the new room by adding exit to the end of it
+			GameObject newRoom = templates.GetRoom(room.name + "Exit");
+
+			//GameObject newRoom = null;
+			//if (room.name.Equals("U"))
+			//{
+			//	newRoom = templates.GetExitRoom("UExit");
+			//}
+			//else if (room.name.Equals("D"))
+			//{
+			//	newRoom = templates.GetExitRoom("DExit");
+			//}
+			//else if (room.name.Equals("L"))
+			//{
+			//	newRoom = templates.GetExitRoom("LExit");
+			//}
+			//else if (room.name.Equals("R"))
+			//{
+			//	newRoom = templates.GetExitRoom("RExit");
+			//}
 			//return exit room
 			newRoom.transform.SetPositionAndRotation(room.transform.position, room.transform.rotation);
 			return newRoom;

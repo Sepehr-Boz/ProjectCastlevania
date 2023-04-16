@@ -297,7 +297,7 @@ public class MapCreation : MonoBehaviour
 			{
 				//finished = true;
 				//CopyWallsData();
-				Invoke(nameof(CopyWallsData), 3f);
+				Invoke(nameof(CopyWallsData), 4f);
 				break;
 			}
 		}

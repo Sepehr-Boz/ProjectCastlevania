@@ -11,7 +11,7 @@ public class PlayerData : ScriptableObject
 	public int maxHP;
 
 
-	public Vector3 currentPos;
+	public Vector2 currentPos;
 	public string currentScene;
 
 

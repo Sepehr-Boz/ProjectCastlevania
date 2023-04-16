@@ -13,7 +13,7 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject closedRoom;
 	public GameObject openRoom;
 	public GameObject bossRoom;
-	public GameObject[] exitRooms;
+	//public GameObject[] exitRooms;
 
 	public GameObject[] allRooms; //used when spawning rooms from rooms data
 
@@ -54,18 +54,18 @@ public class RoomTemplates : MonoBehaviour
 		return null;
 	}
 
-	public GameObject GetExitRoom(string exitName = null)
-	{
-		foreach (GameObject room in exitRooms)
-		{
-			if (room.name.Equals(exitName))
-			{
-				return room;
-			}
-		}
+	//public GameObject GetExitRoom(string exitName = null)
+	//{
+	//	foreach (GameObject room in exitRooms)
+	//	{
+	//		if (room.name.Equals(exitName))
+	//		{
+	//			return room;
+	//		}
+	//	}
 
-		return null;
-	}
+	//	return null;
+	//}
 
 	#endregion
 }
