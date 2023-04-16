@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Bouncer : MonoBehaviour
 {
-    [SerializeField] private Vector2 dir;
+    [SerializeField] private Vector2 moveDir;
+    //[SerializeField] private Vector2 endpoint;
+
+    //[Range(0f, 1f)]
+    public float moveSpeed;
 
 
     //tried to make dirs const but in C# const arrays aren't possible. Readonly should deliver the same function I want however.
-    private readonly Vector2[] dirs = new Vector2[4]
+    private readonly Vector2[] wallCheckDirs = new Vector2[4]
     {
         Vector2.up,
         Vector2.right,
@@ -20,13 +24,22 @@ public class Bouncer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        dir = dir == null ? new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)) : dir;
+        moveDir = moveDir == null ? new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)) : moveDir;
+        //endpoint = GetNewEndPoint(moveDir);
     }
 
     private void FixedUpdate()
     {
-        transform.position += (Vector3)dir / 35f;
+        transform.position += (Vector3)moveDir / moveSpeed;
+        //transform.position = Vector2.MoveTowards(transform.position, endpoint, moveSpeed);
     }
+
+    //private Vector2 GetNewEndPoint(Vector2 castDir)
+    //{
+    //    RaycastHit2D hit = Physics2D.RaycastAll(transform.position, -castDir)[1];
+
+    //    return hit.point * 0.95f;
+    //}
 
 
     //collisions between 2 objects NEED at least one of the objects to have a rigidbody otherwise the collision wont trigger
@@ -42,7 +55,7 @@ public class Bouncer : MonoBehaviour
 
 
         //loop through the directions of the raycasts
-        foreach (Vector2 castDir in dirs)
+        foreach (Vector2 castDir in wallCheckDirs)
         {
             try
             {
@@ -57,7 +70,32 @@ public class Bouncer : MonoBehaviour
 					Debug.DrawLine(transform.position, hit.point, Color.red, 5f);
 
 					//if hit then decrement the dir the gameobject moves in by castDir to make it 'bounce'/'reflect'
-					dir -= castDir;
+                    //if (castDir.x != 0)
+                    //{
+                    //    moveDir.x *= -1;
+                    //}
+                    //else if (castDir.y != 1)
+                    //{
+                    //    moveDir.y *= -1;
+                    //}
+					//moveDir -= castDir;
+
+
+                    //times values by -1 so that the values are the same negative and positive
+                    ///e.g. if y was 0.2 and the code subtracted castDir ( which could have y of 1 or -1 ) then the negative/new value of y in moveDir
+                    ///would've become -0.8 when 1 was subtracted which caused a different pattern that it moves in
+                    ///x -1 keeps the values the same but just changes the direction
+                    if (castDir.x != 0)
+                    {
+                        moveDir.x *= -1;
+                    }
+                    else if (castDir.y != 0)
+                    {
+                        moveDir.y *= -1;
+                    }
+
+
+                    //endpoint = GetNewEndPoint(castDir);
 				}
             }
             catch
