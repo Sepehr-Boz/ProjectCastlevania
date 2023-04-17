@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System;
 using UnityEngine.UIElements;
+using Assets.Scripts.MapGeneration;
 
 public class PlayerController : MonoBehaviour
 {
@@ -86,6 +87,18 @@ public class PlayerController : MonoBehaviour
 
 		rigidBody.velocity = velocity * moveForce;
 	}
+
+	//private void Update()
+	//{
+	//	//get the adjacent rooms from centre of where player is
+	//	Vector2 centrePos = new Vector2(Mathf.Round(transform.position.x / 10f), Mathf.Round(transform.position.y / 10f));
+	//	var rooms = GameObject.FindGameObjectWithTag("Rooms").GetComponent<ExtensionMethods>().GetAdjacentRooms(centrePos);
+	//	foreach (GameObject room in rooms.Values)
+	//	{
+	//		room.GetComponent<AddRoom>().EnableRenderers();
+	//	}
+
+	//}
 
 	//FOR TESTING
 	public void DecreaseHealth(InputAction.CallbackContext context)

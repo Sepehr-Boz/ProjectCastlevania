@@ -86,7 +86,7 @@ public class ExtensionMethods : MonoBehaviour
 				//room = Physics2D.OverlapCircle(newPos, 1f).transform.root.gameObject;
 
 				//ignore closed rooms, boss rooms, and exit rooms
-				if (room != null && !room.name.Contains("C") && !room.name.Equals("BossRoom") && !room.name.Contains("Exit"))
+				if (room != null && !room.name.Contains("C") && !room.name.Equals("BossRoom") && !room.name.Contains("Exit") && !room.name.Contains("_"))
 				{
 					rooms[rooms.ElementAt(i).Key] = room;
 					//room.GetComponent<AddRoom>().extended = true;

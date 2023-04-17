@@ -12,10 +12,19 @@ namespace Assets.Scripts.MapGeneration
 		private ExtensionMethods extensions;
 		private MapCreation mapCreation;
 
+
+		//private Renderer[] renderers;
+
 		private void Start()
 		{
 			extensions = GameObject.FindGameObjectWithTag("Rooms").GetComponent<ExtensionMethods>();
 			mapCreation = GameObject.FindGameObjectWithTag("Rooms").GetComponent<MapCreation>();
+
+			//renderers = GetComponentsInChildren<Renderer>();
+			//foreach (Renderer renderer in renderers)
+			//{
+			//	renderer.enabled = false;
+			//}
 			//extensions = ExtensionMethods.Instance;
 
 			//add self to rooms
@@ -60,6 +69,15 @@ namespace Assets.Scripts.MapGeneration
 			//Invoke(nameof(ParentRoom), 3f);
 		}
 
+
+		//public void EnableRenderers()
+		//{
+		//	foreach (Renderer render in renderers)
+		//	{
+		//		render.enabled = true;
+		//	}
+		//}
+
 		private void ParentRoom()
 		{
 			Transform mapParent = mapCreation.mapParent;
@@ -70,18 +88,29 @@ namespace Assets.Scripts.MapGeneration
 		private void ExtendClosedRoom()
 		{
 			//get surrounding
-			//
+			//open walls to where rooms are existent
 			var adjRooms = extensions.GetAdjacentRooms(transform.position);
-			if (adjRooms["TOP"] != null && adjRooms["BOTTOM"] != null)
-			{
-				extensions.DisableVerticalWalls(adjRooms["TOP"], gameObject);
-				extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
-			}
-			else if (adjRooms["LEFT"] != null && adjRooms["RIGHT"] != null)
-			{
-				extensions.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
-				extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
-			}
+			var walls = transform.Find("Walls");
+
+			walls.Find("North").gameObject.SetActive(!adjRooms["TOP"]);
+			walls.Find("East").gameObject.SetActive(!adjRooms["RIGHT"]);
+			walls.Find("South").gameObject.SetActive(!adjRooms["BOTTOM"]);
+			walls.Find("West").gameObject.SetActive(!adjRooms["LEFT"]);
+
+
+
+
+
+			//if (adjRooms["TOP"] != null && adjRooms["BOTTOM"] != null)
+			//{
+			//	extensions.DisableVerticalWalls(adjRooms["TOP"], gameObject);
+			//	extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
+			//}
+			//else if (adjRooms["LEFT"] != null && adjRooms["RIGHT"] != null)
+			//{
+			//	extensions.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
+			//	extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
+			//}
 		}
 
 
