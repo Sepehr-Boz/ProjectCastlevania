@@ -94,13 +94,13 @@ public class RoomSpawner : MonoBehaviour
 				//room = ChangeRoom(room);
 
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
-				//int rand = Random.Range(0, 100);
-				//if (rand <= newEntryChance)
-				//{
-				//	room = templates.openRoom;
-				//}
+				int rand = Random.Range(0, 100);
+				if (rand <= newEntryChance)
+				{
+					room = templates.openRoom;
+				}
 				//room = templates.openRoom;
-				room = ChangeRoom(room);
+				//room = ChangeRoom(room);
 				//check if room can be an exit
 				room = MakeExit(room);
 
@@ -148,166 +148,166 @@ public class RoomSpawner : MonoBehaviour
 
 			spawned = true;
 
-			Time.timeScale = 0.001f;
+			//Time.timeScale = 0.001f;
 		}
 	}
 
-	private GameObject ChangeRoom(GameObject currentRoom)
-	{
-		//need to get a new room if the neighbours wouldnt be valid
-		//need to use this function as some rooms in map end up with exits to closed off rooms
-		//also with the introduction of corridors it means that an exit may lead to outside the map which isnt good
+	//private GameObject ChangeRoom(GameObject currentRoom)
+	//{
+	//	//need to get a new room if the neighbours wouldnt be valid
+	//	//need to use this function as some rooms in map end up with exits to closed off rooms
+	//	//also with the introduction of corridors it means that an exit may lead to outside the map which isnt good
 
-		if (currentRoom.name.Contains("_"))
-		{
-			//print("exception is " + currentRoom.name);
-			return currentRoom;
-		}
-
-
-		//get the neighbours at where the room is going to be
-		var neighbours = extensions.GetAdjacentRoomsUnfiltered(transform.position);
-		//just need to check TOP, DOWN, LEFT, RIGHT
+	//	if (currentRoom.name.Contains("_"))
+	//	{
+	//		//print("exception is " + currentRoom.name);
+	//		return currentRoom;
+	//	}
 
 
-		string newRoomName = "";
+	//	//get the neighbours at where the room is going to be
+	//	var neighbours = extensions.GetAdjacentRoomsUnfiltered(transform.position);
+	//	//just need to check TOP, DOWN, LEFT, RIGHT
 
 
-		foreach (char dir in currentRoom.name)
-		{
-			string test = dir.ToString();
-			switch (test)
-			{
-				case "U":
-					//check the neighbour above
-					if (neighbours["TOP"] != null && neighbours["TOP"].name.Contains("D") || neighbours["TOP"] == null)
-					{
-						newRoomName += "U";
-					}
-					break;
-				case "D":
-					if (neighbours["BOTTOM"] != null && neighbours["BOTTOM"].name.Contains("U") || neighbours["BOTTOM"] == null)
-					{
-						newRoomName += "D";
-					}
-					break;
-				case "L":
-					if (neighbours["LEFT"] != null && neighbours["LEFT"].name.Contains("R") || neighbours["LEFT"] == null)
-					{
-						newRoomName += "L";
-					}
-					break;
-				case "R":
-					if (neighbours["RIGHT"] != null && neighbours["RIGHT"].name.Contains("L") || neighbours["RIGHT"] == null)
-					{
-						newRoomName += "R";
-					}
-					break;
-				default:
-					break;
-			}
-		}
-
-		if (newRoomName != currentRoom.name)
-		{
-			return templates.GetRoom(newRoomName);
-		}
-
-		return currentRoom;
+	//	string newRoomName = "";
 
 
+	//	foreach (char dir in currentRoom.name)
+	//	{
+	//		string test = dir.ToString();
+	//		switch (test)
+	//		{
+	//			case "U":
+	//				//check the neighbour above
+	//				if (neighbours["TOP"] != null && neighbours["TOP"].name.Contains("D") || neighbours["TOP"] == null)
+	//				{
+	//					newRoomName += "U";
+	//				}
+	//				break;
+	//			case "D":
+	//				if (neighbours["BOTTOM"] != null && neighbours["BOTTOM"].name.Contains("U") || neighbours["BOTTOM"] == null)
+	//				{
+	//					newRoomName += "D";
+	//				}
+	//				break;
+	//			case "L":
+	//				if (neighbours["LEFT"] != null && neighbours["LEFT"].name.Contains("R") || neighbours["LEFT"] == null)
+	//				{
+	//					newRoomName += "L";
+	//				}
+	//				break;
+	//			case "R":
+	//				if (neighbours["RIGHT"] != null && neighbours["RIGHT"].name.Contains("L") || neighbours["RIGHT"] == null)
+	//				{
+	//					newRoomName += "R";
+	//				}
+	//				break;
+	//			default:
+	//				break;
+	//		}
+	//	}
+
+	//	if (newRoomName != currentRoom.name)
+	//	{
+	//		return templates.GetRoom(newRoomName);
+	//	}
+
+	//	return currentRoom;
 
 
-		//string newRoomName = "";
-		//if (neighbours["TOP"] != null && neighbours["TOP"].name.Contains("D") || neighbours["TOP"] == null)
-		//{
-		//	newRoomName += "U";
-		//}
-		//if (neighbours["RIGHT"] != null && neighbours["RIGHT"].name.Contains("L") || neighbours["RIGHT"] == null)
-		//{
-		//	newRoomName += "R";
-		//}
-		//if (neighbours["BOTTOM"] != null && neighbours["BOTTOM"].name.Contains("U") || neighbours["BOTTOM"] == null)
-		//{
-		//	newRoomName += "D";
-		//}
-		//if (neighbours["LEFT"] != null && neighbours["LEFT"].name.Contains("R") || neighbours["LEFT"] == null)
-		//{
-		//	newRoomName += "L";
-		//}
-
-		//if (newRoomName != currentRoom.name)
-		//{
-		//	return templates.GetRoom(newRoomName);
-		//}
-
-		//return currentRoom;
 
 
-		//string removeStack = "";
+	//	//string newRoomName = "";
+	//	//if (neighbours["TOP"] != null && neighbours["TOP"].name.Contains("D") || neighbours["TOP"] == null)
+	//	//{
+	//	//	newRoomName += "U";
+	//	//}
+	//	//if (neighbours["RIGHT"] != null && neighbours["RIGHT"].name.Contains("L") || neighbours["RIGHT"] == null)
+	//	//{
+	//	//	newRoomName += "R";
+	//	//}
+	//	//if (neighbours["BOTTOM"] != null && neighbours["BOTTOM"].name.Contains("U") || neighbours["BOTTOM"] == null)
+	//	//{
+	//	//	newRoomName += "D";
+	//	//}
+	//	//if (neighbours["LEFT"] != null && neighbours["LEFT"].name.Contains("R") || neighbours["LEFT"] == null)
+	//	//{
+	//	//	newRoomName += "L";
+	//	//}
+
+	//	//if (newRoomName != currentRoom.name)
+	//	//{
+	//	//	return templates.GetRoom(newRoomName);
+	//	//}
+
+	//	//return currentRoom;
 
 
-		//if (neighbours["TOP"] != null && !neighbours["TOP"].name.Contains("D"))
-		//{
-		//	removeStack += "U";
+	//	//string removeStack = "";
 
-		//	//print(currentRoom.name + " " + roomName);
-		//}
-		//if (neighbours["RIGHT"] != null && !neighbours["RIGHT"].name.Contains("L"))
-		//{
-		//	//try { roomName.Replace("R", ""); } catch { }
-		//	removeStack += "R";
-		//}
-		//if (neighbours["BOTTOM"] != null && !neighbours["BOTTOM"].name.Contains("U"))
-		//{
-		//	//try { roomName.Replace("D", ""); } catch { }
-		//	removeStack += "D";
-		//}
-		//if (neighbours["LEFT"] != null && !neighbours["LEFT"].name.Contains("R"))
-		//{
-		//	//try { roomName.Replace("L", ""); } catch { }
-		//	removeStack += "L";
-		//}
 
-		////if (currentRoom.name != roomName)
-		////{
-		////	print("current room was: " + currentRoom.name + " and new room is " + roomName);
-		////	return templates.GetRoom(roomName);
-		////}
+	//	//if (neighbours["TOP"] != null && !neighbours["TOP"].name.Contains("D"))
+	//	//{
+	//	//	removeStack += "U";
 
-		//if (removeStack.Length > 0)
-		//{
-		//	string roomName = "";
+	//	//	//print(currentRoom.name + " " + roomName);
+	//	//}
+	//	//if (neighbours["RIGHT"] != null && !neighbours["RIGHT"].name.Contains("L"))
+	//	//{
+	//	//	//try { roomName.Replace("R", ""); } catch { }
+	//	//	removeStack += "R";
+	//	//}
+	//	//if (neighbours["BOTTOM"] != null && !neighbours["BOTTOM"].name.Contains("U"))
+	//	//{
+	//	//	//try { roomName.Replace("D", ""); } catch { }
+	//	//	removeStack += "D";
+	//	//}
+	//	//if (neighbours["LEFT"] != null && !neighbours["LEFT"].name.Contains("R"))
+	//	//{
+	//	//	//try { roomName.Replace("L", ""); } catch { }
+	//	//	removeStack += "L";
+	//	//}
 
-		//	for (int i = 0; i < currentRoom.name.Length; i++)
-		//	{
-		//		if (!removeStack.Contains(currentRoom.name[i]))
-		//		{
-		//			roomName += currentRoom.name[i];
-		//		}
-		//	}
+	//	////if (currentRoom.name != roomName)
+	//	////{
+	//	////	print("current room was: " + currentRoom.name + " and new room is " + roomName);
+	//	////	return templates.GetRoom(roomName);
+	//	////}
 
-		//	//print("old room was : " + currentRoom.name + " and new room is : " + roomName);
+	//	//if (removeStack.Length > 0)
+	//	//{
+	//	//	string roomName = "";
 
-		//	if (roomName == "")
-		//	{
-		//		return templates.closedRoom;
-		//	}
-		//	return templates.GetRoom(roomName);
+	//	//	for (int i = 0; i < currentRoom.name.Length; i++)
+	//	//	{
+	//	//		if (!removeStack.Contains(currentRoom.name[i]))
+	//	//		{
+	//	//			roomName += currentRoom.name[i];
+	//	//		}
+	//	//	}
 
-		//	//return templates.GetRoom(roomName);
-		//}
+	//	//	//print("old room was : " + currentRoom.name + " and new room is : " + roomName);
 
-		//return currentRoom;
+	//	//	if (roomName == "")
+	//	//	{
+	//	//		return templates.closedRoom;
+	//	//	}
+	//	//	return templates.GetRoom(roomName);
 
-		////return currentRoom;
+	//	//	//return templates.GetRoom(roomName);
+	//	//}
 
-		////room = templates.GetRoom(roomName);
-		//////print("new room is " + roomName);
+	//	//return currentRoom;
 
-		////return room;
+	//	////return currentRoom;
 
-	}
+	//	////room = templates.GetRoom(roomName);
+	//	//////print("new room is " + roomName);
+
+	//	////return room;
+
+	//}
 
 
 	private GameObject SpawnClosedRoom()

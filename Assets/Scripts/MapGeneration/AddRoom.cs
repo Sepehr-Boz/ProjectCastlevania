@@ -71,30 +71,11 @@ namespace Assets.Scripts.MapGeneration
 			//Invoke(nameof(ParentRoom), 3f);
 		}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-		//public void EnableRenderers()
-		//{
-		//	foreach (Renderer render in renderers)
-		//	{
-		//		render.enabled = true;
-		//	}
-		//}
-
-		//private void ParentRoom()
-		//{
-		//	Transform mapParent = mapCreation.mapParent;
-=======
-=======
->>>>>>> parent of 43376bc (53rd commit, added 2 corridors to Area1 rooms UD_ and LR_ which work well with the map in Area1. Fixed/Added code in AddScene that destroys the portal if theres no valid scene added.)
 		private void ParentRoom()
 		{
 			Transform mapParent = mapCreation.mapParent;
->>>>>>> parent of 43376bc (53rd commit, added 2 corridors to Area1 rooms UD_ and LR_ which work well with the map in Area1. Fixed/Added code in AddScene that destroys the portal if theres no valid scene added.)
+		}
 
-		//	transform.parent = mapParent;
-		//}
 
 		private void ExtendClosedRoom()
 		{
