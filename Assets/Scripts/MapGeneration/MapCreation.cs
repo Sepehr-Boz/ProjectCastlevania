@@ -290,8 +290,8 @@ public class MapCreation : MonoBehaviour
 			yield return new WaitForSeconds(0.5f);
 			int end = GameManager.Instance.thisArea.rooms.Count;
 
-			print("Start: " + start);
-			print("End: " + end);
+			//print("Start: " + start);
+			//print("End: " + end);
 
 			if (start == end)
 			{

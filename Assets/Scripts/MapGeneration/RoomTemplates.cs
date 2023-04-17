@@ -49,9 +49,10 @@ public class RoomTemplates : MonoBehaviour
 				return room;
 			}
 		}
-
+		print("room tried to get - SO MAKE ONE - is : " + roomName);
 		//if nothing is passed then return null
-		return null;
+		//if no room is valid then return a closed room instead
+		return closedRoom;
 	}
 
 	//public GameObject GetExitRoom(string exitName = null)

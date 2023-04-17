@@ -12,19 +12,10 @@ namespace Assets.Scripts.MapGeneration
 		private ExtensionMethods extensions;
 		private MapCreation mapCreation;
 
-
-		//private Renderer[] renderers;
-
 		private void Start()
 		{
 			extensions = GameObject.FindGameObjectWithTag("Rooms").GetComponent<ExtensionMethods>();
 			mapCreation = GameObject.FindGameObjectWithTag("Rooms").GetComponent<MapCreation>();
-
-			//renderers = GetComponentsInChildren<Renderer>();
-			//foreach (Renderer renderer in renderers)
-			//{
-			//	renderer.enabled = false;
-			//}
 			//extensions = ExtensionMethods.Instance;
 
 			//add self to rooms
@@ -44,6 +35,17 @@ namespace Assets.Scripts.MapGeneration
 				if (name.Contains("C"))
 				{
 					Invoke(nameof(ExtendClosedRoom), 1f);
+				}
+				else if (name.Contains("_"))
+				{
+					//activate all walls of corridors
+					var walls = transform.Find("Walls");
+					walls.Find("North").gameObject.SetActive(true);
+					walls.Find("East").gameObject.SetActive(true);
+					walls.Find("South").gameObject.SetActive(true);
+					walls.Find("West").gameObject.SetActive(true);
+
+					//corridors shouldnt be extended
 				}
 				else
 				{
@@ -69,6 +71,8 @@ namespace Assets.Scripts.MapGeneration
 			//Invoke(nameof(ParentRoom), 3f);
 		}
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 		//public void EnableRenderers()
 		//{
@@ -78,39 +82,35 @@ namespace Assets.Scripts.MapGeneration
 		//	}
 		//}
 
+		//private void ParentRoom()
+		//{
+		//	Transform mapParent = mapCreation.mapParent;
+=======
+=======
+>>>>>>> parent of 43376bc (53rd commit, added 2 corridors to Area1 rooms UD_ and LR_ which work well with the map in Area1. Fixed/Added code in AddScene that destroys the portal if theres no valid scene added.)
 		private void ParentRoom()
 		{
 			Transform mapParent = mapCreation.mapParent;
+>>>>>>> parent of 43376bc (53rd commit, added 2 corridors to Area1 rooms UD_ and LR_ which work well with the map in Area1. Fixed/Added code in AddScene that destroys the portal if theres no valid scene added.)
 
-			transform.parent = mapParent;
-		}
+		//	transform.parent = mapParent;
+		//}
 
 		private void ExtendClosedRoom()
 		{
 			//get surrounding
-			//open walls to where rooms are existent
+			//
 			var adjRooms = extensions.GetAdjacentRooms(transform.position);
-			var walls = transform.Find("Walls");
-
-			walls.Find("North").gameObject.SetActive(!adjRooms["TOP"]);
-			walls.Find("East").gameObject.SetActive(!adjRooms["RIGHT"]);
-			walls.Find("South").gameObject.SetActive(!adjRooms["BOTTOM"]);
-			walls.Find("West").gameObject.SetActive(!adjRooms["LEFT"]);
-
-
-
-
-
-			//if (adjRooms["TOP"] != null && adjRooms["BOTTOM"] != null)
-			//{
-			//	extensions.DisableVerticalWalls(adjRooms["TOP"], gameObject);
-			//	extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
-			//}
-			//else if (adjRooms["LEFT"] != null && adjRooms["RIGHT"] != null)
-			//{
-			//	extensions.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
-			//	extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
-			//}
+			if (adjRooms["TOP"] != null && adjRooms["BOTTOM"] != null)
+			{
+				extensions.DisableVerticalWalls(adjRooms["TOP"], gameObject);
+				extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
+			}
+			else if (adjRooms["LEFT"] != null && adjRooms["RIGHT"] != null)
+			{
+				extensions.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
+				extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
+			}
 		}
 
 

@@ -17,23 +17,20 @@ public class AddScene : MonoBehaviour
         mapCreation = GameObject.FindGameObjectWithTag("Rooms").GetComponent<MapCreation>();
         //add random scene and position
         //get the first index scene from room templates and remove it from the list so it cant be another portal with the same scene to move to
-        try
+        scene = mapCreation.moveToScenes[0].sceneName;
+        position = mapCreation.moveToScenes[0].newPos;
+        //scene = mapCreation.moveToScenes[0];
+        mapCreation.moveToScenes.RemoveAt(0);
+
+        if (scene == null || scene == "")
         {
-			scene = mapCreation.moveToScenes[0].sceneName;
-			position = mapCreation.moveToScenes[0].newPos;
-			mapCreation.moveToScenes.RemoveAt(0);
-		}
-        catch
-        {
-			//destroy self if theres no scene
-			///can sometimes occur when exit rooms are still added due to the difference in times between script runtimes allows multiple exit rooms to be spawned
-			///even when theres only 1 scene name left etc. so this is just to check if theres no scene transition added to it and if there isnt then destroy itself
-			///room name doesnt need to be changed nor does the RoomData equivalent as when spawning the map again this code will check again and see that theres no scene
-			///so will destroy self again
-			Destroy(gameObject);
+            //change name to not have exit
+            transform.root.name.Replace("Exit", "");
+            //destroy self as the portal wont lead anywhere
+            Destroy(gameObject);
         }
 
-		//position = Vector2.zero;
+		position = Vector2.zero;
 
 		//print("scene to move to is " + scene);
     }
