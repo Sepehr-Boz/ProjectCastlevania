@@ -8,38 +8,16 @@ public class MapCreation : MonoBehaviour
 {
 	[Header("Other scripts")]
 	private RoomTemplates templates;
-	//private ExtensionMethods extensions;
 
 
 	public Transform mapParent;
 	public bool isNewMap = true;
 
-
-	public GameObject[] start;
-	//public List<string> moveToScenes;
 	public List<SceneEntry> moveToScenes;
 	private List<SceneEntry> scenesCopy;
 
     private int i = 0;
 
-	//private bool finished = false;
-
-	//#region singleton
-	//private static MapCreation _instance;
-
-	//public static MapCreation Instance
-	//{
-	//	get
-	//	{
-	//		return _instance;
-	//	}
-	//}
-
-	//private void Awake()
-	//{
-	//	_instance = this;
-	//}
-	//#endregion
 
 	private void Start()
 	{
@@ -49,49 +27,30 @@ public class MapCreation : MonoBehaviour
 			mapParent = GameObject.Find("Map").transform;
 		}
 
-
 		templates = GetComponent<RoomTemplates>();
-		//extensions = GetComponent<ExtensionMethods>();
-
-
-		List<RoomData> roomsData = GameManager.Instance.thisArea.rooms;
+		//List<RoomData> roomsData = GameManager.Instance.thisArea.rooms;
 
 		//check if rooms are empty
 		if (AreRoomsEmpty())
 		{
-			isNewMap = true;
-
-			//make a copy of the move to scenes so that on first map generation then the portals can have a list of scenes to get from
-			scenesCopy = new List<SceneEntry>(moveToScenes);
-
-
-			//if empty then generate a new map
 			print("MAKE NEW MAP");
 
-			//add the first room/ entry room to room data and set it active
-			foreach (GameObject startRoom in start)
-			{
-				//dont need to add room data as the room data will be added by themselves in AddRoom
-
-
-				////List<Wall> walls = new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-				//RoomData newData = new RoomData(startRoom.transform.position, startRoom.name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
-				////GameManager.Instance.thisArea.roomsData.Add(new RoomData(startRoom.transform.position, startRoom.transform.rotation, walls, startRoom.name, new List<GameObject>(), new List<GameObject>()));
-				//GameManager.Instance.thisArea.rooms.Add(newData);
-
-				startRoom.SetActive(true);
-			}
-
+			isNewMap = true;
+			//make a copy of the move to scenes so that on first map generation then the portals can have a list of scenes to get from
+			scenesCopy = new List<SceneEntry>(moveToScenes);
+			//if empty then generate a new map
 			StartCoroutine(IsMapFinished());
-
-			//copy the walls of the map - 10f is a decent estimate for how long it should take maximum for the map to generate
-			//Invoke(nameof(CopyWallsData), 10f);
 		}
 		else
 		{
 			print("SPAWN EXISTENT MAP");
-			isNewMap = false;
 
+			isNewMap = false;
+			//clear out the start room in map
+			foreach (GameObject room in mapParent)
+			{
+				Destroy(room);
+			}
 			//if the rooms arent empty then set all spawnpoints inactive so rooms dont keep spawning
 			InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.01f);
 		}
@@ -101,12 +60,8 @@ public class MapCreation : MonoBehaviour
 
 	private void SpawnRoomFromRoomData()
 	{
-		//GameObject tmp = RoomPool.Instance.GetPooledRoom(GameManager.Instance.thisArea.roomsData[i].name);
-		//print("Spawning rooms - SpawnRoomFromRoomData");
-
 		isNewMap = false;
 
-		//print(GameManager.Instance.thisArea.roomsData[i].name + "SpawnRoomFromRoomData");
 		GameObject tmp = templates.GetRoom(GameManager.Instance.thisArea.rooms[i].name);
 		tmp = Instantiate(tmp);
 

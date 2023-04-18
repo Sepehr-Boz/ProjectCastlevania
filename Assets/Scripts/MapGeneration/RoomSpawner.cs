@@ -83,6 +83,8 @@ public class RoomSpawner : MonoBehaviour
 			{
 
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
+
+				//keep this to make large-ish rooms but dont use it if rooms are wanted to be kept small(like 10-20ish rooms)
 				//int rand = Random.Range(0, 100);
 				//if (rand <= newEntryChance)
 				//{
@@ -126,80 +128,12 @@ public class RoomSpawner : MonoBehaviour
 	}
 
 
-
-	//private GameObject ChangeRoom(GameObject currentRoom)
-	//{
-	//	var adjRooms = extensions.GetAdjacentRooms(transform.position);
-
-	//	bool valid = true;
-
-	//	foreach (char dir in currentRoom.name)
-	//	{
-	//		switch (dir)
-	//		{
-	//			case 'U':
-	//				//check if up is valid
-	//				if (adjRooms["TOP"] != null && !adjRooms["TOP"].name.Contains("D"))
-	//				{
-	//					valid = false;
-	//				}
-	//				break;
-	//			case 'D':
-	//				if (adjRooms["BOTTOM"] != null && !adjRooms["BOTTOM"].name.Contains("U"))
-	//				{
-	//					valid = false;
-	//				}
-	//				break;
-	//			case 'L':
-	//				if (adjRooms["LEFT"] != null && !adjRooms["LEFT"].name.Contains("R"))
-	//				{
-	//					valid = false;
-	//				}
-	//				break;
-	//			case 'R':
-	//				if (adjRooms["RIGHT"] != null && !adjRooms["RIGHT"].name.Contains("L"))
-	//				{
-	//					valid = false;
-	//				}
-	//				break;
-	//		}
-	//	}
-
-	//	if (valid)
-	//	{
-	//		return currentRoom;
-	//	}
-
-	//	string newName = "";
-
-	//	if (adjRooms["TOP"] != null && adjRooms["TOP"].name.Contains("D") || adjRooms["TOP"] == null)
-	//	{
-	//		newName += "U";
-	//	}
-	//	if (adjRooms["BOTTOM"] != null && adjRooms["BOTTOM"].name.Contains("U") || adjRooms["BOTTOM"] == null)
-	//	{
-	//		newName += "D";
-	//	}
-	//	if (adjRooms["LEFT"] != null && adjRooms["LEFT"].name.Contains("R") || adjRooms["LEFT"] == null)
-	//	{
-	//		newName += "L";
-	//	}
-	//	if (adjRooms["RIGHT"] != null && adjRooms["RIGHT"].name.Contains("L") || adjRooms["RIGHT"] == null)
-	//	{
-	//		newName += "R";
-	//	}
-
-	//	//print("NEW ROOM IS " + newName);
-
-	//	return templates.GetRoom(newName);
-
-	//}
-
-
 	private GameObject SpawnClosedRoom()
 	{
 		//get closed room
 		room = templates.closedRoom;
+		room = ChangeRoom(room);
+
 		//instantiate new closed room and remove clone
 		room = Instantiate(room);
 		room.name = room.name.Replace("(Clone)", "");
