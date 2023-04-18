@@ -16,4 +16,4 @@ MonoBehaviour:
   enemies: []
   objects: []
   rooms: []
-  maxMapSize: 300
+  maxMapSize: 100

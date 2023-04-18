@@ -13,16 +13,4 @@ public class PlayerData : ScriptableObject
 
 	public Vector2 currentPos;
 	public string currentScene;
-
-
-	//public new string name;
-
-	//public GameObject player;
-	//public float moveSpeed;
-
-	//public Vector3 position;
-	//public Quaternion rotation;
-	//public Area currentArea;
-	//public Scene currentScene;
-
 }

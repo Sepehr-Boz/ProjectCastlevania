@@ -17,25 +17,6 @@ public class RoomTemplates : MonoBehaviour
 
 	public GameObject[] allRooms; //used when spawning rooms from rooms data
 
-	//make room templates a singleton as it is the most commonly and referenced object in every scene
-	//#region singleton
-	//private static RoomTemplates _instance;
-
-	//public static RoomTemplates Instance
-	//{
-	//	get
-	//	{
-	//		return _instance;
-	//	}
-	//}
-
-	//private void Awake()
-	//{
-	//	_instance = this;
-	//}
-	//#endregion
-
-	#region getting rooms
 
 	//substitute for room pool so room pool can be removed from the scenes and room templates can be used instead as rooms will be instantiated instead of pooled
 	public GameObject GetRoom(string roomName = null)
@@ -54,19 +35,4 @@ public class RoomTemplates : MonoBehaviour
 		//if no room is valid then return a closed room instead
 		return closedRoom;
 	}
-
-	//public GameObject GetExitRoom(string exitName = null)
-	//{
-	//	foreach (GameObject room in exitRooms)
-	//	{
-	//		if (room.name.Equals(exitName))
-	//		{
-	//			return room;
-	//		}
-	//	}
-
-	//	return null;
-	//}
-
-	#endregion
 }

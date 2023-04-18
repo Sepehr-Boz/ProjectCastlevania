@@ -108,38 +108,16 @@ public class MapCreation : MonoBehaviour
 
 		//print(GameManager.Instance.thisArea.roomsData[i].name + "SpawnRoomFromRoomData");
 		GameObject tmp = templates.GetRoom(GameManager.Instance.thisArea.rooms[i].name);
-		//print("tmp gotten - SpawnRoomFromRoomData");
-
 		tmp = Instantiate(tmp);
 
 		//add the room as a child to mapParent
 		tmp.transform.parent = mapParent;
-
-		//print("tmp instantiated - SpawnRoomFromRoomData");
-
 		tmp.name = tmp.name.Replace("(Clone)", "");
 
-		//print("tmp renamed - SpawnRoomFromRoomData");
-		//set the SpawnPoints parent false so that the points stop spawning rooms
-		//foreach (Transform point in tmp.transform.Find("SpawnPoints"))
-		//{
-		//	if (point.name == "CENTRE")
-		//	{
-		//		continue;
-		//	}
-
-		//	//point.gameObject.SetActive(false);
-		//	Destroy(point.gameObject);
-		//}
-
 		//destroy all spawn points as theyre not needed anymore as the map isnt to be made anymore
-		Destroy(tmp.transform.Find("SpawnPoints"));
-
+		Destroy(tmp.transform.Find("SpawnPoints").gameObject);
 
 		tmp.transform.position = GameManager.Instance.thisArea.rooms[i].position;
-		//tmp.transform.SetPositionAndRotation(GameManager.Instance.thisArea.roomsData[i].position, GameManager.Instance.thisArea.roomsData[i].rotation);
-
-
 
 		//for each wall check if its enum equivalent exists in activewalls and if so then set active otherwise destroy the wall
 		List<Wall> activeWalls = GameManager.Instance.thisArea.rooms[i].activeWalls;
@@ -149,43 +127,6 @@ public class MapCreation : MonoBehaviour
 		tmp.transform.Find("Walls").Find("South").gameObject.SetActive(activeWalls.Contains(Wall.SOUTH));
 		tmp.transform.Find("Walls").Find("West").gameObject.SetActive(activeWalls.Contains(Wall.WEST));
 		//^ faster method than 1) loop through walls and set them inactive then 2) loop through active walls and set the correct walls active
-
-
-
-
-		//print("tmp position set - SpawnRoomFromRoomData");
-		//set all walls inactive first
-		//foreach (Transform wall in tmp.transform.Find("Walls"))
-		//{
-		//	wall.gameObject.SetActive(false);
-		//}
-
-
-		////set active walls active
-		//List<Wall> activeWalls = GameManager.Instance.thisArea.roomsData[i].GetActiveWalls();
-		//foreach (Wall activeWall in activeWalls)
-		//{
-		//	if (activeWall == Wall.NORTH)
-		//	{
-		//		tmp.transform.Find("Walls").Find("North").gameObject.SetActive(true);
-		//	}
-		//	else if (activeWall == Wall.EAST)
-		//	{
-		//		tmp.transform.Find("Walls").Find("East").gameObject.SetActive(true);
-		//	}
-		//	else if (activeWall == Wall.SOUTH)
-		//	{
-		//		tmp.transform.Find("Walls").Find("South").gameObject.SetActive(true);
-		//	}
-		//	else if (activeWall == Wall.WEST)
-		//	{
-		//		tmp.transform.Find("Walls").Find("West").gameObject.SetActive(true);
-		//	}
-		//	else
-		//	{
-		//		print("error has occurred");
-		//	}
-		//}
 
 		//when rooms are set active they are added to rooms because of the code in AddRoom.cs Start()
 		tmp.SetActive(true);
@@ -209,27 +150,6 @@ public class MapCreation : MonoBehaviour
 
 	private void CopyWallsData()
 	{
-		//List<GameObject> rooms = GameManager.Instance.thisArea.rooms;
-
-		//for (int i = 0; i < rooms.Count; i++)
-		//{
-		//	//get the current room
-		//	GameObject room = rooms[i];
-
-		////get the inactive walls
-		//foreach (Transform wall in room.transform.Find("Walls").transform)
-		//{
-		//	if (!wall.gameObject.activeInHierarchy)
-		//	{
-		//		GameManager.Instance.thisArea.roomsData[i].RemoveInactiveWall(wall.name);
-		//	}
-		//}
-		////remove the inactive walls from the roomsdata enum at the i index
-
-		//	Destroy(room);
-
-		//}
-
 		//loop through all the rooms childed to map
 		int index = 0;
 		foreach (Transform child in mapParent.transform)
@@ -251,39 +171,10 @@ public class MapCreation : MonoBehaviour
 			index++;
 		}
 
-		//print(index);
-
-		//for (int i = 0; i < mapParent.transform.childCount; i++)
-		//{
-		//	GameObject room = mapParent.GetChild(i).gameObject;
-
-		//	//get the inactive walls
-		//	foreach (Transform wall in room.transform.Find("Walls").transform)
-		//	{
-		//		if (!wall.gameObject.activeInHierarchy)
-		//		{
-		//			GameManager.Instance.thisArea.rooms[i].RemoveInactiveWall(wall.name);
-		//		}
-		//	}
-		//	//remove the inactive walls from the rooms enum at the i index
-
-		//	//Destroy(room, 0.2f);
-		//}
-
-		//print(i);
-
-
-		//foreach (Transform room in mapParent.transform)
-		//{
-		//	Destroy(room.gameObject);
-		//}
-
 		print("WALLS COPIED");
 
 		//copy move to scenes so that when getting scenes again on generation then the scenes can be gotten again
 		moveToScenes = scenesCopy;
-		//clear rooms list
-		//GameManager.Instance.thisArea.rooms.Clear();
 		//spawn rooms from rooms data
 		InvokeRepeating(nameof(SpawnRoomFromRoomData), 0.1f, 0.01f);
 	}

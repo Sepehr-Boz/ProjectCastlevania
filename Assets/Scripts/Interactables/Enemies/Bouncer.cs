@@ -6,7 +6,6 @@ public class Bouncer : MonoBehaviour
 {
     [SerializeField] private Vector2 dir;
 
-
     //tried to make dirs const but in C# const arrays aren't possible. Readonly should deliver the same function I want however.
     private readonly Vector2[] dirs = new Vector2[4]
     {
@@ -32,15 +31,6 @@ public class Bouncer : MonoBehaviour
     //collisions between 2 objects NEED at least one of the objects to have a rigidbody otherwise the collision wont trigger
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //send out 4 raycasts from the centre to 0.1f outside the circle to see which collide
-        //once one collides then return the
-        //Debug.DrawLine(transform.position, transform.position + new Vector3(0, 1, 0) * 5f, Color.red, 5f); //TOP
-        //Debug.DrawLine(transform.position, transform.position + new Vector3(1, 0, 0) * 5f, Color.black, 5f); //RIGHT
-        //Debug.DrawLine(transform.position, transform.position + new Vector3(0, -1, 0) * 5f, Color.yellow, 5f); //BOTTOM
-        //Debug.DrawLine(transform.position, transform.position + new Vector3(-1, 0, 0) * 5f, Color.blue, 5f); //LEFT
-        //ISSUE WAS THAT THE RAYCAST WAS COLLIDING WITH SELF
-
-
         //loop through the directions of the raycasts
         foreach (Vector2 castDir in dirs)
         {
@@ -66,31 +56,5 @@ public class Bouncer : MonoBehaviour
                 continue;
             }
         }
-
-
-        //RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new(0, 1), 10f);
-
-        //try
-        //{
-        //    RaycastHit2D hit = hits[1];
-
-        //    Debug.DrawLine(transform.position, hit.point, Color.red, 5f);
-        //}
-        //catch
-        //{
-        //    print("only collided with self");
-        //}
-  //      //RaycastHit2D hit = Physics2D.Raycast(transform.position, new(0, -1), 5f);
-  //      if (hits != null)
-  //      {
-  //          foreach (RaycastHit2D hit in hits)
-  //          {
-  //              print(hit.collider.name);
-  //          }
-
-  // //         print("hit something");
-		//	//Debug.DrawLine(transform.position, hit.point, Color.red, 5f);
-  // //         print("drawn somthing");
-		//}
 	}
 }

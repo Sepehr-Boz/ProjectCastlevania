@@ -45,30 +45,6 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void RemoveInputs()
-	{
-		playerInputActions.Disable();
-		playerInputActions.Player.Move.performed -= Move;
-		playerInputActions.Player.Move.canceled -= MoveStop;
-
-		playerInputActions.Player.Die.performed -= DecreaseHealth;
-	}
-
-	public void AddInputs()
-	{
-		//playerInputActions.Enable();
-		playerInputActions.Player.Move.performed += Move;
-		playerInputActions.Player.Move.canceled += MoveStop;
-
-		playerInputActions.Player.Die.performed += DecreaseHealth;
-	}
-
-	private void OnEnable()
-	{
-		//set health back to max health
-		//hp = maxHP;
-	}
-
 	private void FixedUpdate()
 	{
 		if (hp <= 0)
@@ -87,13 +63,14 @@ public class PlayerController : MonoBehaviour
 		rigidBody.velocity = velocity * moveForce;
 	}
 
+	#region movements
+
 	//FOR TESTING
 	public void DecreaseHealth(InputAction.CallbackContext context)
 	{
 		hp -= 10;
 	}
 
-	#region movements
 	//move functions alter the velocity int the script - dont apply the velocity in the functions themselves
 	public void Move(InputAction.CallbackContext context)
 	{

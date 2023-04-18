@@ -22,24 +22,12 @@ public class AddScene : MonoBehaviour
             //destroy the portal if theres no scene to get
             scene = mapCreation.moveToScenes[0].sceneName;
             position = mapCreation.moveToScenes[0].newPos;
-            //scene = mapCreation.moveToScenes[0];
             mapCreation.moveToScenes.RemoveAt(0);
         }
-        catch{
+        catch
+        {
             Destroy(gameObject);
         }
-
-        // if (scene == null || scene == "")
-        // {
-        //     //change name to not have exit
-        //     transform.root.name.Replace("Exit", "");
-        //     //destroy self as the portal wont lead anywhere
-        //     Destroy(gameObject);
-        // }
-
-		//position = Vector2.zero;
-
-		//print("scene to move to is " + scene);
     }
 
 
@@ -52,10 +40,7 @@ public class AddScene : MonoBehaviour
             PlayerManager.Instance.currentData.currentPos = position;
             PlayerManager.Instance.currentData.currentHP = PlayerManager.Instance.currentPlayer.GetComponent<PlayerController>().hp;
 
-
             GameManager.Instance.ChangeScene(scene);
-			//move the current player to position
-			//PlayerManager.Instance.currentPlayer.transform.position = position;
 		}
     }
 }
