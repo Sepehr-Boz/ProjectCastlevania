@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3889739637654706413}
   - component: {fileID: 231439259209588646}
   - component: {fileID: -2684783016521497799}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 5802783525552464916}
   - component: {fileID: 5588852822070488542}
   - component: {fileID: 3755913541233673828}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RIGHT
   m_TagString: SpawnPoint
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -167,7 +167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 394746604363119685}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpawnPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 594231689242209271}
   - component: {fileID: 1328427092194171516}
   - component: {fileID: 2154865613609574083}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: West
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -464,7 +464,7 @@ GameObject:
   - component: {fileID: 4633898173494596431}
   - component: {fileID: 37844544861822922}
   - component: {fileID: 5362855600921862581}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1615,7 +1615,7 @@ GameObject:
   - component: {fileID: 9078303481560498586}
   - component: {fileID: 2621144881033048465}
   - component: {fileID: 6578702349330969548}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FOCUS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1765,7 +1765,7 @@ GameObject:
   - component: {fileID: 840134601247657241}
   - component: {fileID: 4837342901880638279}
   - component: {fileID: 2787895994598248488}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CENTRE
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -1858,7 +1858,7 @@ GameObject:
   - component: {fileID: 8418515154213463875}
   - component: {fileID: 8766059918455073916}
   - component: {fileID: 5719103696099784917}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: North
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2120,7 +2120,7 @@ GameObject:
   - component: {fileID: 429312195172074096}
   - component: {fileID: 421223930887251081}
   - component: {fileID: 6916948103943752746}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: East
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2341,7 +2341,7 @@ GameObject:
   - component: {fileID: 5638461137078878496}
   - component: {fileID: 9004873675581032710}
   - component: {fileID: 6412406133506280665}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: South
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2650,6 +2650,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LaserTrap (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4196560156109372765, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
 --- !u!4 &4128024708718407475 stripped
@@ -2719,6 +2723,10 @@ PrefabInstance:
     - target: {fileID: 4196560156109372765, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
       propertyPath: m_Name
       value: LaserTrap
+      objectReference: {fileID: 0}
+    - target: {fileID: 4196560156109372765, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
@@ -2793,6 +2801,10 @@ PrefabInstance:
     - target: {fileID: 4196560156109372765, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
       propertyPath: m_Name
       value: LaserTrap (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4196560156109372765, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1163c11928782e245a3af5c8044c7be2, type: 3}

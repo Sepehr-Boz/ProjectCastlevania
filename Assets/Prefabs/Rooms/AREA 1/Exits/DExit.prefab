@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1255124633427976204}
   - component: {fileID: 1164939359763284171}
   - component: {fileID: 4207704793897550647}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: South
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 5680299093597389886}
   - component: {fileID: 7003466789718866254}
   - component: {fileID: 1767140616986213213}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: North
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,7 +491,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8164018983372348197}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpawnPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -527,7 +527,7 @@ GameObject:
   - component: {fileID: 516032872478780685}
   - component: {fileID: 7441206200338615471}
   - component: {fileID: 7130236613361894650}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CENTRE
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -620,7 +620,7 @@ GameObject:
   - component: {fileID: 4534838248922275038}
   - component: {fileID: 6892217980899962973}
   - component: {fileID: 8892086268363407815}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: West
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -880,7 +880,7 @@ GameObject:
   - component: {fileID: 7535751877501624956}
   - component: {fileID: 7311341574115404611}
   - component: {fileID: 7476399000963385978}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2031,7 +2031,7 @@ GameObject:
   - component: {fileID: 5813614726813106076}
   - component: {fileID: 7866519303912457714}
   - component: {fileID: 8693255140533970346}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FOCUS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2181,7 +2181,7 @@ GameObject:
   - component: {fileID: 6321825287532791011}
   - component: {fileID: 6178771492994488714}
   - component: {fileID: 4511149860838033289}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: DOWN
   m_TagString: SpawnPoint
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -2277,7 +2277,7 @@ GameObject:
   - component: {fileID: 6836429152331087194}
   - component: {fileID: 8647573212192329968}
   - component: {fileID: -4415085079778418469}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: DExit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2340,7 +2340,7 @@ GameObject:
   - component: {fileID: 5158437118846209713}
   - component: {fileID: 2311797462594593618}
   - component: {fileID: 4819424553263855347}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: East
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2644,6 +2644,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Portal
       objectReference: {fileID: 0}
+    - target: {fileID: 7846540976253972411, guid: 1ee77c582e18f5c4e9255ea4b349536f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ee77c582e18f5c4e9255ea4b349536f, type: 3}
 --- !u!4 &5606337404661460052 stripped
@@ -2651,20 +2655,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5873076382242641899, guid: 1ee77c582e18f5c4e9255ea4b349536f, type: 3}
   m_PrefabInstance: {fileID: 2039266347306449855}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8117859832099361796 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7846540976253972411, guid: 1ee77c582e18f5c4e9255ea4b349536f, type: 3}
-  m_PrefabInstance: {fileID: 2039266347306449855}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5705868255606386322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8117859832099361796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10813d70dbf68614b8312d075e8ac335, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

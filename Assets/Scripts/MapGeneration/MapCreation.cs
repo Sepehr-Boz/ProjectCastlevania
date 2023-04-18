@@ -71,10 +71,13 @@ public class MapCreation : MonoBehaviour
 			//add the first room/ entry room to room data and set it active
 			foreach (GameObject startRoom in start)
 			{
-				//List<Wall> walls = new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-				RoomData newData = new RoomData(startRoom.transform.position, startRoom.name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
-				//GameManager.Instance.thisArea.roomsData.Add(new RoomData(startRoom.transform.position, startRoom.transform.rotation, walls, startRoom.name, new List<GameObject>(), new List<GameObject>()));
-				GameManager.Instance.thisArea.rooms.Add(newData);
+				//dont need to add room data as the room data will be added by themselves in AddRoom
+
+
+				////List<Wall> walls = new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
+				//RoomData newData = new RoomData(startRoom.transform.position, startRoom.name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
+				////GameManager.Instance.thisArea.roomsData.Add(new RoomData(startRoom.transform.position, startRoom.transform.rotation, walls, startRoom.name, new List<GameObject>(), new List<GameObject>()));
+				//GameManager.Instance.thisArea.rooms.Add(newData);
 
 				startRoom.SetActive(true);
 			}

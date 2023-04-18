@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7638405207993647498}
   - component: {fileID: 1330376811552837671}
   - component: {fileID: 3777687134293538233}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RIGHT
   m_TagString: SpawnPoint
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -106,7 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2953166472020223881}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpawnPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +143,7 @@ GameObject:
   - component: {fileID: 3231734221780741391}
   - component: {fileID: 7120770293966096633}
   - component: {fileID: 4384041906716762850}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LEFT
   m_TagString: SpawnPoint
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 4543716467479916979}
   - component: {fileID: 6335101738351520853}
   - component: {fileID: 1230388672110307906}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FOCUS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,7 +392,7 @@ GameObject:
   - component: {fileID: 2874639359273422065}
   - component: {fileID: 7495802474458598720}
   - component: {fileID: 6185267970896825597}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CENTRE
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -438,7 +438,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!50 &7495802474458598720
 Rigidbody2D:
@@ -485,7 +485,7 @@ GameObject:
   - component: {fileID: 4321027136007531554}
   - component: {fileID: 814761614360013812}
   - component: {fileID: 1837876270970757589}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: North
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -745,7 +745,7 @@ GameObject:
   - component: {fileID: 1093748936076673218}
   - component: {fileID: 8261217592857477524}
   - component: {fileID: 7522738968820769424}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1894,7 +1894,7 @@ GameObject:
   - component: {fileID: 2304622762879735819}
   - component: {fileID: 4073049111122244681}
   - component: {fileID: 8052992486138973580}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: East
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2115,7 +2115,7 @@ GameObject:
   - component: {fileID: 3388899307960716224}
   - component: {fileID: 4542137302638430797}
   - component: {fileID: 3245305676668839163}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: South
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2375,7 +2375,7 @@ GameObject:
   - component: {fileID: 5830176932960570756}
   - component: {fileID: 4564950419478694293}
   - component: {fileID: -7650325263707156257}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2437,7 +2437,7 @@ GameObject:
   - component: {fileID: 2571497621914462458}
   - component: {fileID: 1993540523690898779}
   - component: {fileID: 1898463680335050721}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: West
   m_TagString: Untagged
   m_Icon: {fileID: 0}

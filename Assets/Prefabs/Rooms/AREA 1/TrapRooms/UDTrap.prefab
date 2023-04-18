@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6592299524196834586}
   - component: {fileID: 1801199434547130486}
   - component: {fileID: 8688733662218422318}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1160,7 +1160,7 @@ GameObject:
   - component: {fileID: 1145200474147973302}
   - component: {fileID: 8331346894817801398}
   - component: {fileID: 3272664719991307642}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: North
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1381,7 +1381,7 @@ GameObject:
   - component: {fileID: 5027265135163153607}
   - component: {fileID: 1413075475246771860}
   - component: {fileID: 629580557472526554}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: South
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1602,7 +1602,7 @@ GameObject:
   - component: {fileID: 1868487409757943901}
   - component: {fileID: 8212537385235315440}
   - component: {fileID: 544233409525332571}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: West
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1866,7 +1866,7 @@ GameObject:
   - component: {fileID: 1035084945597959873}
   - component: {fileID: 6906423393352206255}
   - component: {fileID: 7020852485648236617}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CENTRE
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -1959,7 +1959,7 @@ GameObject:
   - component: {fileID: 5089524011768627843}
   - component: {fileID: 7044651567108077042}
   - component: {fileID: 7310220115443848705}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UP
   m_TagString: SpawnPoint
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -2053,7 +2053,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2423817135271087801}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpawnPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2092,7 +2092,7 @@ GameObject:
   - component: {fileID: 2707377915232453731}
   - component: {fileID: 7907741996850243706}
   - component: {fileID: 5215118800521912223}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FOCUS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2242,7 +2242,7 @@ GameObject:
   - component: {fileID: 4105010252037147590}
   - component: {fileID: 423618090453806646}
   - component: {fileID: 3383700223775732622}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: East
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2506,7 +2506,7 @@ GameObject:
   - component: {fileID: 4847213609461724916}
   - component: {fileID: 6319650561764543620}
   - component: {fileID: 1417381870409636314}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: DOWN
   m_TagString: SpawnPoint
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -2602,7 +2602,7 @@ GameObject:
   - component: {fileID: 8033811047936457746}
   - component: {fileID: 6205338125811535406}
   - component: {fileID: -2573458166928776407}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UDTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2713,6 +2713,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArrowTrap (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 8386745749304090538, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090539, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Offset.y
       value: -0.5
@@ -2720,7 +2724,7 @@ PrefabInstance:
     - target: {fileID: 8386745749304090550, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: collider
       value: 
-      objectReference: {fileID: 175564078439941622}
+      objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090550, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: shootDir.x
       value: -1
@@ -2787,6 +2791,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArrowTrap (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8386745749304090538, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090539, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Offset.x
       value: 3.5
@@ -2798,7 +2806,7 @@ PrefabInstance:
     - target: {fileID: 8386745749304090550, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: collider
       value: 
-      objectReference: {fileID: 6160740365047185150}
+      objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090550, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: shootDir.x
       value: 1
@@ -2865,13 +2873,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: PressurePlate (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2348778700245136796, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
---- !u!61 &175564078439941622 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 928878643531886497, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
-  m_PrefabInstance: {fileID: 1048125595664345687}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1678168925026083448 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1855972414661724207, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
@@ -2932,6 +2939,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArrowTrap (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8386745749304090538, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090539, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Offset.x
       value: 3
@@ -2943,7 +2954,7 @@ PrefabInstance:
     - target: {fileID: 8386745749304090550, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: collider
       value: 
-      objectReference: {fileID: 7657642495027634589}
+      objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090550, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: shootDir.x
       value: 1
@@ -3010,13 +3021,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: PressurePlate
       objectReference: {fileID: 0}
+    - target: {fileID: 2348778700245136796, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
---- !u!61 &3447134912297842347 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 928878643531886497, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
-  m_PrefabInstance: {fileID: 2536270702277171466}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4247767289037852965 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1855972414661724207, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
@@ -3077,16 +3087,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: PressurePlate (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 2348778700245136796, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
 --- !u!4 &4637282232777578864 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1855972414661724207, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
-  m_PrefabInstance: {fileID: 6456845255892668767}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &6160740365047185150 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 928878643531886497, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
   m_PrefabInstance: {fileID: 6456845255892668767}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7367913959037791501
@@ -3156,10 +3165,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArrowTrap (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8386745749304090538, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090550, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: collider
       value: 
-      objectReference: {fileID: 3447134912297842347}
+      objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090550, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: shootDir.x
       value: -1
@@ -3226,13 +3239,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: PressurePlate (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2348778700245136796, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
---- !u!61 &7657642495027634589 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 928878643531886497, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
-  m_PrefabInstance: {fileID: 7395301406781263420}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9178580550501451283 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1855972414661724207, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
@@ -3293,6 +3305,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArrowTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 8386745749304090538, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090539, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Offset.x
       value: 3.5
@@ -3304,7 +3320,7 @@ PrefabInstance:
     - target: {fileID: 8386745749304090550, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: collider
       value: 
-      objectReference: {fileID: 9217233453065947236}
+      objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090550, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: shootDir.x
       value: 1
@@ -3371,13 +3387,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: PressurePlate (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2348778700245136796, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
---- !u!61 &7416689109960892239 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 928878643531886497, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
-  m_PrefabInstance: {fileID: 7640732007106883822}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8343173760857553089 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1855972414661724207, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
@@ -3438,16 +3453,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: PressurePlate (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2348778700245136796, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
 --- !u!4 &7696519658809847786 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1855972414661724207, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
-  m_PrefabInstance: {fileID: 8290628602873898949}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &9217233453065947236 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 928878643531886497, guid: cfa8186b272f8d74cbcedf9fe29f8c7e, type: 3}
   m_PrefabInstance: {fileID: 8290628602873898949}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8415151122889346423
@@ -3505,6 +3519,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArrowTrap (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8386745749304090538, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090539, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Offset.y
       value: 0
@@ -3512,7 +3530,7 @@ PrefabInstance:
     - target: {fileID: 8386745749304090550, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: collider
       value: 
-      objectReference: {fileID: 7416689109960892239}
+      objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090550, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: shootDir.x
       value: -1

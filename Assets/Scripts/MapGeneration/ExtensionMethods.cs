@@ -48,7 +48,7 @@ public class ExtensionMethods : MonoBehaviour
 	{
 		//check if currentroom has already been extended and if it has then return
 		//check for any rooms above, below, to the right, left, and diagonally of the current room
-		Dictionary<string, GameObject> rooms = new(9)
+		Dictionary<string, GameObject> adjRooms = new(9)
 		{
 			{"TOPLEFT", null },  {"TOP", null }, {"TOPRIGHT", null },
 			{"LEFT", null }, {"CENTRE", null }, {"RIGHT", null },
@@ -60,53 +60,86 @@ public class ExtensionMethods : MonoBehaviour
 		for (int i = 0; i < 9; i++)
 		{
 			newPos = currentPos + directions[i];
+
 			try
 			{
-				//keep looping up through the parent transform until the parent is non existent or the parent is Map
-				//should now work evene when rooms are childed to Map
-				room = Physics2D.OverlapCircle(newPos, 1f).gameObject;
-				//print("room name is " + room.name);
-				if (room == null)
-				{
-					continue;
-				}
-				//print(room.transform.parent.name);
-
-				do
-				{
-					room = room.transform.parent.gameObject;
-				}
-				while (room.transform.parent.name != "Map");
-
-				//while (room.transform.parent.name != "Map")
-				//{
-				//	room = transform.parent.gameObject;
-				//	print("parented room is " + room.name);
-				//}
-				//room = Physics2D.OverlapCircle(newPos, 1f).transform.root.gameObject;
-
-				//ignore closed rooms, boss rooms, and exit rooms
-				if (room != null && !room.name.Contains("C") && !room.name.Equals("BossRoom") && !room.name.Contains("Exit"))
-				{
-					rooms[rooms.ElementAt(i).Key] = room;
-					//room.GetComponent<AddRoom>().extended = true;
-				}
+				room = Physics2D.OverlapCircle(newPos, 1f, LayerMask.GetMask("Room")).gameObject;
+				//print("room found is " + room.name);
 			}
-			catch(Exception e)
+			catch
 			{
-				//print("error: " + e.ToString());
-				//print("no room found - GetAdjacentRooms");
+				//if (room == null)
+				//{
+				//	print("no room found");
+
+				//}
+				//else
+				//{
+				//	//print("room not found is" + room.name);
+				//	print("parent of not foudn room is" + room.transform.parent.name);
+				//}
+				continue;
 			}
-			//if (room == null)
-			//{
-			//	continue;
-			//}
+
+			while (room.transform.parent != null && room.transform.parent.name != "Map")
+			{
+				room = room.transform.parent.gameObject;
+			}
+
+			if (room == null || !"UDLRBossExit_".Contains(room.name))
+			{
+				continue;
+			}
+			else
+			{
+				print("ROOM NAME: " + room.name);
+				adjRooms[adjRooms.ElementAt(i).Key] = room;
+			}
 		}
-		//to see if there are any active rooms, check for any FOCUS gameobject and if there is then get the parent room
-		//check in the AddRoom component for the variable extended, if its false add to rooms, otherwise dont as it will have already been extended
-		//for every room returned set the extended value in addroom to true so theyre not extended again
-		return rooms;
+		return adjRooms;
 	}
+
+
+			//try
+			//{
+			//	room = Physics2D.OverlapCircle(newPos, 1f, LayerMask.GetMask("Room")).gameObject;
+
+			//	if (room == null)
+			//	{
+			//		continue;
+			//	}
+
+			//	while (room.transform.parent != null && room.transform.parent.name != "Map" && room.transform.root.name == "Map")
+			//	{
+			//		room = room.transform.parent.gameObject;
+			//	}
+
+			//	if (!"UDLR".Contains(room.name))
+			//	{
+			//		continue;
+			//	}
+
+			//	print("room name is " + room.name);
+
+			//	//ignore closed rooms, boss rooms, and exit rooms
+			//	if (!room.name.Equals("UDLRBoss") && !room.name.Contains("Exit") && !room.name.Contains("_"))
+			//	{
+			//		rooms[rooms.ElementAt(i).Key] = room;
+			//		//room.GetComponent<AddRoom>().extended = true;
+			//	}
+			//}
+			//catch(Exception e)
+			//{
+			//	print("error: " + e.ToString() + room.name);
+			//	//print(room.name);
+			//	//print("no room found - GetAdjacentRooms");
+			//}
+	//	}
+	//	//to see if there are any active rooms, check for any FOCUS gameobject and if there is then get the parent room
+	//	//check in the AddRoom component for the variable extended, if its false add to rooms, otherwise dont as it will have already been extended
+	//	//for every room returned set the extended value in addroom to true so theyre not extended again
+	//	return rooms;
+	//}
 
 	//public Dictionary<string, GameObject> GetAdjacentRoomsUnfiltered(Vector2 currentPos)
 	//{

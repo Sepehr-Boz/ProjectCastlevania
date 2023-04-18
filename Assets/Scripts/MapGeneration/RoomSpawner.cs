@@ -94,14 +94,24 @@ public class RoomSpawner : MonoBehaviour
 				//room = ChangeRoom(room);
 
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
-				int rand = Random.Range(0, 100);
-				if (rand <= newEntryChance)
-				{
-					room = templates.openRoom;
-				}
+				//int rand = Random.Range(0, 100);
+				//if (rand <= newEntryChance)
+				//{
+				//	room = templates.openRoom;
+				//}
 				//room = templates.openRoom;
 				//room = ChangeRoom(room);
 				//check if room can be an exit
+
+
+
+				room = ChangeRoom(room);
+
+
+
+
+
+
 				room = MakeExit(room);
 
 				//instantiate new room and remove the clone from its name
@@ -115,6 +125,9 @@ public class RoomSpawner : MonoBehaviour
 
 				//remove the spawnpoint in the direction of which it was spawned
 				//serves the same functionality as Destroyer - but Destroyer isnt working in some cases so this is just in case
+
+
+				//PROBLEM WILL ROOMS CLIPPING INTO CORRIDOR ROOMS STILL OCCURS NO MATTER WHAT I DO WHAT THE HELL!!!!!!!
 				//switch (openingDirection)
 				//{
 				//	case 1:
@@ -132,7 +145,7 @@ public class RoomSpawner : MonoBehaviour
 				//	default:
 				//		print("whyy god why - RoomSpawner");
 				//		break;
-				//}
+				//};
 
 
 
@@ -148,9 +161,15 @@ public class RoomSpawner : MonoBehaviour
 
 			spawned = true;
 
-			//Time.timeScale = 0.001f;
+			//Time.timeScale = 0f;
 		}
 	}
+
+	private GameObject ChangeRoom(GameObject currentRoom)
+	{
+		return currentRoom;
+	}
+
 
 	//private GameObject ChangeRoom(GameObject currentRoom)
 	//{
