@@ -41,14 +41,14 @@ namespace Assets.Scripts.MapGeneration
 				{
 					Invoke(nameof(ExtendClosedRoom), 1f);
 				}
-				else if (name.Contains("_"))
+				else if (name.Contains("--"))
 				{
 					//activate all walls of corridors
-					var walls = transform.Find("Walls");
-					walls.Find("North").gameObject.SetActive(true);
-					walls.Find("East").gameObject.SetActive(true);
-					walls.Find("South").gameObject.SetActive(true);
-					walls.Find("West").gameObject.SetActive(true);
+					//var walls = transform.Find("Walls");
+					//walls.Find("North").gameObject.SetActive(true);
+					//walls.Find("East").gameObject.SetActive(true);
+					//walls.Find("South").gameObject.SetActive(true);
+					//walls.Find("West").gameObject.SetActive(true);
 
 					//corridors shouldnt be extended
 				}
@@ -82,13 +82,30 @@ namespace Assets.Scripts.MapGeneration
 			//get surrounding
 			//
 			var adjRooms = extensions.GetAdjacentRooms(transform.position);
-			var walls = transform.Find("Walls");
+			//var walls = transform.Find("Walls");
 
-			walls.Find("North").gameObject.SetActive(adjRooms["TOP"] == null ? false : true);
-			walls.Find("East").gameObject.SetActive(adjRooms["RIGHT"] == null ? false : true);
-			walls.Find("South").gameObject.SetActive(adjRooms["BOTTOM"] == null ? false : true);
-			walls.Find("West").gameObject.SetActive(adjRooms["LEFT"] == null ? false : true);
+			//walls.Find("North").gameObject.SetActive(adjRooms["TOP"] == null ? false : true);
+			//walls.Find("East").gameObject.SetActive(adjRooms["RIGHT"] == null ? false : true);
+			//walls.Find("South").gameObject.SetActive(adjRooms["BOTTOM"] == null ? false : true);
+			//walls.Find("West").gameObject.SetActive(adjRooms["LEFT"] == null ? false : true);
 
+
+			if (adjRooms["TOP"] != null)
+			{
+				extensions.DisableVerticalWalls(adjRooms["TOP"], gameObject);
+			}
+			if (adjRooms["BOTTOM"] != null)
+			{
+				extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
+			}
+			if (adjRooms["LEFT"] != null)
+			{
+				extensions.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
+			}
+			if (adjRooms["RIGHT"] != null)
+			{
+				extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
+			}
 
 		}
 			//if (adjRooms["TOP"] != null && adjRooms["BOTTOM"] != null)
@@ -131,7 +148,6 @@ namespace Assets.Scripts.MapGeneration
 			var walls = transform.Find("Walls");
 
 
-
 			////check if there are any exits to closed walls
 			//if (adjRooms["TOP"] != null && !adjRooms["TOP"].name.Contains("D"))
 			//{
@@ -158,11 +174,22 @@ namespace Assets.Scripts.MapGeneration
 			//check each direction and enable the wall if there arent any rooms in that direction
 			//!adjRooms["TOP"] ?.walls.Find("North").gameObject.SetActive(true);
 
-			//for each wall, check if the room in that direction is empty and if so set the wall active, otherwise set the activity to what it originally is.
-			walls.Find("North").gameObject.SetActive(!adjRooms["TOP"] ? true : walls.Find("North").gameObject.activeInHierarchy);
-			walls.Find("East").gameObject.SetActive(!adjRooms["RIGHT"] ? true : walls.Find("East").gameObject.activeInHierarchy);
-			walls.Find("South").gameObject.SetActive(!adjRooms["BOTTOM"] ? true : walls.Find("South").gameObject.activeInHierarchy);
-			walls.Find("West").gameObject.SetActive(!adjRooms["LEFT"] ? true : walls.Find("West").gameObject.activeInHierarchy);
+			if (!name.Contains("--"))
+			{
+				//for each wall, check if the room in that direction is empty and if so set the wall active, otherwise set the activity to what it originally is.
+				walls.Find("North").gameObject.SetActive(!adjRooms["TOP"] ? true : walls.Find("North").gameObject.activeInHierarchy);
+				walls.Find("East").gameObject.SetActive(!adjRooms["RIGHT"] ? true : walls.Find("East").gameObject.activeInHierarchy);
+				walls.Find("South").gameObject.SetActive(!adjRooms["BOTTOM"] ? true : walls.Find("South").gameObject.activeInHierarchy);
+				walls.Find("West").gameObject.SetActive(!adjRooms["LEFT"] ? true : walls.Find("West").gameObject.activeInHierarchy);
+			}
+			else
+			{
+				walls.Find("North").gameObject.SetActive(true);
+				walls.Find("East").gameObject.SetActive(true);
+				walls.Find("South").gameObject.SetActive(true);
+				walls.Find("West").gameObject.SetActive(true);
+
+			}
 			//walls.Find("North").gameObject.SetActive(!adjRooms["TOP"]);
 			//walls.Find("East").gameObject.SetActive(!adjRooms["RIGHT"]);
 			//walls.Find("South").gameObject.SetActive(!adjRooms["BOTTOM"]);

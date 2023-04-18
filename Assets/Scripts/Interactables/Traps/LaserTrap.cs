@@ -19,7 +19,7 @@ public class LaserTrap : TrapController
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        print(collision.gameObject.name + " has collided");
+        //print(collision.gameObject.name + " has collided");
 
         //play hit effect
 		ParticleSystem newEffect = Instantiate(interactEffect);

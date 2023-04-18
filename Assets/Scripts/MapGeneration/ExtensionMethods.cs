@@ -86,13 +86,13 @@ public class ExtensionMethods : MonoBehaviour
 				room = room.transform.parent.gameObject;
 			}
 
-			if (room == null || !"UDLRBossExit_".Contains(room.name))
+			if (room == null && !room.name.Equals("UDLRBoss") && !room.name.Contains("--") && !room.name.Contains("Exit"))
 			{
 				continue;
 			}
 			else
 			{
-				print("ROOM NAME: " + room.name);
+				//print("ROOM NAME: " + room.name);
 				adjRooms[adjRooms.ElementAt(i).Key] = room;
 			}
 		}

@@ -2715,7 +2715,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090538, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090539, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Offset.y
@@ -2793,7 +2793,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090538, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090539, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Offset.x
@@ -2941,7 +2941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090538, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090539, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Offset.x
@@ -3167,7 +3167,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090538, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090550, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: collider
@@ -3307,7 +3307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090538, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090539, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Offset.x
@@ -3521,7 +3521,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090538, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8386745749304090539, guid: 4d8bad4340be84e4ea832bcab65034af, type: 3}
       propertyPath: m_Offset.y
