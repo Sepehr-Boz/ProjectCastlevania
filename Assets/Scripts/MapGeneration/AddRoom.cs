@@ -58,11 +58,11 @@ namespace Assets.Scripts.MapGeneration
 
 					if (!extended)
 					{
-						if (rand <= 10) { Invoke(nameof(ExtendRoom), 1f); }
+						if (rand > 10) { Invoke(nameof(ExtendRoom), 1f); }
 					}
 					else
 					{
-						if (rand <= 10) { Invoke(nameof(ExtendRoom), 1f); }
+						if (rand > 10) { Invoke(nameof(ExtendRoom), 1f); }
 					}
 				}
 			}
@@ -174,26 +174,15 @@ namespace Assets.Scripts.MapGeneration
 			//check each direction and enable the wall if there arent any rooms in that direction
 			//!adjRooms["TOP"] ?.walls.Find("North").gameObject.SetActive(true);
 
-			if (!name.Contains("--"))
-			{
-				//for each wall, check if the room in that direction is empty and if so set the wall active, otherwise set the activity to what it originally is.
-				walls.Find("North").gameObject.SetActive(!adjRooms["TOP"] ? true : walls.Find("North").gameObject.activeInHierarchy);
-				walls.Find("East").gameObject.SetActive(!adjRooms["RIGHT"] ? true : walls.Find("East").gameObject.activeInHierarchy);
-				walls.Find("South").gameObject.SetActive(!adjRooms["BOTTOM"] ? true : walls.Find("South").gameObject.activeInHierarchy);
-				walls.Find("West").gameObject.SetActive(!adjRooms["LEFT"] ? true : walls.Find("West").gameObject.activeInHierarchy);
-			}
-			else
-			{
-				walls.Find("North").gameObject.SetActive(true);
-				walls.Find("East").gameObject.SetActive(true);
-				walls.Find("South").gameObject.SetActive(true);
-				walls.Find("West").gameObject.SetActive(true);
-
-			}
-			//walls.Find("North").gameObject.SetActive(!adjRooms["TOP"]);
-			//walls.Find("East").gameObject.SetActive(!adjRooms["RIGHT"]);
-			//walls.Find("South").gameObject.SetActive(!adjRooms["BOTTOM"]);
-			//walls.Find("West").gameObject.SetActive(!adjRooms["LEFT"]);
+			//for each wall, check if the room in that direction is empty and if so set the wall active, otherwise set the activity to what it originally is.
+			//walls.Find("North").gameObject.SetActive(!adjRooms["TOP"] ? true : walls.Find("North").gameObject.activeInHierarchy);
+			//walls.Find("East").gameObject.SetActive(!adjRooms["RIGHT"] ? true : walls.Find("East").gameObject.activeInHierarchy);
+			//walls.Find("South").gameObject.SetActive(!adjRooms["BOTTOM"] ? true : walls.Find("South").gameObject.activeInHierarchy);
+			//walls.Find("West").gameObject.SetActive(!adjRooms["LEFT"] ? true : walls.Find("West").gameObject.activeInHierarchy);
+			walls.Find("North").gameObject.SetActive(true);
+			walls.Find("East").gameObject.SetActive(true);
+			walls.Find("South").gameObject.SetActive(true);
+			walls.Find("West").gameObject.SetActive(true);
 
 
 			////check for the number of empty rooms or if the name has exit in it

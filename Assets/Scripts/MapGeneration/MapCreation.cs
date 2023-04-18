@@ -121,16 +121,20 @@ public class MapCreation : MonoBehaviour
 
 		//print("tmp renamed - SpawnRoomFromRoomData");
 		//set the SpawnPoints parent false so that the points stop spawning rooms
-		foreach (Transform point in tmp.transform.Find("SpawnPoints"))
-		{
-			if (point.name == "CENTRE")
-			{
-				continue;
-			}
+		//foreach (Transform point in tmp.transform.Find("SpawnPoints"))
+		//{
+		//	if (point.name == "CENTRE")
+		//	{
+		//		continue;
+		//	}
 
-			//point.gameObject.SetActive(false);
-			Destroy(point.gameObject);
-		}
+		//	//point.gameObject.SetActive(false);
+		//	Destroy(point.gameObject);
+		//}
+
+		//destroy all spawn points as theyre not needed anymore as the map isnt to be made anymore
+		Destroy(tmp.transform.Find("SpawnPoints"));
+
 
 		tmp.transform.position = GameManager.Instance.thisArea.rooms[i].position;
 		//tmp.transform.SetPositionAndRotation(GameManager.Instance.thisArea.roomsData[i].position, GameManager.Instance.thisArea.roomsData[i].rotation);

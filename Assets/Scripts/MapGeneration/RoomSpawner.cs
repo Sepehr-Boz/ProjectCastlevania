@@ -57,8 +57,8 @@ public class RoomSpawner : MonoBehaviour
 
 		newEntryChance = extensions.newEntryChance;
 
-		//Invoke(nameof(Spawn), openingDirection / 100f);
-		Invoke(nameof(Spawn), 0.01f);
+		Invoke(nameof(Spawn), openingDirection / 50f);
+		//Invoke(nameof(Spawn), 0.01f);
 	}
 
 	//spawning the next room
@@ -526,8 +526,8 @@ public class RoomSpawner : MonoBehaviour
 			{
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
-					//Invoke(nameof(SpawnClosedRoom), openingDirection / 100f);
-					Invoke(nameof(SpawnClosedRoom), 0.01f);
+					Invoke(nameof(SpawnClosedRoom), openingDirection / 50f);
+					//Invoke(nameof(SpawnClosedRoom), 0.01f);
 					//disable the walls based on the current and collided opening direction
 				}
 
