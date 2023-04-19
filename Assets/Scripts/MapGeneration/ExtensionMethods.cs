@@ -172,6 +172,110 @@ public class ExtensionMethods : MonoBehaviour
 		DisableVerticalWalls(connectedRooms["RIGHT"], connectedRooms["BOTTOMRIGHT"]);
 	}
 
+
+	public void XExtend(Vector2 start)
+	{
+		//get all rooms across the y axis at the x at start
+		start = RoundTo10s(start);
+
+		//get a new array of points across the x axis
+		Vector2[] points = GetPoints(start, MODE.X);
+
+		//loop through each point and find if theres a room at that location
+		GameObject[] rooms = new GameObject[points.Length];
+		for (int i = 0; i < rooms.Length; i++)
+		{
+			GameObject room = Physics2D.OverlapCircle(points[i], 1f, LayerMask.GetMask("Room")).gameObject;
+			while (room.transform.parent != null && room.transform.parent.name != "Map")
+			{
+				room = room.transform.parent.gameObject;
+			}
+
+			if ("UDLR".Contains(room.name))
+			{
+				rooms[i] = room;
+			}
+			else
+			{
+				rooms[i] = null;
+			}
+		}
+
+		//loop through rooms and extend them horizontally
+		for (int i = 0; i < rooms.Length - 1; i++)
+		{
+			DisableHorizontalWalls(rooms[i], rooms[i + 1]);
+		}
+	}
+
+	public void YExtend(Vector2 start)
+	{
+		start = RoundTo10s(start);
+		Vector2[] points = GetPoints(start, MODE.Y);
+
+		GameObject[] rooms = new GameObject[points.Length];
+		for (int i = 0; i < rooms.Length; i++)
+		{
+			GameObject room = Physics2D.OverlapCircle(points[i], 1f, LayerMask.GetMask("Room")).gameObject;
+			while (room.transform.parent != null && room.transform.parent.name != "Map")
+			{
+				room = room.transform.parent.gameObject;
+			}
+
+			if ("UDLR".Contains(room.name))
+			{
+				rooms[i] = room;
+			}
+			else
+			{
+				rooms[i] = null;
+			}
+		}
+
+		//loop through rooms and extend them horizontally
+		for (int i = 0; i < rooms.Length - 1; i++)
+		{
+			DisableVerticalWalls(rooms[i], rooms[i + 1]);
+		}
+	}
+
+	public Vector2 RoundTo10s(Vector2 pos)
+	{
+		return new Vector2(Mathf.RoundToInt(pos.x / 10f) * 10, Mathf.RoundToInt(pos.y / 10f) * 10);
+	}
+
+	public Vector2[] GetPoints(Vector2 start, MODE mode)
+	{
+		Vector2[] points = new Vector2[10];
+
+		if (mode == MODE.X)
+		{
+			//get points across x axis
+			for (int i = -5; i < 6; i++)
+			{
+				points[i] = new Vector2(start.x + i * 10, start.y);
+			}
+		}
+		else if (mode == MODE.Y)
+		{
+			//get points across y axis
+			for (int i = 5; i > -6; i--)
+			{
+				points[i] = new Vector2(start.x, start.y + i * 10);
+			}
+		}
+
+		return points;
+	}
+
+	public enum MODE
+	{
+		X,
+		Y
+	}
+
+
+
 	public void DisableVerticalWalls(GameObject a, GameObject b)
 	{
 		if (a == null || b == null)
