@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
-    public GameObject[] enemies;
+    public GameObject[] objects;
 
 
     private void Start()
     {
         //choose a random enemy from enemies and spawn it at the spawner location
-        int rand = Random.Range(0, enemies.Length);
-        GameObject tmp = Instantiate(enemies[rand]);
+        int rand = Random.Range(0, objects.Length);
+        GameObject tmp = Instantiate(objects[rand]);
         //child the enemy to the room so that if the room is destroyed then so is the enemy
         tmp.transform.parent = transform.parent;
         tmp.transform.position = transform.position;

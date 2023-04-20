@@ -9,7 +9,7 @@ using System;
 using UnityEngine.UIElements;
 using UnityEngine.Events;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamageable
 {
 	[Header("Components")]
 	[Space(2)]
@@ -69,5 +69,15 @@ public class PlayerController : MonoBehaviour
 	{
 		velocity = Vector2.zero;
 	}
+	#endregion
+
+
+	#region interface methods
+	public void Damage(int damage)
+	{
+		hp -= damage;
+	}
+
+
 	#endregion
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5359707830475656172}
   - component: {fileID: 5359707830475656173}
   m_Layer: 0
-  m_Name: Spawner
+  m_Name: BossSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5359707830475656162}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: -2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e043d748a4f79e24cb4051bb993c1346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies:
-  - {fileID: 6362629797593343468, guid: 278599df94abd664c9e37a84e5ca301b, type: 3}
-  - {fileID: 7334522861324441713, guid: 00ae1164912be08488d42e72e0bdff56, type: 3}
+  objects:
+  - {fileID: 5205889134745197248, guid: 63fda9d570bf9ff4f8da9802a3162030, type: 3}
+  - {fileID: 5205889134745197248, guid: 04c2045a75fc09744b441e6142f349c4, type: 3}
+  - {fileID: 5205889134745197248, guid: 6591f34679710984e92aa8a6abe1aae6, type: 3}
