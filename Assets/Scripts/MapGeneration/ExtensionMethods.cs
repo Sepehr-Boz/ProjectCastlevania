@@ -18,7 +18,8 @@ public class ExtensionMethods : MonoBehaviour
 	};
 
 
-	public UnityEvent<Dictionary<string, GameObject>> extendFunction = new();
+	//public UnityEvent<Dictionary<string, GameObject>> extendFunction = new();
+	public UnityEvent<Vector2> extendFunction = new();
 
 	[Range(0, 100)]
 	public int newEntryChance = 1;
@@ -59,7 +60,7 @@ public class ExtensionMethods : MonoBehaviour
 				room = room.transform.parent.gameObject;
 			}
 
-			if (room == null && !room.name.Equals("UDLRBoss") && !room.name.Contains("--") && !room.name.Contains("Exit"))
+			if (room == null && !room.name.Contains("Boss") && !room.name.Contains("--") && !room.name.Contains("Exit"))
 			{
 				continue;
 			}
@@ -90,105 +91,114 @@ public class ExtensionMethods : MonoBehaviour
 
 	#region extension methods
 
-	public void HorizontalExtend(Dictionary<string, GameObject> connectedRooms)
-	{
-		//current room is middle index
-		//need rooms east and west
-		try
-		{ connectedRooms["BOTTOMLEFT"].GetComponent<AddRoom>().extended = false; }
-		catch { }
-		try
-		{ connectedRooms["BOTTOM"].GetComponent<AddRoom>().extended = false; }
-		catch { }
-		try
-		{ connectedRooms["BOTTOMRIGHT"].GetComponent<AddRoom>().extended = false; }
-		catch { }
+	//public void HorizontalExtend(Dictionary<string, GameObject> connectedRooms)
+	//{
+	//	//current room is middle index
+	//	//need rooms east and west
+	//	try
+	//	{ connectedRooms["BOTTOMLEFT"].GetComponent<AddRoom>().extended = false; }
+	//	catch { }
+	//	try
+	//	{ connectedRooms["BOTTOM"].GetComponent<AddRoom>().extended = false; }
+	//	catch { }
+	//	try
+	//	{ connectedRooms["BOTTOMRIGHT"].GetComponent<AddRoom>().extended = false; }
+	//	catch { }
 
-		GameObject[] rooms = new GameObject[6] { connectedRooms["TOPLEFT"], connectedRooms["TOP"], connectedRooms["TOPRIGHT"], connectedRooms["LEFT"], connectedRooms["CENTRE"], connectedRooms["RIGHT"] };
+	//	GameObject[] rooms = new GameObject[6] { connectedRooms["TOPLEFT"], connectedRooms["TOP"], connectedRooms["TOPRIGHT"], connectedRooms["LEFT"], connectedRooms["CENTRE"], connectedRooms["RIGHT"] };
 
-		DisableHorizontalWalls(rooms[0], rooms[1]);
-		DisableHorizontalWalls(rooms[1], rooms[2]);
+	//	DisableHorizontalWalls(rooms[0], rooms[1]);
+	//	DisableHorizontalWalls(rooms[1], rooms[2]);
 
-		//find if any rooms are horizontal to the currentroom
-		//pass the valid rooms to the correct DisableWalls function
-	}
-	public void VerticalExtend(Dictionary<string, GameObject> connectedRooms)
-	{
-		try
-		{ connectedRooms["TOPRIGHT"].GetComponent<AddRoom>().extended = false; }
-		catch { }
-		try
-		{ connectedRooms["RIGHT"].GetComponent<AddRoom>().extended = false; }
-		catch { }
-		try
-		{ connectedRooms["BOTTOMRIGHT"].GetComponent<AddRoom>().extended = false; }
-		catch { }
+	//	//find if any rooms are horizontal to the currentroom
+	//	//pass the valid rooms to the correct DisableWalls function
+	//}
+	//public void VerticalExtend(Dictionary<string, GameObject> connectedRooms)
+	//{
+	//	try
+	//	{ connectedRooms["TOPRIGHT"].GetComponent<AddRoom>().extended = false; }
+	//	catch { }
+	//	try
+	//	{ connectedRooms["RIGHT"].GetComponent<AddRoom>().extended = false; }
+	//	catch { }
+	//	try
+	//	{ connectedRooms["BOTTOMRIGHT"].GetComponent<AddRoom>().extended = false; }
+	//	catch { }
 
-		//need rooms north and south
-		GameObject[] rooms = new GameObject[3] { connectedRooms["TOP"], connectedRooms["CENTRE"], connectedRooms["BOTTOM"] };
+	//	//need rooms north and south
+	//	GameObject[] rooms = new GameObject[3] { connectedRooms["TOP"], connectedRooms["CENTRE"], connectedRooms["BOTTOM"] };
 
-		DisableVerticalWalls(rooms[0], rooms[1]);
-		DisableVerticalWalls(rooms[1], rooms[2]);
-	}
+	//	DisableVerticalWalls(rooms[0], rooms[1]);
+	//	DisableVerticalWalls(rooms[1], rooms[2]);
+	//}
 
-	public void TwoxTwoRoom(Dictionary<string, GameObject> connectedRooms)
-	{
-		//connected rooms in top left, top, left, centre
+	//public void TwoxTwoRoom(Dictionary<string, GameObject> connectedRooms)
+	//{
+	//	//connected rooms in top left, top, left, centre
 
-		//disable rooms horizontally
-		DisableHorizontalWalls(connectedRooms["TOPLEFT"], connectedRooms["TOP"]);
-		DisableHorizontalWalls(connectedRooms["LEFT"], connectedRooms["CENTRE"]);
+	//	//disable rooms horizontally
+	//	DisableHorizontalWalls(connectedRooms["TOPLEFT"], connectedRooms["TOP"]);
+	//	DisableHorizontalWalls(connectedRooms["LEFT"], connectedRooms["CENTRE"]);
 
-		//disable rooms vertically
-		DisableVerticalWalls(connectedRooms["TOPLEFT"], connectedRooms["LEFT"]);
-		DisableVerticalWalls(connectedRooms["TOP"], connectedRooms["CENTRE"]);
-	}
-
-
-	public void ThreexThreeRoom(Dictionary<string, GameObject> connectedRooms)
-	{
-		//need rooms in every direction including diagonally
-		//disable horizontal walls
-		//row 1
-		DisableHorizontalWalls(connectedRooms["TOPLEFT"], connectedRooms["TOP"]);
-		DisableHorizontalWalls(connectedRooms["TOP"], connectedRooms["TOPRIGHT"]);
-		//row 2
-		DisableHorizontalWalls(connectedRooms["LEFT"], connectedRooms["CENTRE"]);
-		DisableHorizontalWalls(connectedRooms["CENTRE"], connectedRooms["RIGHT"]);
-		//row 3
-		DisableHorizontalWalls(connectedRooms["BOTTOMLEFT"], connectedRooms["BOTTOM"]);
-		DisableHorizontalWalls(connectedRooms["BOTTOM"], connectedRooms["BOTTOMRIGHT"]);
+	//	//disable rooms vertically
+	//	DisableVerticalWalls(connectedRooms["TOPLEFT"], connectedRooms["LEFT"]);
+	//	DisableVerticalWalls(connectedRooms["TOP"], connectedRooms["CENTRE"]);
+	//}
 
 
-		//disable vertical walls
-		//column 1
-		DisableVerticalWalls(connectedRooms["TOPLEFT"], connectedRooms["LEFT"]);
-		DisableVerticalWalls(connectedRooms["LEFT"], connectedRooms["BOTTOMLEFT"]);
-		//column 2
-		DisableVerticalWalls(connectedRooms["TOP"], connectedRooms["CENTRE"]);
-		DisableVerticalWalls(connectedRooms["CENTRE"], connectedRooms["BOTTOM"]);
-		//column 3
-		DisableVerticalWalls(connectedRooms["TOPRIGHT"], connectedRooms["RIGHT"]);
-		DisableVerticalWalls(connectedRooms["RIGHT"], connectedRooms["BOTTOMRIGHT"]);
-	}
+	//public void ThreexThreeRoom(Dictionary<string, GameObject> connectedRooms)
+	//{
+	//	//need rooms in every direction including diagonally
+	//	//disable horizontal walls
+	//	//row 1
+	//	DisableHorizontalWalls(connectedRooms["TOPLEFT"], connectedRooms["TOP"]);
+	//	DisableHorizontalWalls(connectedRooms["TOP"], connectedRooms["TOPRIGHT"]);
+	//	//row 2
+	//	DisableHorizontalWalls(connectedRooms["LEFT"], connectedRooms["CENTRE"]);
+	//	DisableHorizontalWalls(connectedRooms["CENTRE"], connectedRooms["RIGHT"]);
+	//	//row 3
+	//	DisableHorizontalWalls(connectedRooms["BOTTOMLEFT"], connectedRooms["BOTTOM"]);
+	//	DisableHorizontalWalls(connectedRooms["BOTTOM"], connectedRooms["BOTTOMRIGHT"]);
 
 
-	public void XExtend(Vector2 start)
+	//	//disable vertical walls
+	//	//column 1
+	//	DisableVerticalWalls(connectedRooms["TOPLEFT"], connectedRooms["LEFT"]);
+	//	DisableVerticalWalls(connectedRooms["LEFT"], connectedRooms["BOTTOMLEFT"]);
+	//	//column 2
+	//	DisableVerticalWalls(connectedRooms["TOP"], connectedRooms["CENTRE"]);
+	//	DisableVerticalWalls(connectedRooms["CENTRE"], connectedRooms["BOTTOM"]);
+	//	//column 3
+	//	DisableVerticalWalls(connectedRooms["TOPRIGHT"], connectedRooms["RIGHT"]);
+	//	DisableVerticalWalls(connectedRooms["RIGHT"], connectedRooms["BOTTOMRIGHT"]);
+	//}
+
+
+	public void HorizontalExtend(Vector2 start)
 	{
 		//get all rooms across the y axis at the x at start
 		start = RoundTo10s(start);
 
 		//get a new array of points across the x axis
-		Vector2[] points = GetPoints(start, MODE.X);
+		List<Vector2> points = GetPoints(start, MODE.X);
 
 		//loop through each point and find if theres a room at that location
-		GameObject[] rooms = new GameObject[points.Length];
+		GameObject[] rooms = new GameObject[points.Count];
 		for (int i = 0; i < rooms.Length; i++)
 		{
-			GameObject room = Physics2D.OverlapCircle(points[i], 1f, LayerMask.GetMask("Room")).gameObject;
-			while (room.transform.parent != null && room.transform.parent.name != "Map")
+			GameObject room = null;
+			try
 			{
-				room = room.transform.parent.gameObject;
+				room = Physics2D.OverlapCircle(points[i], 1f, LayerMask.GetMask("Room")).gameObject;
+				while (room.transform.parent != null && room.transform.parent.name != "Map")
+				{
+					room = room.transform.parent.gameObject;
+				}
+			}
+			catch
+			{
+				rooms[i] = null;
+				continue;
 			}
 
 			if ("UDLR".Contains(room.name))
@@ -206,14 +216,19 @@ public class ExtensionMethods : MonoBehaviour
 		{
 			DisableHorizontalWalls(rooms[i], rooms[i + 1]);
 		}
+
+
+
+		//at the end cancel the invoke of this method
+		CancelInvoke(nameof(HorizontalExtend));
 	}
 
-	public void YExtend(Vector2 start)
+	public void VerticalExtend(Vector2 start)
 	{
 		start = RoundTo10s(start);
-		Vector2[] points = GetPoints(start, MODE.Y);
+		List<Vector2> points = GetPoints(start, MODE.Y);
 
-		GameObject[] rooms = new GameObject[points.Length];
+		GameObject[] rooms = new GameObject[points.Count];
 		for (int i = 0; i < rooms.Length; i++)
 		{
 			GameObject room = Physics2D.OverlapCircle(points[i], 1f, LayerMask.GetMask("Room")).gameObject;
@@ -237,6 +252,10 @@ public class ExtensionMethods : MonoBehaviour
 		{
 			DisableVerticalWalls(rooms[i], rooms[i + 1]);
 		}
+
+		//stop invoking this method otherwise itll keep repeating and being invoked
+		CancelInvoke(nameof(VerticalExtend));
+
 	}
 
 	public Vector2 RoundTo10s(Vector2 pos)
@@ -244,16 +263,19 @@ public class ExtensionMethods : MonoBehaviour
 		return new Vector2(Mathf.RoundToInt(pos.x / 10f) * 10, Mathf.RoundToInt(pos.y / 10f) * 10);
 	}
 
-	public Vector2[] GetPoints(Vector2 start, MODE mode)
+	public List<Vector2> GetPoints(Vector2 start, MODE mode)
 	{
-		Vector2[] points = new Vector2[10];
+		//make points a list as a list isnt fixed size but an array is
+		List<Vector2> points = new();
 
 		if (mode == MODE.X)
 		{
 			//get points across x axis
 			for (int i = -5; i < 6; i++)
 			{
-				points[i] = new Vector2(start.x + i * 10, start.y);
+				points.Add(new Vector2(start.x + (i * 10), start.y));
+				//points[i] = new Vector2(start.x + i * 10, start.y);
+				continue;
 			}
 		}
 		else if (mode == MODE.Y)
@@ -261,9 +283,13 @@ public class ExtensionMethods : MonoBehaviour
 			//get points across y axis
 			for (int i = 5; i > -6; i--)
 			{
-				points[i] = new Vector2(start.x, start.y + i * 10);
+				points.Add(new Vector2(start.x, start.y + (i * 10)));
+				//points[i] = new Vector2(start.x, start.y + i * 10);
 			}
 		}
+
+
+		//foreach (Vector2 point in points){ print(point); };
 
 		return points;
 	}
@@ -296,8 +322,8 @@ public class ExtensionMethods : MonoBehaviour
 			print(b.name);
 		}
 
-		a.GetComponent<AddRoom>().extended = true;
-		b.GetComponent<AddRoom>().extended = true;
+		//a.GetComponent<AddRoom>().extended = true;
+		//b.GetComponent<AddRoom>().extended = true;
 	}
 	public void DisableHorizontalWalls(GameObject a, GameObject b)
 	{
@@ -311,8 +337,8 @@ public class ExtensionMethods : MonoBehaviour
 		b.transform.Find("Walls").Find("West").gameObject.SetActive(false);
 
 		//set the extended variable to true
-		a.GetComponent<AddRoom>().extended = true;
-		b.GetComponent<AddRoom>().extended = true;
+		//a.GetComponent<AddRoom>().extended = true;
+		//b.GetComponent<AddRoom>().extended = true;
 	}
 
 	#endregion

@@ -41,10 +41,13 @@ public class RoomSpawner : MonoBehaviour
 		//must destroy instead of setting inactive as the rooms will continue to spawn on top of each other even when set inactive
 		Destroy(gameObject, waitTime);
 
-		GameObject roomsRef = GameObject.FindGameObjectWithTag("Rooms");
-		templates = roomsRef.GetComponent<RoomTemplates>();
-		mapCreation = roomsRef.GetComponent<MapCreation>();
-		extensions = roomsRef.GetComponent<ExtensionMethods>();
+		//GameObject roomsRef = GameObject.FindGameObjectWithTag("Rooms");
+		//templates = roomsRef.GetComponent<RoomTemplates>();
+		//mapCreation = roomsRef.GetComponent<MapCreation>();
+		//extensions = roomsRef.GetComponent<ExtensionMethods>();
+		templates = GameManager.Instance.templates;
+		mapCreation = GameManager.Instance.mapCreation;
+		extensions = GameManager.Instance.extensions;
 
 		newEntryChance = extensions.newEntryChance;
 
@@ -91,13 +94,13 @@ public class RoomSpawner : MonoBehaviour
 				//	room = templates.openRoom;
 				//}
 				room = ChangeRoom(room);
-				room = MakeExit(room);
+				//room = MakeExit(room);
 
 				//instantiate new room and remove the clone from its name
 				room = Instantiate(room);
 				//room.SetActive(false);
 				room.transform.parent = mapCreation.mapParent;
-				room.name = room.name.Replace("(Clone)", "");
+				//room.name = room.name.Replace("(Clone)", "");
 
 				//move the room to the new position and set it active
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
@@ -132,11 +135,11 @@ public class RoomSpawner : MonoBehaviour
 	{
 		//get closed room
 		room = templates.closedRoom;
-		room = ChangeRoom(room);
+		//room = ChangeRoom(room);
 
 		//instantiate new closed room and remove clone
 		room = Instantiate(room);
-		room.name = room.name.Replace("(Clone)", "");
+		//room.name = room.name.Replace("(Clone)", "");
 		room.transform.parent = mapCreation.mapParent;
 		//move to position and set active
 		room.transform.SetPositionAndRotation(transform.position, transform.rotation);

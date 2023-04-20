@@ -12,9 +12,8 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject[] rightRooms;
 	public GameObject closedRoom;
 	public GameObject openRoom;
-	public GameObject bossRoom;
-	//public GameObject[] exitRooms;
 
+	public GameObject[] bossRooms;
 	public GameObject[] allRooms; //used when spawning rooms from rooms data
 
 

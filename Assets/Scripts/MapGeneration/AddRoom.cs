@@ -11,27 +11,34 @@ namespace Assets.Scripts.MapGeneration
 {
 	public class AddRoom : MonoBehaviour
 	{
-		public bool extended = false;
+		//public bool extended = false; not needed
 
 		private ExtensionMethods extensions;
-		private MapCreation mapCreation;
+		//private MapCreation mapCreation;
 
 		private void Start()
 		{
 			extensions = GameObject.FindGameObjectWithTag("Rooms").GetComponent<ExtensionMethods>();
-			mapCreation = GameObject.FindGameObjectWithTag("Rooms").GetComponent<MapCreation>();
+			//mapCreation = GameObject.FindGameObjectWithTag("Rooms").GetComponent<MapCreation>();
 
-			//check if the map is being generated for the first time and if it is add roomdata
-			if (mapCreation.isNewMap)
+			name = name.Replace("(Clone)", "");
+
+			if (name.Equals("C"))
 			{
-				RoomData newData = new RoomData(transform.position, name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
-				GameManager.Instance.thisArea.rooms.Add(newData);
-
-				if (name.Contains("C"))
-				{
-					ExtendRoom();
-				}
+				ExtendRoom();
 			}
+
+			////check if the map is being generated for the first time and if it is add roomdata
+			//if (mapCreation.isNewMap)
+			//{
+			//	RoomData newData = new RoomData(transform.position, name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
+			//	GameManager.Instance.thisArea.rooms.Add(newData);
+
+			//	if (name.Contains("C"))
+			//	{
+			//		ExtendRoom();
+			//	}
+			//}
 		}
 
 
@@ -39,8 +46,6 @@ namespace Assets.Scripts.MapGeneration
 		{
 			//get surrounding rooms
 			var adjRooms = extensions.GetAdjacentRooms(transform.position);
-
-
 
 
 			try{ extensions.DisableVerticalWalls(adjRooms["TOP"].name.Contains("D") ? adjRooms["TOP"] : null, gameObject);}

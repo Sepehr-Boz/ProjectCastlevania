@@ -31,7 +31,9 @@ public class PlayerController : MonoBehaviour
 	{
 		rigidBody = GetComponent<Rigidbody2D>();
 		circleCollider = GetComponent<CircleCollider2D>();
-
+		circleCollider.enabled = false;
+		Invoke(nameof(EnableCollider), 2f);
+		
 		//add inputs
 
 		if (isCurrent)
@@ -45,6 +47,11 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	private void EnableCollider()
+	{
+		circleCollider.enabled = true;
+	}
+
 	private void FixedUpdate()
 	{
 		if (hp <= 0)
@@ -56,7 +63,7 @@ public class PlayerController : MonoBehaviour
 			PlayerManager.Instance.currentData.currentHP = hp;
 
 
-			PlayerManager.Instance.SwitchPlayer();
+			//PlayerManager.Instance.SwitchPlayer();
 		}
 
 

@@ -16,6 +16,10 @@ public class GameManager : MonoBehaviour
 
 	public int targetFPS;
 
+	public RoomTemplates templates;
+	public MapCreation mapCreation;
+	public ExtensionMethods extensions;
+
 	#region singleton
 	private static GameManager _instance;
 
@@ -37,6 +41,11 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		//PlayerManager.Instance.gameObject.SetActive(true);
+		GameObject room = GameObject.FindGameObjectWithTag("Rooms");
+		templates = room.GetComponent<RoomTemplates>();
+		mapCreation = room.GetComponent<MapCreation>();
+		extensions = room.GetComponent<ExtensionMethods>();
+
 
 		SceneManager.activeSceneChanged += SceneChanged;
 
@@ -66,11 +75,23 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
+		//FOR TESTING
+		//enabled fast remaking of map to check for any problems that could occur
 		if (Input.GetKeyDown(KeyCode.T))
+		{
+			mapCreation.CreateMap();
+		}
+
+		if (Input.GetKeyDown(KeyCode.Y))
 		{
 			Time.timeScale = 1;
 		}
 	}
+
+	//public void NewMap()
+	//{
+	//	GameObject.FindGameObjectWithTag("Rooms").GetComponent<MapCreation>().CreateMap();
+	//}
 
 	//load the new scene
 	public void ChangeScene(string newScene)
