@@ -26,13 +26,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         if (hp <= 0)
         {
-            //if hp is less than or 0 destroy gameobject and also remove the enemydata from the enemies list
-            try
-            {
-                //only destroy the enemy reference if theres an AddEnemy added to the object
-				GameManager.Instance.thisArea.enemies.Remove(GetComponent<AddEnemy>().dataRef);
-			}
-            catch{}
+            //if hp is less than or 0 destroy gameobject
             Destroy(gameObject);
         }
     }

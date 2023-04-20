@@ -139,5 +139,8 @@ MonoBehaviour:
   rigidBody: {fileID: 8359103537860737944}
   circleCollider: {fileID: 8359103537860737945}
   moveForce: 10
-  health: 20
-  maxHealth: 20
+  hp: 0
+  maxHP: 0
+  deathFunction:
+    m_PersistentCalls:
+      m_Calls: []

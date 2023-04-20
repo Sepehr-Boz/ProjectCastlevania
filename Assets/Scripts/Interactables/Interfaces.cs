@@ -7,3 +7,8 @@ public interface IDamageable
 {
     void Damage(int damage);
 }
+
+
+public interface IIndestructable
+{
+}

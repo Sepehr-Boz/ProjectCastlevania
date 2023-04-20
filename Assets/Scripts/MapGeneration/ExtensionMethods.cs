@@ -26,7 +26,7 @@ public class ExtensionMethods : MonoBehaviour
 
 
 
-	#region extending rooms
+	#region getting rooms
 
 	public Dictionary<string, GameObject> GetAdjacentRooms(Vector2 currentPos)
 	{
@@ -48,7 +48,6 @@ public class ExtensionMethods : MonoBehaviour
 			try
 			{
 				room = Physics2D.OverlapCircle(newPos, 1f, LayerMask.GetMask("Room")).gameObject;
-				//print("room found is " + room.name);
 			}
 			catch
 			{
@@ -66,7 +65,6 @@ public class ExtensionMethods : MonoBehaviour
 			}
 			else
 			{
-				//print("ROOM NAME: " + room.name);
 				adjRooms[adjRooms.ElementAt(i).Key] = room;
 			}
 		}
@@ -84,95 +82,12 @@ public class ExtensionMethods : MonoBehaviour
 				count++;
 			}
 		}
-
-		//print("The number of empty adjacent rooms is " + count);
 		return count;
 	}
 
+	#endregion
+
 	#region extension methods
-
-	//public void HorizontalExtend(Dictionary<string, GameObject> connectedRooms)
-	//{
-	//	//current room is middle index
-	//	//need rooms east and west
-	//	try
-	//	{ connectedRooms["BOTTOMLEFT"].GetComponent<AddRoom>().extended = false; }
-	//	catch { }
-	//	try
-	//	{ connectedRooms["BOTTOM"].GetComponent<AddRoom>().extended = false; }
-	//	catch { }
-	//	try
-	//	{ connectedRooms["BOTTOMRIGHT"].GetComponent<AddRoom>().extended = false; }
-	//	catch { }
-
-	//	GameObject[] rooms = new GameObject[6] { connectedRooms["TOPLEFT"], connectedRooms["TOP"], connectedRooms["TOPRIGHT"], connectedRooms["LEFT"], connectedRooms["CENTRE"], connectedRooms["RIGHT"] };
-
-	//	DisableHorizontalWalls(rooms[0], rooms[1]);
-	//	DisableHorizontalWalls(rooms[1], rooms[2]);
-
-	//	//find if any rooms are horizontal to the currentroom
-	//	//pass the valid rooms to the correct DisableWalls function
-	//}
-	//public void VerticalExtend(Dictionary<string, GameObject> connectedRooms)
-	//{
-	//	try
-	//	{ connectedRooms["TOPRIGHT"].GetComponent<AddRoom>().extended = false; }
-	//	catch { }
-	//	try
-	//	{ connectedRooms["RIGHT"].GetComponent<AddRoom>().extended = false; }
-	//	catch { }
-	//	try
-	//	{ connectedRooms["BOTTOMRIGHT"].GetComponent<AddRoom>().extended = false; }
-	//	catch { }
-
-	//	//need rooms north and south
-	//	GameObject[] rooms = new GameObject[3] { connectedRooms["TOP"], connectedRooms["CENTRE"], connectedRooms["BOTTOM"] };
-
-	//	DisableVerticalWalls(rooms[0], rooms[1]);
-	//	DisableVerticalWalls(rooms[1], rooms[2]);
-	//}
-
-	//public void TwoxTwoRoom(Dictionary<string, GameObject> connectedRooms)
-	//{
-	//	//connected rooms in top left, top, left, centre
-
-	//	//disable rooms horizontally
-	//	DisableHorizontalWalls(connectedRooms["TOPLEFT"], connectedRooms["TOP"]);
-	//	DisableHorizontalWalls(connectedRooms["LEFT"], connectedRooms["CENTRE"]);
-
-	//	//disable rooms vertically
-	//	DisableVerticalWalls(connectedRooms["TOPLEFT"], connectedRooms["LEFT"]);
-	//	DisableVerticalWalls(connectedRooms["TOP"], connectedRooms["CENTRE"]);
-	//}
-
-
-	//public void ThreexThreeRoom(Dictionary<string, GameObject> connectedRooms)
-	//{
-	//	//need rooms in every direction including diagonally
-	//	//disable horizontal walls
-	//	//row 1
-	//	DisableHorizontalWalls(connectedRooms["TOPLEFT"], connectedRooms["TOP"]);
-	//	DisableHorizontalWalls(connectedRooms["TOP"], connectedRooms["TOPRIGHT"]);
-	//	//row 2
-	//	DisableHorizontalWalls(connectedRooms["LEFT"], connectedRooms["CENTRE"]);
-	//	DisableHorizontalWalls(connectedRooms["CENTRE"], connectedRooms["RIGHT"]);
-	//	//row 3
-	//	DisableHorizontalWalls(connectedRooms["BOTTOMLEFT"], connectedRooms["BOTTOM"]);
-	//	DisableHorizontalWalls(connectedRooms["BOTTOM"], connectedRooms["BOTTOMRIGHT"]);
-
-
-	//	//disable vertical walls
-	//	//column 1
-	//	DisableVerticalWalls(connectedRooms["TOPLEFT"], connectedRooms["LEFT"]);
-	//	DisableVerticalWalls(connectedRooms["LEFT"], connectedRooms["BOTTOMLEFT"]);
-	//	//column 2
-	//	DisableVerticalWalls(connectedRooms["TOP"], connectedRooms["CENTRE"]);
-	//	DisableVerticalWalls(connectedRooms["CENTRE"], connectedRooms["BOTTOM"]);
-	//	//column 3
-	//	DisableVerticalWalls(connectedRooms["TOPRIGHT"], connectedRooms["RIGHT"]);
-	//	DisableVerticalWalls(connectedRooms["RIGHT"], connectedRooms["BOTTOMRIGHT"]);
-	//}
-
 
 	public void HorizontalExtend(Vector2 start)
 	{
@@ -216,8 +131,6 @@ public class ExtensionMethods : MonoBehaviour
 		{
 			DisableHorizontalWalls(rooms[i], rooms[i + 1]);
 		}
-
-
 
 		//at the end cancel the invoke of this method
 		CancelInvoke(nameof(HorizontalExtend));
@@ -274,7 +187,6 @@ public class ExtensionMethods : MonoBehaviour
 			for (int i = -5; i < 6; i++)
 			{
 				points.Add(new Vector2(start.x + (i * 10), start.y));
-				//points[i] = new Vector2(start.x + i * 10, start.y);
 				continue;
 			}
 		}
@@ -284,12 +196,9 @@ public class ExtensionMethods : MonoBehaviour
 			for (int i = 5; i > -6; i--)
 			{
 				points.Add(new Vector2(start.x, start.y + (i * 10)));
-				//points[i] = new Vector2(start.x, start.y + i * 10);
+				continue;
 			}
 		}
-
-
-		//foreach (Vector2 point in points){ print(point); };
 
 		return points;
 	}
@@ -311,19 +220,8 @@ public class ExtensionMethods : MonoBehaviour
 
 		//disable the north walls between the 2 rooms
 		//remove the walls enum from each room
-		try
-		{
-			a.transform.Find("Walls").Find("South").gameObject.SetActive(false);
-			b.transform.Find("Walls").Find("North").gameObject.SetActive(false);
-		}
-		catch
-		{
-			print(a.name);
-			print(b.name);
-		}
-
-		//a.GetComponent<AddRoom>().extended = true;
-		//b.GetComponent<AddRoom>().extended = true;
+		a.transform.Find("Walls").Find("South").gameObject.SetActive(false);
+		b.transform.Find("Walls").Find("North").gameObject.SetActive(false);
 	}
 	public void DisableHorizontalWalls(GameObject a, GameObject b)
 	{
@@ -335,13 +233,7 @@ public class ExtensionMethods : MonoBehaviour
 		//set the walls inactive
 		a.transform.Find("Walls").Find("East").gameObject.SetActive(false);
 		b.transform.Find("Walls").Find("West").gameObject.SetActive(false);
-
-		//set the extended variable to true
-		//a.GetComponent<AddRoom>().extended = true;
-		//b.GetComponent<AddRoom>().extended = true;
 	}
-
-	#endregion
 
 	#endregion
 }

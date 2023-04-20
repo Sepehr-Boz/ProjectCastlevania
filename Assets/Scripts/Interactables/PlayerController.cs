@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System;
 using UnityEngine.UIElements;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,8 +17,6 @@ public class PlayerController : MonoBehaviour
 	public CircleCollider2D circleCollider;
 	private PlayerInputActions playerInputActions;
 
-	public bool isCurrent = false;
-
 	[Header("Movement Variables")]
 	public float moveForce;
 	private Vector2 velocity;
@@ -26,44 +25,26 @@ public class PlayerController : MonoBehaviour
 	public int hp;
 	public int maxHP;
 
-
 	public void Start()
 	{
 		rigidBody = GetComponent<Rigidbody2D>();
 		circleCollider = GetComponent<CircleCollider2D>();
-		circleCollider.enabled = false;
-		Invoke(nameof(EnableCollider), 2f);
-		
+
 		//add inputs
+		playerInputActions = new PlayerInputActions();
 
-		if (isCurrent)
-		{
-			playerInputActions = new PlayerInputActions();
-
-			playerInputActions.Enable();
-			playerInputActions.Player.Move.performed += Move;
-			playerInputActions.Player.Move.canceled += MoveStop;
-			playerInputActions.Player.Die.performed += DecreaseHealth;
-		}
-	}
-
-	private void EnableCollider()
-	{
-		circleCollider.enabled = true;
+		playerInputActions.Enable();
+		playerInputActions.Player.Move.performed += Move;
+		playerInputActions.Player.Move.canceled += MoveStop;
+		playerInputActions.Player.Die.performed += DecreaseHealth;
 	}
 
 	private void FixedUpdate()
 	{
 		if (hp <= 0)
 		{
-			//update playerinfo
-			//PlayerManager.Instance.currentData.currentScene = scene; //if dying then scene would stay the same so doesnt need to be updated
-
-			PlayerManager.Instance.currentData.currentPos = (Vector2)transform.position;
 			PlayerManager.Instance.currentData.currentHP = hp;
-
-
-			//PlayerManager.Instance.SwitchPlayer();
+			PlayerManager.Instance.PlayerDeath();
 		}
 
 

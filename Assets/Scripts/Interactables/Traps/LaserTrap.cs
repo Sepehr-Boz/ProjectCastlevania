@@ -7,10 +7,9 @@ public class LaserTrap : TrapController
     private new Collider2D collider;
 
     [SerializeField] private float shootInterval;
-    //[SerializeField] private bool isHit = false;
 
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
         collider = GetComponent<Collider2D>();
 
@@ -19,8 +18,6 @@ public class LaserTrap : TrapController
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //print(collision.gameObject.name + " has collided");
-
         //play hit effect
 		ParticleSystem newEffect = Instantiate(interactEffect);
 		newEffect.transform.position = transform.position;

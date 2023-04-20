@@ -13,7 +13,7 @@ namespace Assets.Scripts.Data
 		public List<EnemyData> enemies;
 		public List<GameObject> objects; //list of objects that CAN BE SPAWNED //NOT THE ONES THAT HAVE BEEN SPAWNED
 
-		[SerializeField]public List<RoomData> rooms;
+		public List<RoomData> rooms;
 		public int maxMapSize;
 	}
 }
@@ -27,7 +27,8 @@ public enum Wall
 }
 
 //[System.Serializable] makes the struct visible in the inspector
-[System.Serializable]public struct RoomData
+[System.Serializable]
+public struct RoomData
 {
 	public string name; //name of the room
 	public Vector2 position; //rooms position in the scene
@@ -66,7 +67,8 @@ public enum Wall
 	}
 }
 
-[System.Serializable]public struct EnemyData
+[System.Serializable]
+public struct EnemyData
 {
 	public Vector2 position;
 	public Quaternion rotation;

@@ -6,29 +6,13 @@ public class Destroyer : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
+		//destory the SpawnPoints parent after 3 seconds
+		Destroy(transform.parent.gameObject, 3f);
+
+
 		if (other.CompareTag("SpawnPoint"))
 		{
 			Destroy(other.gameObject);
 		}
-
-		//if (GetRoom(other.transform).name.Contains("--") && other.name == "CENTRE")
-		//{
-		//	print("Collided with a corridor so remake new room");
-		//	Time.timeScale = 0;
-		//	GameManager.Instance.NewMap();
-		//}
 	}
-
-	//private Transform GetRoom(Transform room)
-	//{
-	//	//room = transform;
-
-	//	do
-	//	{
-	//		room = room.parent;
-	//	}
-	//	while (room.parent != null && room.parent.name != "Map");
-
-	//	return room;
-	//}
 }

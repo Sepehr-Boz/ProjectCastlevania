@@ -14,7 +14,6 @@ public class SpikeTrap : TrapController
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         collider = GetComponent<Collider2D>();
-        //collider = GetComponent<Collider2D>();
         collider.enabled = false;
 
         StartCoroutine(Stab());

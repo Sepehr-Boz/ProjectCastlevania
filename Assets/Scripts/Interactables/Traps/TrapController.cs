@@ -17,7 +17,6 @@ public class TrapController : MonoBehaviour
 
 	public void Shoot()
 	{
-        //GameObject proj = Instantiate(projectile);
         GameObject proj = ProjectilePool.Instance.GetProjectile("Shot");
 		proj.transform.position = (Vector2)transform.position + shootDir * 2f;
 		proj.SetActive(true);
