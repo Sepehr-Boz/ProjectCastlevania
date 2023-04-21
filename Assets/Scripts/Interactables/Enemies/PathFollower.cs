@@ -100,7 +100,7 @@ public class PathFollower : MonoBehaviour
 		for (int i = 1; i < numPoints + 1; i++)
 		{
 			float d = degrees * Mathf.PI / 180f;
-			Vector2 newPoint = new Vector2(Mathf.Sin(d * i), Mathf.Cos(d * i)) * radius;
+			Vector2 newPoint = new Vector2(Mathf.Sin(d * i), Mathf.Cos(d * i)) * radius + (Vector2)transform.position;
 
 			points[i - 1] = newPoint;
 		}

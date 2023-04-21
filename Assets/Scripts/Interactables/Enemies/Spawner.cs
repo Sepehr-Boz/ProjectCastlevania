@@ -12,6 +12,7 @@ public class Spawner : MonoBehaviour
         //choose a random enemy from enemies and spawn it at the spawner location
         int rand = Random.Range(0, objects.Length);
         GameObject tmp = Instantiate(objects[rand]);
+        tmp.SetActive(true);
         //child the enemy to the room so that if the room is destroyed then so is the enemy
         tmp.transform.parent = transform.parent;
         tmp.transform.position = transform.position;

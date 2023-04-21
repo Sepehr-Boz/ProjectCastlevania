@@ -30,9 +30,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Area5.unity
     guid: c738336437e951441aa58fd39d1afdaf
   - enabled: 1
-    path: Assets/Scenes/StartScene.unity
+    path: Assets/Scenes/Using/StartScene.unity
     guid: c617253b4e432fb4b86374f68f33d5a1
   - enabled: 1
-    path: Assets/Scenes/GameScene.unity
+    path: Assets/Scenes/Using/GameScene.unity
     guid: 547aa3f2cc58c7a49b9b678c9269d2da
   m_configObjects: {}

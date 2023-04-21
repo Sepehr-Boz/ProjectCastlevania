@@ -114,7 +114,22 @@ public class RoomSpawner : MonoBehaviour
 		{
 			return templates.closedRoom;
 		}
-
+		else if (adjRooms["TOP"] && adjRooms["TOP"].name.Equals("LR--")) //these 4 additional tests are used to close rooms so that there wont be open exits to corridors
+		{
+			return templates.closedRoom;
+		}
+		else if (adjRooms["BOTTOM"] && adjRooms["BOTTOM"].name.Equals("LR--"))
+		{
+			return templates.closedRoom;
+		}
+		else if (adjRooms["LEFT"] && adjRooms["LEFT"].name.Equals("UD--"))
+		{
+			return templates.closedRoom;
+		}
+		else if (adjRooms["RIGHT"] && adjRooms["RIGHT"].name.Equals("UD--"))
+		{
+			return templates.closedRoom;
+		}
 		return currentRoom;
 	}
 

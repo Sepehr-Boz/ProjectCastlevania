@@ -1,8 +1,4 @@
-using Assets.Scripts.MapGeneration;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MapCreation : MonoBehaviour
@@ -12,6 +8,9 @@ public class MapCreation : MonoBehaviour
 	private ExtensionMethods extensions;
 
 	public Transform mapParent;
+
+
+	public int mapSize = 10;
 
 
 	private void Start()
@@ -60,15 +59,21 @@ public class MapCreation : MonoBehaviour
 
 			if (start == end)
 			{
-				//map is finished
-
-				//extend the map
-				extensions.extendFunction.Invoke((Vector2)GetRandomRoom().transform.position);
-				//move player
-				PlayerManager.Instance.MovePlayer();
-				//stop coroutine
-				StopCoroutine(IsMapFinished());
-
+				//check if map is within mapsize bounds and if not regenerate it
+				if (mapParent.childCount > mapSize)
+				{
+					CreateMap();
+				}
+				else
+				{
+					//map is finished
+					//extend the map
+					extensions.extendFunction.Invoke((Vector2)GetRandomRoom().transform.position);
+					//move player
+					PlayerManager.Instance.MovePlayer();
+					//stop coroutine
+					StopCoroutine(IsMapFinished());
+				}
 				//if dont break then will keep looping even though the coroutine is stopped? dunno why
 				break;
 			}

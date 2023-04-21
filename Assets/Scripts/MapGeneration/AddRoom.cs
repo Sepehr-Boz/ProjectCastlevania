@@ -30,15 +30,15 @@ namespace Assets.Scripts.MapGeneration
 			//get surrounding rooms
 			var adjRooms = extensions.GetAdjacentRooms(transform.position);
 
+			//dont extend if the room DOESNT have an exit to the current room AND it HAS --(is a corridor)
+			try{ extensions.DisableVerticalWalls(adjRooms["TOP"].name.Contains("D") && !adjRooms["TOP"].name.Contains("--") ? adjRooms["TOP"] : null, gameObject);}
+			catch{}
+			try{extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"].name.Contains("U") && !adjRooms["BOTTOM"].name.Contains("--") ? adjRooms["BOTTOM"] : null);}
+			catch{}
 
-			try{ extensions.DisableVerticalWalls(adjRooms["TOP"].name.Contains("D") ? adjRooms["TOP"] : null, gameObject);}
+			try{extensions.DisableHorizontalWalls(adjRooms["LEFT"].name.Contains("R") && !adjRooms["LEFT"].name.Contains("--") ? adjRooms["LEFT"] : null, gameObject);}
 			catch{}
-			try{extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"].name.Contains("U") ? adjRooms["BOTTOM"] : null);}
-			catch{}
-
-			try{extensions.DisableHorizontalWalls(adjRooms["LEFT"].name.Contains("R") ? adjRooms["LEFT"] : null, gameObject);}
-			catch{}
-			try{extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"].name.Contains("L") ? adjRooms["RIGHT"] : null);}
+			try{extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"].name.Contains("L") && !adjRooms["RIGHT"].name.Contains("--") ? adjRooms["RIGHT"] : null);}
 			catch{}
 		}
 

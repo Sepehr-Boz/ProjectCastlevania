@@ -41,7 +41,7 @@ public class Bouncer : MonoBehaviour
                 RaycastHit2D hit = Physics2D.RaycastAll(transform.position, castDir, 0.6f)[1];
 
                 //check that it something thats valid
-                if (hit.collider.transform.root.gameObject.GetComponent<IIndestructable>() != null)
+                if (hit.transform.root.GetComponent<IIndestructable>() != null)
                 {
 					//draw a line to see where it hits - FOR TESTING
 					Debug.DrawLine(transform.position, hit.point, Color.red, 5f);
