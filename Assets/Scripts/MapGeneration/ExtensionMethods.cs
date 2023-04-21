@@ -213,7 +213,7 @@ public class ExtensionMethods : MonoBehaviour
 
 	public void DisableVerticalWalls(GameObject a, GameObject b)
 	{
-		if (a == null || b == null)
+		if (a == null || a.name.Contains("--") || b == null || b.name.Contains("--"))
 		{
 			return;
 		}
@@ -225,7 +225,7 @@ public class ExtensionMethods : MonoBehaviour
 	}
 	public void DisableHorizontalWalls(GameObject a, GameObject b)
 	{
-		if (a == null || b == null)
+		if (a == null || a.name.Contains("--") || b == null || b.name.Contains("--"))
 		{
 			return;
 		}

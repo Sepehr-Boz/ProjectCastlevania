@@ -68,7 +68,7 @@ public class MapCreation : MonoBehaviour
 				{
 					//map is finished
 					//extend the map
-					extensions.extendFunction.Invoke((Vector2)GetRandomRoom().transform.position);
+					//extensions.extendFunction.Invoke((Vector2)GetRandomRoom().transform.position);
 					//move player
 					PlayerManager.Instance.MovePlayer();
 					//stop coroutine
