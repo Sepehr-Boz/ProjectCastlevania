@@ -14,7 +14,6 @@ public class SpikeTrap : TrapController
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         collider = GetComponent<Collider2D>();
-        //collider = GetComponent<Collider2D>();
         collider.enabled = false;
 
         StartCoroutine(Stab());
@@ -28,19 +27,20 @@ public class SpikeTrap : TrapController
         while (true)
         {
 			collider.enabled = true;
-            spriteRenderer.color = Color.red;
+            spriteRenderer.color = Color.red;  //FOR TESTING
 			yield return new WaitForSeconds(attackInterval);
 			collider.enabled = false;
-            spriteRenderer.color = Color.white;
+            spriteRenderer.color = Color.white; //FOR TESTING
             yield return new WaitForSeconds(attackInterval);
 		}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        try
         {
-            collision.GetComponent<PlayerController>().hp -= damage;
+            collision.GetComponent<IDamageable>().Damage(damage);
         }
+        catch{}
     }
 }

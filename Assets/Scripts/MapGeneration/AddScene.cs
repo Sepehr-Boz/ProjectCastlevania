@@ -1,54 +1,46 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
+//using System;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
+//using UnityEngine.SceneManagement;
+//using Random = UnityEngine.Random;
 
-public class AddScene : MonoBehaviour
-{
-    private MapCreation mapCreation;
+//public class AddScene : MonoBehaviour
+//{
+//    private MapCreation mapCreation;
 
-    public string scene;
-    public Vector2 position;
+//    public string scene;
+//    public Vector2 position;
 
-    private void Start()
-    {
-        mapCreation = GameObject.FindGameObjectWithTag("Rooms").GetComponent<MapCreation>();
-        //add random scene and position
-        //get the first index scene from room templates and remove it from the list so it cant be another portal with the same scene to move to
-        scene = mapCreation.moveToScenes[0].sceneName;
-        position = mapCreation.moveToScenes[0].newPos;
-        //scene = mapCreation.moveToScenes[0];
-        mapCreation.moveToScenes.RemoveAt(0);
-
-        if (scene == null || scene == "")
-        {
-            //change name to not have exit
-            transform.root.name.Replace("Exit", "");
-            //destroy self as the portal wont lead anywhere
-            Destroy(gameObject);
-        }
-
-		position = Vector2.zero;
-
-		//print("scene to move to is " + scene);
-    }
+//    private void Start()
+//    {
+//        mapCreation = GameObject.FindGameObjectWithTag("Rooms").GetComponent<MapCreation>();
+//        //add random scene and position
+//        //get the first index scene from room templates and remove it from the list so it cant be another portal with the same scene to move to
+//        try
+//        {
+//            //destroy the portal if theres no scene to get
+//            scene = mapCreation.moveToScenes[0].sceneName;
+//            position = mapCreation.moveToScenes[0].newPos;
+//            mapCreation.moveToScenes.RemoveAt(0);
+//        }
+//        catch
+//        {
+//            Destroy(gameObject);
+//        }
+//    }
 
 
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Player"))
-        {
-            //update the playerdata info
-            PlayerManager.Instance.currentData.currentScene = scene;
-            PlayerManager.Instance.currentData.currentPos = position;
-            PlayerManager.Instance.currentData.currentHP = PlayerManager.Instance.currentPlayer.GetComponent<PlayerController>().hp;
+//    public void OnCollisionEnter2D(Collision2D collision)
+//    {
+//        if (collision.collider.CompareTag("Player"))
+//        {
+//            //update the playerdata info
+//            //PlayerManager.Instance.currentData.currentScene = scene;
+//            //PlayerManager.Instance.currentData.currentPos = position;
+//            PlayerManager.Instance.currentData.currentHP = PlayerManager.Instance.currentPlayer.GetComponent<PlayerController>().hp;
 
-
-            GameManager.Instance.ChangeScene(scene);
-			//move the current player to position
-			//PlayerManager.Instance.currentPlayer.transform.position = position;
-		}
-    }
-}
+//            GameManager.Instance.ChangeScene(scene);
+//		}
+//    }
+//}

@@ -36,30 +36,23 @@ public class RoomSpawner : MonoBehaviour
 
 	public float waitTime = 4f;
 
-	void Start(){
-		//must destroy instead of setting inactive as the rooms will continue to spawn on top of each other even when set inactive
-		Destroy(gameObject, waitTime);
-
-
-		GameObject roomsRef = GameObject.FindGameObjectWithTag("Rooms");
-		templates = roomsRef.GetComponent<RoomTemplates>();
-		mapCreation = roomsRef.GetComponent<MapCreation>();
-		extensions = roomsRef.GetComponent<ExtensionMethods>();
-		//templates = RoomTemplates.Instance;
-		//mapCreation = MapCreation.Instance;
-		//extensions = ExtensionMethods.Instance;
-
+	void Start()
+	{
+		templates = GameManager.Instance.templates;
+		mapCreation = GameManager.Instance.mapCreation;
+		extensions = GameManager.Instance.extensions;
 
 		newEntryChance = extensions.newEntryChance;
 
-		Invoke(nameof(Spawn), openingDirection / 100f);
+		//must destroy instead of setting inactive as the rooms will continue to spawn on top of each other even when set inactive
+		Destroy(gameObject, waitTime);
+
+		Invoke(nameof(Spawn), openingDirection / 50f);
 	}
 
 	//spawning the next room
 	void Spawn(){
 		if(spawned == false){
-			//GameObject currentRoom = transform.parent.parent.gameObject;
-
 			if(openingDirection == 1){
 				// Need to spawn a room with a BOTTOM door.
 				rand = Random.Range(0, templates.bottomRooms.Length);
@@ -84,38 +77,79 @@ public class RoomSpawner : MonoBehaviour
 			//check that the room isnt null
 			if (room != null)
 			{
-				//change the current room if necessary
-				//room = ChangeRoom(room);
-
-				//check if room can be an exit
-				room = MakeExit(room);
 
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
+
+				//keep this to make large-ish rooms but dont use it if rooms are wanted to be kept small(like 10-20ish rooms)
 				int rand = Random.Range(0, 100);
 				if (rand <= newEntryChance)
 				{
 					room = templates.openRoom;
 				}
-
+				room = ChangeRoom(room);
 				//instantiate new room and remove the clone from its name
 				room = Instantiate(room);
 				room.transform.parent = mapCreation.mapParent;
-				room.name = room.name.Replace("(Clone)", "");
-
-
 				//move the room to the new position and set it active
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
-				room.SetActive(true);
-				//add new room to room data
-				//List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-				//GameManager.Instance.thisArea.rooms.Add(new RoomData(room.transform.position, room.transform.rotation, walls, room.name, new List<GameObject>(), new List<GameObject>()));
 
-				//RoomData newData = new RoomData(transform.position, room.name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
-				//GameManager.Instance.thisArea.rooms.Add(newData);
+
+				switch (openingDirection)
+				{
+					case 1:
+						Destroy(room.transform.Find("SpawnPoints").Find("DOWN").gameObject);
+						break;
+					case 2:
+						Destroy(room.transform.Find("SpawnPoints").Find("UP").gameObject);
+						break;
+					case 3:
+						Destroy(room.transform.Find("SpawnPoints").Find("LEFT").gameObject);
+						break;
+					case 4:
+						Destroy(room.transform.Find("SpawnPoints").Find("RIGHT").gameObject);
+						break;
+				}
+
+
+
+				room.SetActive(true);
 			}
 
 			spawned = true;
+
+			//Time.timeScale = 0f;
 		}
+	}
+
+	private GameObject ChangeRoom(GameObject currentRoom)
+	{
+		var adjRooms = extensions.GetAdjacentRooms(transform.position);
+
+		if (adjRooms["TOP"] && adjRooms["BOTTOM"])
+		{
+			return templates.closedRoom;
+		}
+		else if (adjRooms["LEFT"] && adjRooms["RIGHT"])
+		{
+			return templates.closedRoom;
+		}
+		else if (adjRooms["TOP"] && adjRooms["TOP"].name.Equals("LR--")) //these 4 additional tests are used to close rooms so that there wont be open exits to corridors
+		{
+			return templates.closedRoom;
+		}
+		else if (adjRooms["BOTTOM"] && adjRooms["BOTTOM"].name.Equals("LR--"))
+		{
+			return templates.closedRoom;
+		}
+		else if (adjRooms["LEFT"] && adjRooms["LEFT"].name.Equals("UD--"))
+		{
+			return templates.closedRoom;
+		}
+		else if (adjRooms["RIGHT"] && adjRooms["RIGHT"].name.Equals("UD--"))
+		{
+			return templates.closedRoom;
+		}
+		return currentRoom;
 	}
 
 
@@ -125,111 +159,12 @@ public class RoomSpawner : MonoBehaviour
 		room = templates.closedRoom;
 		//instantiate new closed room and remove clone
 		room = Instantiate(room);
-		room.name = room.name.Replace("(Clone)", "");
 		room.transform.parent = mapCreation.mapParent;
 		//move to position and set active
 		room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 		room.SetActive(true);
-		//add to room data
-		//List<Wall> walls = new(){ Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST };
-		//GameManager.Instance.thisArea.rooms.Add(new RoomData(transform.position, Quaternion.identity, walls, room.name, new List<GameObject>(), new List<GameObject>()));
-
-		//RoomData newData = new RoomData(transform.position, room.name, new() { Wall.NORTH, Wall.EAST, Wall.SOUTH, Wall.WEST });
-		//GameManager.Instance.thisArea.rooms.Add(newData);
-
 		
 		Destroy(gameObject);
-
-		return room;
-	}
-
-	private bool CheckIfCanBeExit(GameObject room)
-	{
-		if ((room.name == "U" || room.name == "D" || room.name == "L" || room.name == "R") && (mapCreation.moveToScenes.Count > 0))
-		{
-			//print("can be an exit");
-			return true;
-		}
-
-		return false;
-	}
-
-	private GameObject MakeExit(GameObject room)
-	{
-		//check if its an edge room
-		var adjRooms = extensions.GetAdjacentRooms(transform.position);
-		//if theres less than 5 empty rooms then return the current room as it would be valid
-		if (extensions.CountEmptyRooms(adjRooms) < 4)
-		{
-			return room;
-		}
-
-		//otherwise make the room an exit
-		room = EndRoom(room);
-
-		//check if room can be changed into an exit
-		if (CheckIfCanBeExit(room))
-		{
-			//get the according exit dependent on the name of the current room
-
-			//get the new room by adding exit to the end of it
-			GameObject newRoom = templates.GetRoom(room.name + "Exit");
-
-			//GameObject newRoom = null;
-			//if (room.name.Equals("U"))
-			//{
-			//	newRoom = templates.GetExitRoom("UExit");
-			//}
-			//else if (room.name.Equals("D"))
-			//{
-			//	newRoom = templates.GetExitRoom("DExit");
-			//}
-			//else if (room.name.Equals("L"))
-			//{
-			//	newRoom = templates.GetExitRoom("LExit");
-			//}
-			//else if (room.name.Equals("R"))
-			//{
-			//	newRoom = templates.GetExitRoom("RExit");
-			//}
-			//return exit room
-			newRoom.transform.SetPositionAndRotation(room.transform.position, room.transform.rotation);
-			return newRoom;
-		}
-
-		return room;
-	}
-
-	private GameObject EndRoom(GameObject room)
-	{
-		//check if the length of room is 50 to max
-		//if (GameManager.Instance.thisArea.rooms.Count >= GameManager.Instance.thisArea.maxMapSize - 30)
-		if (mapCreation.mapParent.childCount >= GameManager.Instance.thisArea.maxMapSize - 30)
-		{
-			print("room length is almost at the max: " + GameManager.Instance.thisArea.rooms.Count + " / " + GameManager.Instance.thisArea.maxMapSize);
-			//change the room to an end room based on the opening direction
-			if (openingDirection == 1)
-			{
-				room = templates.GetRoom("D");
-			}
-			else if (openingDirection == 2)
-			{
-				//room = RoomTemplates.Instance.topRooms[0];
-				room = templates.GetRoom("U");
-			}
-			else if (openingDirection == 3)
-			{
-				//room = RoomTemplates.Instance.rightRooms[0];
-				room = templates.GetRoom("L");
-			}
-			else if (openingDirection == 4)
-			{
-				//room = RoomTemplates.Instance.leftRooms[0];
-				room = templates.GetRoom("R");
-			}
-
-		}
-
 		return room;
 	}
 
@@ -241,11 +176,8 @@ public class RoomSpawner : MonoBehaviour
 			{
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
-					Invoke(nameof(SpawnClosedRoom), openingDirection / 100f);
-
-					//disable the walls based on the current and collided opening direction
+					Invoke(nameof(SpawnClosedRoom), openingDirection / 50f);
 				}
-
 				spawned = true;
 			}
 			catch{}

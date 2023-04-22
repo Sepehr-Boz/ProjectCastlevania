@@ -8,22 +8,31 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MapTesting.unity
     guid: 89598f1d23a61bf4b9de1148e73e38df
-  - enabled: 1
+  - enabled: 0
+    path: Assets/Scenes/ObjectTesting.unity
+    guid: ec3a2c8cd140b84489e89a47fddf81f3
+  - enabled: 0
     path: Assets/Scenes/Area1.unity
     guid: d1390ed4459656544a1391a862fbf811
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Area2.unity
     guid: af3713174a74ecc479c7db227586f0a4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Area3.unity
     guid: f8d3376796474da42a6fbd7b8e51ec9f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Area4.unity
     guid: db9f3b3faa4faac44a2046132dc9acf4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Area5.unity
     guid: c738336437e951441aa58fd39d1afdaf
+  - enabled: 1
+    path: Assets/Scenes/Using/StartScene.unity
+    guid: c617253b4e432fb4b86374f68f33d5a1
+  - enabled: 1
+    path: Assets/Scenes/Using/GameScene.unity
+    guid: 547aa3f2cc58c7a49b9b678c9269d2da
   m_configObjects: {}

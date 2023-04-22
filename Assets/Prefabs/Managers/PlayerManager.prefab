@@ -39,12 +39,10 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5302759105851789095}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3984dfc14509c3f429965b4284907bf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players:
-  - {fileID: 11400000, guid: 49d3bf5650c4a1a48b37bc64da26342f, type: 2}
-  - {fileID: 11400000, guid: 3d86cf18cd8901347bc400c032112c3c, type: 2}
+  currentData: {fileID: 11400000, guid: 49d3bf5650c4a1a48b37bc64da26342f, type: 2}
   currentPlayer: {fileID: 0}

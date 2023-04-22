@@ -1,25 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.UI;
-using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEditor.UI;
+//using UnityEngine;
 
-//depreceated
-public class Singleton : MonoBehaviour
-{
-	private static Singleton _instance;
+////depreceated
+//public class Singleton : MonoBehaviour
+//{
+//	private static Singleton _instance;
 
-	public static Singleton Instance
-	{
-		get
-		{
-			Debug.LogError(Instance + "is null");
+//	public static Singleton Instance
+//	{
+//		get
+//		{
+//			Debug.LogError(Instance + "is null");
 
-			return _instance;
-		}
-	}
+//			return _instance;
+//		}
+//	}
 
-	private void Awake()
-	{
-		_instance = this;
-	}
-}
+//	private void Awake()
+//	{
+//		_instance = this;
+//	}
+//}

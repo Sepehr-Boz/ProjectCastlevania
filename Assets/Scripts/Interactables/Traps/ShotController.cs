@@ -9,6 +9,7 @@ public class ShotController : MonoBehaviour
     //HOWEVER, Component.collider is depreceated so can't use it anymore and have to define collider in script
     //have to user new Collider collider as the warning message will still appear even though its depreceated -_- bruh
     private new Collider2D collider;
+    private new Renderer renderer;
 
     public int damage = 1;
     public float delay = 1f;
@@ -16,6 +17,7 @@ public class ShotController : MonoBehaviour
     private void Start()
     {
         collider = GetComponent<Collider2D>();
+        renderer = GetComponent<Renderer>();
 
         //set the shoot inactive when not visible so it doesnt damage enemies when not in view
         if (!GetComponent<Renderer>().isVisible)
@@ -28,6 +30,14 @@ public class ShotController : MonoBehaviour
 		}
     }
 
+    private void Update()
+    {
+        if (!renderer.isVisible)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     private IEnumerator EnableShot()
     {
         collider.enabled = false;
@@ -37,12 +47,11 @@ public class ShotController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        try
         {
-            collision.gameObject.GetComponent<PlayerController>().hp -= damage;
+            collision.gameObject.GetComponent<IDamageable>().Damage(damage);
         }
-
-        //Destroy(gameObject);
+        catch{}
         gameObject.SetActive(false);
     }
 }

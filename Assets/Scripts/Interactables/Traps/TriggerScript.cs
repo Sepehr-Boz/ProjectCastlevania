@@ -30,8 +30,5 @@ public class TriggerScript : MonoBehaviour
 		{
 			trap.GetComponent<ArrowTrap>().Shoot();
 		}
-
-		//spawn the projectile and shoot it
-		//Invoke(nameof(Shoot), 0.25f);
 	}
 }
