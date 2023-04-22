@@ -93,6 +93,25 @@ public class RoomSpawner : MonoBehaviour
 				//move the room to the new position and set it active
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
+
+				switch (openingDirection)
+				{
+					case 1:
+						Destroy(room.transform.Find("SpawnPoints").Find("DOWN").gameObject);
+						break;
+					case 2:
+						Destroy(room.transform.Find("SpawnPoints").Find("UP").gameObject);
+						break;
+					case 3:
+						Destroy(room.transform.Find("SpawnPoints").Find("LEFT").gameObject);
+						break;
+					case 4:
+						Destroy(room.transform.Find("SpawnPoints").Find("RIGHT").gameObject);
+						break;
+				}
+
+
+
 				room.SetActive(true);
 			}
 

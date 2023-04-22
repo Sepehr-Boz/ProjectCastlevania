@@ -20,7 +20,7 @@ namespace Assets.Scripts.MapGeneration
 			name = name.Replace("(Clone)", "");
 			if (name.Equals("C"))
 			{
-				ExtendRoom();
+				Invoke(nameof(ExtendRoom), 1f);
 			}
 		}
 
@@ -30,22 +30,33 @@ namespace Assets.Scripts.MapGeneration
 			//get surrounding rooms
 			var adjRooms = extensions.GetAdjacentRooms(transform.position);
 
-			extensions.DisableVerticalWalls(adjRooms["TOP"], gameObject);
-			extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
-			extensions.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
-			extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
-
-
-			//dont extend if the room DOESNT have an exit to the current room AND it HAS --(is a corridor)
-			//try{ extensions.DisableVerticalWalls(adjRooms["TOP"].name.Contains("D") && !adjRooms["TOP"].name.Contains("--") ? adjRooms["TOP"] : null, gameObject);}
-			//catch{}
-			//try{extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"].name.Contains("U") && !adjRooms["BOTTOM"].name.Contains("--") ? adjRooms["BOTTOM"] : null);}
-			//catch{}
-
-			//try{extensions.DisableHorizontalWalls(adjRooms["LEFT"].name.Contains("R") && !adjRooms["LEFT"].name.Contains("--") ? adjRooms["LEFT"] : null, gameObject);}
-			//catch{}
-			//try{extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"].name.Contains("L") && !adjRooms["RIGHT"].name.Contains("--") ? adjRooms["RIGHT"] : null);}
-			//catch{}
+			//extend vertically or horizontally if there are rooms in both directions
+			if (adjRooms["TOP"] && adjRooms["BOTTOM"])
+			{
+				extensions.DisableVerticalWalls(adjRooms["TOP"], gameObject);
+				extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
+			}
+			else if (adjRooms["LEFT"] && adjRooms["RIGHT"])
+			{
+				extensions.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
+				extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
+			}//otherwise only extend in one direction //also add extra cgeck statement so that it doesnt extend towards a corridor
+			else if (adjRooms["TOP"] && adjRooms["TOP"].name.Contains("D") && !adjRooms["TOP"].name.Contains("--"))
+			{
+				extensions.DisableVerticalWalls(adjRooms["TOP"], gameObject);
+			}
+			else if (adjRooms["BOTTOM"] && adjRooms["BOTTOM"].name.Contains("U") && !adjRooms["BOTTOM"].name.Contains("--"))
+			{
+				extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
+			}
+			else if (adjRooms["LEFT"] && adjRooms["LEFT"].name.Contains("R") && !adjRooms["LEFT"].name.Contains("--"))
+			{
+				extensions.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
+			}
+			else if (adjRooms["RIGHT"] && adjRooms["RIGHT"].name.Contains("L") && !adjRooms["RIGHT"].name.Contains("--"))
+			{
+				extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
+			}
 		}
 
 	}
