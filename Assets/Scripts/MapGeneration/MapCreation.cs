@@ -3,13 +3,9 @@ using UnityEngine;
 
 public class MapCreation : MonoBehaviour
 {
-	[Header("Other scripts")]
 	private RoomTemplates templates;
-	private ExtensionMethods extensions;
 
 	public Transform mapParent;
-
-
 	public int mapSize = 10;
 
 
@@ -22,12 +18,13 @@ public class MapCreation : MonoBehaviour
 		}
 
 		templates = GetComponent<RoomTemplates>();
-		extensions = GetComponent<ExtensionMethods>();
+
+
 
 		CreateMap();
 	}
 
-	[ContextMenu("Create Map")]
+
 	public void CreateMap()
 	{
 		//delete any rooms in map

@@ -11,15 +11,8 @@ public class EnemyController : MonoBehaviour, IDamageable
     public int hp;
     public int maxHP;
 
-	protected new Rigidbody2D rigidbody;
-	protected new Collider2D collider;
-
-
     protected void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-        collider = GetComponent<Collider2D>();
-
         hp = maxHP;
     }
 

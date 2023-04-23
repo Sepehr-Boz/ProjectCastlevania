@@ -12,14 +12,6 @@ namespace Assets.Scripts.Interactables.Enemies
 	{
 		public GameObject portal;
 
-		//private new void Start()
-		//{
-		//	base.Start();
-
-		//	//coins = Random.Range(15, 50);
-		//}
-
-
 		private new void Update()
 		{
 			if (hp <= 0)

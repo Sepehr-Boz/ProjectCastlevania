@@ -3,18 +3,13 @@ using UnityEngine;
 
 public class SpikeTrap : TrapController
 {
-    private new Collider2D collider;
-    private SpriteRenderer spriteRenderer;
-
     [SerializeField] private float attackInterval;
     [SerializeField] private int damage;
 
 
     private void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        collider = GetComponent<Collider2D>();
-        collider.enabled = false;
+        GetComponent<Collider2D>().enabled = false;
 
         StartCoroutine(Stab());
     }
@@ -26,11 +21,11 @@ public class SpikeTrap : TrapController
 
         while (true)
         {
-			collider.enabled = true;
-            spriteRenderer.color = Color.red;  //FOR TESTING
+			GetComponent<Collider2D>().enabled = true;
+            GetComponent<SpriteRenderer>().color = Color.red;  //FOR TESTING
 			yield return new WaitForSeconds(attackInterval);
-			collider.enabled = false;
-            spriteRenderer.color = Color.white; //FOR TESTING
+			GetComponent<Collider2D>().enabled = false;
+            GetComponent<SpriteRenderer>().color = Color.white; //FOR TESTING
             yield return new WaitForSeconds(attackInterval);
 		}
     }

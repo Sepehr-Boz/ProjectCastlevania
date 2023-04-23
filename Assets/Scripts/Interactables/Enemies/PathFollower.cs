@@ -30,16 +30,8 @@ public class PathFollower : MonoBehaviour
 	[SerializeField] private bool isFollowPath = false;
 	private ListNode<Vector2> target;
 
-
-	[Header("Components")]
-	private SpriteRenderer spriteRenderer;
-	private new Collider2D collider;
-
 	private void Start()
 	{
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		collider = GetComponent<Collider2D>();
-
 		target = TurnPointsIntoTargetNode(GeneratePoints());
 		transform.position = target.val;
 
@@ -76,15 +68,15 @@ public class PathFollower : MonoBehaviour
 		{
 			isFollowPath = false;
 			//set the sprite renderer and collider false so that it goes 'invisible'
-			spriteRenderer.enabled = false;
-			collider.enabled = false;
+			GetComponent<SpriteRenderer>().enabled = false;
+			GetComponent<Collider2D>().enabled = false;
 
 			yield return new WaitForSeconds(stateInterval);
 
 			isFollowPath = true;
 			//set the sprite renderer and collider true
-			spriteRenderer.enabled = true;
-			collider.enabled = true;
+			GetComponent<SpriteRenderer>().enabled = true;
+			GetComponent<Collider2D>().enabled = true;
 
 			yield return new WaitForSeconds(stateInterval);
 		}

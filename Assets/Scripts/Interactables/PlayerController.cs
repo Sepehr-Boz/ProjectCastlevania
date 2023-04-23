@@ -13,8 +13,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 {
 	[Header("Components")]
 	[Space(2)]
-	public Rigidbody2D rigidBody;
-	public CircleCollider2D circleCollider;
 	private PlayerInputActions playerInputActions;
 
 	[Header("Movement Variables")]
@@ -27,9 +25,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	public void Start()
 	{
-		rigidBody = GetComponent<Rigidbody2D>();
-		circleCollider = GetComponent<CircleCollider2D>();
-
 		//add inputs
 		playerInputActions = new PlayerInputActions();
 
@@ -48,7 +43,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 		}
 
 
-		rigidBody.velocity = velocity * moveForce;
+		GetComponent<Rigidbody2D>().velocity = velocity * moveForce;
 	}
 
 	private void Update()

@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class LaserTrap : TrapController
 {
-    private new Collider2D collider;
-
     [SerializeField] private float shootInterval;
 
 
     private void Start()
     {
-        collider = GetComponent<Collider2D>();
-
         InvokeRepeating(nameof(Shoot), startDelay, shootInterval);
     }
 
