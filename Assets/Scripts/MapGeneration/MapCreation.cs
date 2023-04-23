@@ -52,10 +52,10 @@ public class MapCreation : MonoBehaviour
 	{
 		while (true)
 		{
+			yield return new WaitForSeconds(1);
 			int start = mapParent.childCount;
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(1);
 			int end = mapParent.childCount;
-			yield return new WaitForSeconds(0.5f);
 
 			if (start == end)
 			{
@@ -96,4 +96,5 @@ public class MapCreation : MonoBehaviour
 		//keep recursing if its not valid
 		return GetRandomRoom();
 	}
+
 }

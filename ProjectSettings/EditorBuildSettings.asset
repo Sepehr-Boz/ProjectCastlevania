@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MapTesting.unity
     guid: 89598f1d23a61bf4b9de1148e73e38df
   - enabled: 0
-    path: Assets/Scenes/ObjectTesting.unity
+    path: Assets/Scenes/Using/ObjectTesting.unity
     guid: ec3a2c8cd140b84489e89a47fddf81f3
   - enabled: 0
     path: Assets/Scenes/Area1.unity

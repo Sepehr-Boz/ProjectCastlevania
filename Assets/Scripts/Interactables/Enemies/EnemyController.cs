@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 
@@ -26,6 +27,11 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         if (hp <= 0)
         {
+            //get and spawn coin from coinpool
+            GameObject tmp = CoinPool.Instance.GetPooledObject();
+            tmp.transform.position = transform.position;
+
+
             //if hp is less than or 0 destroy gameobject
             Destroy(gameObject);
         }

@@ -24,17 +24,6 @@ public class ProjectilePool : ObjectPooling
 	}
 	#endregion
 
-
-	private new void Start()
-	{
-		base.Start();
-
-		foreach (GameObject proj in pooledObjects)
-		{
-			proj.transform.parent = transform;
-		}
-	}
-
 	public GameObject GetProjectile(string projName)
 	{
 		foreach (GameObject proj in pooledObjects)

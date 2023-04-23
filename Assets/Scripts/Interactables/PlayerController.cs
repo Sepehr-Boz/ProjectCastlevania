@@ -51,6 +51,19 @@ public class PlayerController : MonoBehaviour, IDamageable
 		rigidBody.velocity = velocity * moveForce;
 	}
 
+	private void Update()
+	{
+		//get all nearby colliders
+		Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 5f);
+		foreach (Collider2D hit in hits)
+		{
+			if (hit.GetComponent<CoinController>())
+			{
+				hit.attachedRigidbody.velocity += (Vector2)(transform.position - hit.transform.position) / 5f;
+			}
+		}
+	}
+
 	#region movements
 
 	//FOR TESTING

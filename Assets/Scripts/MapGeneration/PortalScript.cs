@@ -10,6 +10,20 @@ namespace Assets.Scripts.MapGeneration
 	public class PortalScript : MonoBehaviour
 	{
 
+		//enable self after a delay
+		//this is to prevent the collision between boss coin and the portal after the boss has been defeated
+		private void Start()
+		{
+			Invoke(nameof(EnableSelf), 3f);
+		}
+
+		private void EnableSelf()
+		{
+			GetComponent<Renderer>().enabled = true;
+			GetComponent<Collider2D>().enabled = true;
+		}
+
+
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
 			if (collision.CompareTag("Player"))
@@ -22,6 +36,7 @@ namespace Assets.Scripts.MapGeneration
 				GameManager.Instance.mapCreation.CreateMap();
 
 				//do additional things like increase/decrease level
+				GameManager.Instance.currentLevel++;
 
 				//then destroy itself
 				Destroy(gameObject);
