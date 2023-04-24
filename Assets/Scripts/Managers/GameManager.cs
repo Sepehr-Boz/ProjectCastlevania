@@ -84,17 +84,3 @@ public class GameManager : MonoBehaviour
 		SceneManager.LoadScene(newScene, LoadSceneMode.Single);
 	}
 }
-
-
-[System.Serializable]
-public class ListNode<T>
-{
-	public T val; //T has to be specified in the class name, but when calling it the T has to specified
-	public ListNode<T> next;
-
-	public ListNode(T value, ListNode<T> next)
-	{
-		this.val = value;
-		this.next = next;
-	}
-}

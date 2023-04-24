@@ -1358,8 +1358,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 631831170089202674}
-  - component: {fileID: 4960372702030971859}
   - component: {fileID: -6777496143214654957}
+  - component: {fileID: -6740779486980298899}
   m_Layer: 3
   m_Name: DLR
   m_TagString: Untagged
@@ -1386,18 +1386,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!156049354 &4960372702030971859
-Grid:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5265224608547941003}
-  m_Enabled: 1
-  m_CellSize: {x: 1, y: 1, z: 0}
-  m_CellGap: {x: 0, y: 0, z: 0}
-  m_CellLayout: 0
-  m_CellSwizzle: 0
 --- !u!114 &-6777496143214654957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1410,6 +1398,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95a731035c4bdd4d9867fb1396a291b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!156049354 &-6740779486980298899
+Grid:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5265224608547941003}
+  m_Enabled: 1
+  m_CellSize: {x: 1, y: 1, z: 1}
+  m_CellGap: {x: 0, y: 0, z: 0}
+  m_CellLayout: 0
+  m_CellSwizzle: 0
 --- !u!1 &5386193102926903361
 GameObject:
   m_ObjectHideFlags: 0

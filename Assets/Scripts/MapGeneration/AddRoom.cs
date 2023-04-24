@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Xml.Serialization;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -15,6 +16,15 @@ namespace Assets.Scripts.MapGeneration
 
 		private void Start()
 		{
+			//delete the Grid component
+			//THIS IS ONLY FOR TESTING, AS DELETING GRID MAKES IT HARDER TO SEE WHAT THE ROOMS LOOK LIKE IN THE ASSETS PAGE
+			//FOR PRODUCTION THEN REMOVE THE GRID COMPONENT FROM ALL THE ROOMS AND REMOVE THIS CODE THAT DESTROYS THE GRID AS ITS NOT NEEDED
+			try
+			{
+				Destroy(GetComponent<Grid>());
+			}catch{}
+
+
 			extensions = GameObject.FindGameObjectWithTag("Rooms").GetComponent<ExtensionMethods>();
 
 			name = name.Replace("(Clone)", "");

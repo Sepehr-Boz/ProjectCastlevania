@@ -134,6 +134,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4cc06f72d4f395498251132a4123e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &291706074 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5306969616640890627, guid: 180d8883374829845a5be4e2bcca03fb, type: 3}
+  m_PrefabInstance: {fileID: 8236675443408009331}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &696341262
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -241,6 +246,18 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8150028189554146250, guid: 180d8883374829845a5be4e2bcca03fb, type: 3}
   m_PrefabInstance: {fileID: 8236675443408009331}
   m_PrefabAsset: {fileID: 0}
+--- !u!156049354 &753456109
+Grid:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291706074}
+  m_Enabled: 1
+  m_CellSize: {x: 1, y: 1, z: 1}
+  m_CellGap: {x: 0, y: 0, z: 0}
+  m_CellLayout: 0
+  m_CellSwizzle: 0
 --- !u!1 &936016612
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,7 +693,7 @@ PrefabInstance:
     - target: {fileID: 7791406952451568226, guid: 967d097e770fd5a4dafad4c715f89efe, type: 3}
       propertyPath: openRoom
       value: 
-      objectReference: {fileID: 4804346389570161791, guid: f638a277e1a055a4581d22b97a0016a5, type: 3}
+      objectReference: {fileID: 4804346389570161791, guid: aa130df544795204ba884b72ad41a36c, type: 3}
     - target: {fileID: 7791406952451568226, guid: 967d097e770fd5a4dafad4c715f89efe, type: 3}
       propertyPath: allRooms.Array.size
       value: 37
@@ -800,11 +817,11 @@ PrefabInstance:
     - target: {fileID: 7791406952451568226, guid: 967d097e770fd5a4dafad4c715f89efe, type: 3}
       propertyPath: rightRooms.Array.data[1]
       value: 
-      objectReference: {fileID: 9000491924850306309, guid: ed9332e3f404a2f45a491074ca29dd62, type: 3}
+      objectReference: {fileID: 8179812656853620782, guid: 5d2d641d93ef5cb4388e579c878f5954, type: 3}
     - target: {fileID: 7791406952451568226, guid: 967d097e770fd5a4dafad4c715f89efe, type: 3}
       propertyPath: rightRooms.Array.data[2]
       value: 
-      objectReference: {fileID: 8179812656853620782, guid: 5d2d641d93ef5cb4388e579c878f5954, type: 3}
+      objectReference: {fileID: 9000491924850306309, guid: ed9332e3f404a2f45a491074ca29dd62, type: 3}
     - target: {fileID: 7791406952451568226, guid: 967d097e770fd5a4dafad4c715f89efe, type: 3}
       propertyPath: rightRooms.Array.data[3]
       value: 
