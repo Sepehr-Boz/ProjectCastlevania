@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7334522861324441714}
   - component: {fileID: 7334522861324441715}
   - component: {fileID: 7334522861324441716}
-  - component: {fileID: 125733387393811567}
   - component: {fileID: 7334522861324441712}
   m_Layer: 0
   m_Name: EnemyB
@@ -125,21 +124,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &125733387393811567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7334522861324441713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee820f2649e15034e9971de5aac1224f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 10
-  maxHP: 10
-  coin: {fileID: 0}
 --- !u!114 &7334522861324441712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,4 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf32430f06f066441bcfb83d6fd60a29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 10
+  maxHP: 10
   dir: {x: 0.6, y: 0.4}

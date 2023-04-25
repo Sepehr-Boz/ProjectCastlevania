@@ -54,23 +54,21 @@ public class MapCreation : MonoBehaviour
 			yield return new WaitForSeconds(0.25f);
 			int end = mapParent.childCount;
 
+			//check if map is within mapsize bounds and if not regenerate it
+			if (end > mapSize)
+			{
+				CreateMap();
+			}
+
 			if (start == end)
 			{
-				//check if map is within mapsize bounds and if not regenerate it
-				if (mapParent.childCount > mapSize)
-				{
-					CreateMap();
-				}
-				else
-				{
-					//map is finished
-					//extend the map
-					//extensions.extendFunction.Invoke((Vector2)GetRandomRoom().transform.position);
-					//move player
-					PlayerManager.Instance.MovePlayer();
-					//stop coroutine
-					StopCoroutine(IsMapFinished());
-				}
+				//map is finished
+				//extend the map
+				//extensions.extendFunction.Invoke((Vector2)GetRandomRoom().transform.position);
+				//move player
+				PlayerManager.Instance.MovePlayer();
+				//stop coroutine
+				StopCoroutine(IsMapFinished());
 				//if dont break then will keep looping even though the coroutine is stopped? dunno why
 				break;
 			}
