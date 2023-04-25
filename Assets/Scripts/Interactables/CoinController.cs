@@ -19,7 +19,8 @@ public class CoinController : MonoBehaviour
             //add value to coins
             GameManager.Instance.coins += val;
 
-            Destroy(gameObject);
+            //set self inactive
+            gameObject.SetActive(false);
         }
     }
 }

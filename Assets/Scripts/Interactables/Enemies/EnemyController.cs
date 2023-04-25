@@ -1,3 +1,4 @@
+using Additional;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,11 @@ public class EnemyController : MonoBehaviour, IDamageable
     [Header("Movement")]
     public float moveSpeed = 1f;
     public float checkInterval = 5f;
-    public int roomWidth = 10;
-    public int roomHeight = 10;
 
     private Vector2 start;
     private Vector2 target;
     private PathNode path;
-    private Vector2[] directions = new Vector2[8]
+    private readonly Vector2[] directions = new Vector2[8]
     {
         new Vector2(-1, 1),  new Vector2(0, 1),  new Vector2(1, 1), 
         new Vector2(-1, 0),                      new Vector2(1, 0),
@@ -76,7 +75,14 @@ public class EnemyController : MonoBehaviour, IDamageable
         //get the room gameobject that the enemy is in
         //check if theres a player gameobject within the bounds of the room
         GameObject room = transform.parent.gameObject;
-        Collider2D[] overlap = Physics2D.OverlapBoxAll((Vector2)room.transform.position, new Vector2(roomWidth, roomHeight), 0f);
+        Collider2D[] overlap = Physics2D.OverlapBoxAll((Vector2)room.transform.position, new Vector2(5, 5), 0f);
+
+
+        //////FOR TESTING TO SEE THE AREA WHICH IS CHECKED
+        Debug debug = new();
+        debug.DrawBox((Vector2)room.transform.position, new Vector2(5, 5));
+        //////
+
         foreach (var hit in overlap)
         {
             if (hit.GetComponent<PlayerController>())
@@ -84,11 +90,13 @@ public class EnemyController : MonoBehaviour, IDamageable
                 target = (Vector2)hit.transform.position;
             }
         }
-
-		path = GeneratePath(start, target);
+        try
+        {
+			path = GeneratePath(start, target);
+		}catch{}
 	}
 
-    private PathNode GeneratePath(Vector2 start, Vector2 end)
+	private PathNode GeneratePath(Vector2 start, Vector2 end)
     {
         start = new Vector2(Mathf.RoundToInt(start.x), Mathf.RoundToInt(start.y));
         end = new Vector2(Mathf.RoundToInt(end.x), Mathf.RoundToInt(end.y));
@@ -160,7 +168,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 						newCost += 15;
 					}
 
-					PathNode newNode = new PathNode(node.val + dir, newCost, node, null);
+					PathNode newNode = new(node.val + dir, newCost, node, null);
 					if (newCost > 50)
 					{
 						traversed.Add(newNode);

@@ -49,9 +49,9 @@ public class MapCreation : MonoBehaviour
 	{
 		while (true)
 		{
-			yield return new WaitForSeconds(1);
+			yield return new WaitForSeconds(0.25f);
 			int start = mapParent.childCount;
-			yield return new WaitForSeconds(1);
+			yield return new WaitForSeconds(0.25f);
 			int end = mapParent.childCount;
 
 			if (start == end)
