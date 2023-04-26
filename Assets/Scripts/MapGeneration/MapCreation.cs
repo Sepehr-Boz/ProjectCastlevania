@@ -33,7 +33,6 @@ public class MapCreation : MonoBehaviour
 			Destroy(child.gameObject);
 		}
 
-
 		//get a random boss room from templates
 		int rand = Random.Range(0, templates.bossRooms.Length);
 		GameObject start = templates.bossRooms[rand];
@@ -67,6 +66,12 @@ public class MapCreation : MonoBehaviour
 				//extensions.extendFunction.Invoke((Vector2)GetRandomRoom().transform.position);
 				//move player
 				PlayerManager.Instance.MovePlayer();
+
+				//disable all the rooms so that the focus gameobjects do their job
+				//invoke after a delay so that closed rooms can extend
+				//DisableRooms();
+				//Invoke(nameof(DisableRooms), 3f);
+
 				//stop coroutine
 				StopCoroutine(IsMapFinished());
 				//if dont break then will keep looping even though the coroutine is stopped? dunno why
@@ -90,6 +95,14 @@ public class MapCreation : MonoBehaviour
 		}
 		//keep recursing if its not valid
 		return GetRandomRoom();
+	}
+
+	private void DisableRooms()
+	{
+		foreach (Transform child in mapParent)
+		{
+			child.gameObject.SetActive(false);
+		}
 	}
 
 }

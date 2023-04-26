@@ -15,6 +15,8 @@ public class ShotController : MonoBehaviour
     public int damage = 1;
     public float delay = 1f;
 
+    public float shootSpeed = 1f;
+
     private void Start()
     {
         //set the shoot inactive when not visible so it doesnt damage enemies when not in view

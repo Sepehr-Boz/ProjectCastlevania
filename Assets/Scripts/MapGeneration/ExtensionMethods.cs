@@ -18,7 +18,6 @@ public class ExtensionMethods : MonoBehaviour
 	};
 
 
-	//public UnityEvent<Dictionary<string, GameObject>> extendFunction = new();
 	public UnityEvent<Vector2> extendFunction = new();
 
 	[Range(0, 100)]

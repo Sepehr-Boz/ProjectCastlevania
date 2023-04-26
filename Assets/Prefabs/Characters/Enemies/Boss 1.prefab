@@ -111,7 +111,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5205889134745197248}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -138,4 +138,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 20
   maxHP: 20
+  moveSpeed: 2
+  behaviour:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3915228611016391553}
+        m_TargetAssemblyTypeName: Assets.Scripts.Interactables.Enemies.EnemyController,
+          Assembly-CSharp
+        m_MethodName: MoveTowardsPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  time: 5
   portal: {fileID: 7846540976253972411, guid: 1ee77c582e18f5c4e9255ea4b349536f, type: 3}

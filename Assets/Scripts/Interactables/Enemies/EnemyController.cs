@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Scripts.Interactables.Enemies
 {
@@ -13,6 +15,10 @@ namespace Assets.Scripts.Interactables.Enemies
 		public int maxHP;
 
 		public float moveSpeed;
+
+
+		public UnityEvent behaviour = new();
+		[SerializeField] private float time = 5f;
 
 
 		protected void Start()
@@ -34,12 +40,51 @@ namespace Assets.Scripts.Interactables.Enemies
 				Destroy(gameObject);
 			}
 
+			time -= Time.deltaTime;
+			if (time <= 0)
+			{
+				behaviour.Invoke();
+				time = 5f;
+			}
+		}
+
+		#region A
+		public void MoveTowardsPlayer()
+		{
 			Vector2 target = LookForPlayer();
 			if (target != (Vector2)transform.position)
 			{
 				GetComponent<Rigidbody2D>().velocity = Vector2.ClampMagnitude(target - (Vector2)transform.position, moveSpeed);
 			}
 		}
+		#endregion
+
+
+		#region B
+		public void ShootPlayer()
+		{
+			Vector2 target = LookForPlayer();
+			StartCoroutine(ShootXTimes(5, target));
+		}
+
+		private IEnumerator ShootXTimes(int num, Vector2 target)
+		{
+			//repeat num times
+			for (int i = 0; i < num; i++)
+			{
+				//get projectile
+				GameObject tmp = ProjectilePool.Instance.GetProjectile("Shot");
+				tmp.transform.position = transform.position;
+				tmp.SetActive(true);
+
+				//add velocity towards target
+				Vector2 move = target - (Vector2)transform.position;
+				tmp.GetComponent<Rigidbody2D>().velocity = Vector2.ClampMagnitude(move, tmp.GetComponent<ShotController>().shootSpeed);
+
+				yield return new WaitForSeconds(0.5f);
+			}
+		}
+		#endregion
 
 		private Vector2 LookForPlayer()
 		{
@@ -57,7 +102,5 @@ namespace Assets.Scripts.Interactables.Enemies
 
 			return (Vector2)transform.position;
 		}
-
-
 	}
 }

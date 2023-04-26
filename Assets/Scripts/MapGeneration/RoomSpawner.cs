@@ -93,7 +93,6 @@ public class RoomSpawner : MonoBehaviour
 				//move the room to the new position and set it active
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
-
 				switch (openingDirection)
 				{
 					case 1:
@@ -163,7 +162,7 @@ public class RoomSpawner : MonoBehaviour
 		//move to position and set active
 		room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 		room.SetActive(true);
-		
+
 		Destroy(gameObject);
 		return room;
 	}

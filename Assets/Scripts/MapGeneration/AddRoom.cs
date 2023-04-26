@@ -12,7 +12,10 @@ namespace Assets.Scripts.MapGeneration
 {
 	public class AddRoom : MonoBehaviour
 	{
+		private RoomTemplates templates;
 		private ExtensionMethods extensions;
+
+		private GameObject focus;
 
 		private void Start()
 		{
@@ -25,13 +28,36 @@ namespace Assets.Scripts.MapGeneration
 			}catch{}
 
 
-			extensions = GameObject.FindGameObjectWithTag("Rooms").GetComponent<ExtensionMethods>();
+			extensions = GameManager.Instance.extensions;
+			templates = GameManager.Instance.templates;
+
+			//add a focus gameobject that IS NOT A CHILD OF THE ROOM
+			//the focus is linked to the room so that whenever its triggered the room is enabled
+			//thus the processing power SHOULD BE reduced by quite a bit as now only n number of colliders are kept active as well as 1/2 rooms
+			focus = Instantiate(templates.focus);
+			focus.transform.SetPositionAndRotation(transform.position, transform.rotation);
+			focus.GetComponent<Focuser>().room = gameObject;
+			focus.SetActive(true);
 
 			name = name.Replace("(Clone)", "");
 			if (name.Equals("C"))
 			{
 				Invoke(nameof(ExtendRoom), 1f);
 			}
+
+			//disable all rooms after a delay when the map is finished
+			Invoke(nameof(DisableSelf), 7f);
+		}
+
+		private void DisableSelf()
+		{
+			gameObject.SetActive(false);
+		}
+
+		public void OnDestroy()
+		{
+			//destroy self as well as focus
+			Destroy(focus);
 		}
 
 
