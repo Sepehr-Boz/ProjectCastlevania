@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Interactables.Enemies;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Xml.Serialization;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -16,6 +18,9 @@ namespace Assets.Scripts.MapGeneration
 		private ExtensionMethods extensions;
 
 		private GameObject focus;
+		public GameObject exits;
+
+		[SerializeField] private List<GameObject> enemies;
 
 		private void Start()
 		{
@@ -31,6 +36,14 @@ namespace Assets.Scripts.MapGeneration
 			extensions = GameManager.Instance.extensions;
 			templates = GameManager.Instance.templates;
 
+
+			//spawn exits but disable them for now
+			exits = Instantiate(templates.exits);
+			exits.transform.parent = transform;
+			exits.transform.position = transform.position;
+			exits.SetActive(false);
+
+
 			//add a focus gameobject that IS NOT A CHILD OF THE ROOM
 			//the focus is linked to the room so that whenever its triggered the room is enabled
 			//thus the processing power SHOULD BE reduced by quite a bit as now only n number of colliders are kept active as well as 1/2 rooms
@@ -38,6 +51,7 @@ namespace Assets.Scripts.MapGeneration
 			focus.transform.SetPositionAndRotation(transform.position, transform.rotation);
 			focus.GetComponent<Focuser>().room = gameObject;
 			focus.SetActive(true);
+
 
 			name = name.Replace("(Clone)", "");
 			if (name.Equals("C"))
@@ -58,6 +72,7 @@ namespace Assets.Scripts.MapGeneration
 		{
 			//destroy self as well as focus
 			Destroy(focus);
+			Destroy(exits);
 		}
 
 
@@ -93,6 +108,44 @@ namespace Assets.Scripts.MapGeneration
 			{
 				extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
 			}
+		}
+
+		private List<GameObject> GetEnemiesInRoom()
+		{
+			List<GameObject> enem = new();
+
+			foreach (Transform child in transform)
+			{
+				if (child.GetComponent<EnemyController>() && child.name.Contains("Enemy") && child.GetComponent<EnemyController>().hp > 0)
+				{
+					enem.Add(child.gameObject);
+				}
+			}
+
+			return enem;
+		}
+
+
+		public bool CheckIfEnemiesNull() => enemies.Count == 0;
+
+
+		public void TriggerExits()
+		{
+			//get a list of enemies childed to the room
+			//reinitialise the enemies inside the room when loaded as when the room is set inactive then the references go missing
+			enemies = GetEnemiesInRoom();
+
+			try
+			{
+				if (CheckIfEnemiesNull())
+				{
+					Destroy(exits);
+				}
+				else
+				{
+					exits.SetActive(true);
+				}
+			}catch{}
 		}
 
 	}

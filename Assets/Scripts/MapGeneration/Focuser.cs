@@ -1,3 +1,4 @@
+using Assets.Scripts.MapGeneration;
 using System.Collections;
 using System.Collections.Generic;
 using TreeEditor;
@@ -21,6 +22,9 @@ public class Focuser : MonoBehaviour
 			//if player enters the room then enable it
 			//ONLY THE PLAYER SHOULD ENABLE OR DISABLE ROOMS
 			room.SetActive(true);
+
+			//enable exits if the enemies list isnt empty
+			room.GetComponent<AddRoom>().TriggerExits();
 		}
 	}
 

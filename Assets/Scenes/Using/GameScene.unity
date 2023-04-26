@@ -691,6 +691,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7791406952451568226, guid: 967d097e770fd5a4dafad4c715f89efe, type: 3}
+      propertyPath: exits
+      value: 
+      objectReference: {fileID: 3574919807014965690, guid: 7c74170a28c22fb468fdf3e1efb4c45b, type: 3}
+    - target: {fileID: 7791406952451568226, guid: 967d097e770fd5a4dafad4c715f89efe, type: 3}
       propertyPath: focus
       value: 
       objectReference: {fileID: 7937139181433770907, guid: 68a2b92d11fbc3241ac161f837effc86, type: 3}

@@ -58,7 +58,7 @@ public class ExtensionMethods : MonoBehaviour
 				room = room.transform.parent.gameObject;
 			}
 
-			if (room == null && !room.name.Contains("Boss") && !room.name.Contains("--") && !room.name.Contains("Exit"))
+			if (room == null && !room.name.Contains("Boss") && !room.name.Contains("--") && !room.name.Contains("Exit") && !room.name.Equals("Focus"))
 			{
 				continue;
 			}

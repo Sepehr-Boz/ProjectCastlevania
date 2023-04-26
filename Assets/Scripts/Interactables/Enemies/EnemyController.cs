@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.MapGeneration;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,9 @@ namespace Assets.Scripts.Interactables.Enemies
 				//get and spawn coin from coinpool
 				GameObject tmp = CoinPool.Instance.GetPooledObject();
 				tmp.transform.position = transform.position;
+
+				//invoke the CheckIfEnemiesNull method in the room
+				GetComponentInParent<AddRoom>().TriggerExits();
 
 
 				//if hp is less than or 0 destroy gameobject

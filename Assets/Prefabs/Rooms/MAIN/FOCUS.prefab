@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5861735851695579358}
   - component: {fileID: 8606746993165888658}
   - component: {fileID: 248765200704979445}
-  m_Layer: 3
-  m_Name: FOCUS
+  m_Layer: 0
+  m_Name: Focus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,5 +70,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 10, y: 10}
+  m_Size: {x: 8, y: 8}
   m_EdgeRadius: 0
