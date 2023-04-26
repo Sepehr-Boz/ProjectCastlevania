@@ -1,4 +1,5 @@
 using Assets.Scripts.Interactables.Enemies;
+using Assets.Scripts.MapGeneration;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,12 +8,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public class Bouncer : MonoBehaviour, IDamageable
+public class Bouncer : HasHP, IDamageable
 {
-    public int hp;
-    public int maxHP;
-
-
     [SerializeField] private Vector2 dir;
 
     //tried to make dirs const but in C# const arrays aren't possible. Readonly should deliver the same function I want however.
@@ -45,6 +42,9 @@ public class Bouncer : MonoBehaviour, IDamageable
 			//get and spawn coin from coinpool
 			GameObject tmp = CoinPool.Instance.GetPooledObject();
 			tmp.transform.position = transform.position;
+
+            //StartCoroutine(GetComponentInParent<AddRoom>().TriggerExits());
+            GetComponentInParent<AddRoom>().TriggerExits();
 
 
 			//if hp is less than or 0 destroy gameobject

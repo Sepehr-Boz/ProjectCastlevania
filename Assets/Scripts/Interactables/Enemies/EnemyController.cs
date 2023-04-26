@@ -10,13 +10,9 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts.Interactables.Enemies
 {
-	public class EnemyController : MonoBehaviour
+	public class EnemyController : HasHP, IDamageable
 	{
-		public int hp;
-		public int maxHP;
-
 		public float moveSpeed;
-
 
 		public UnityEvent behaviour = new();
 		[SerializeField] private float time = 5f;
@@ -37,6 +33,7 @@ namespace Assets.Scripts.Interactables.Enemies
 				tmp.transform.position = transform.position;
 
 				//invoke the CheckIfEnemiesNull method in the room
+				//StartCoroutine(GetComponentInParent<AddRoom>().TriggerExits());
 				GetComponentInParent<AddRoom>().TriggerExits();
 
 
@@ -105,6 +102,11 @@ namespace Assets.Scripts.Interactables.Enemies
 			}
 
 			return (Vector2)transform.position;
+		}
+
+		public void Damage(int damage)
+		{
+			hp -= damage;
 		}
 	}
 }

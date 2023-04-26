@@ -9,7 +9,7 @@ using System;
 using UnityEngine.UIElements;
 using UnityEngine.Events;
 
-public class PlayerController : MonoBehaviour, IDamageable
+public class PlayerController : HasHP, IDamageable
 {
 	[Header("Components")]
 	[Space(2)]
@@ -18,10 +18,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 	[Header("Movement Variables")]
 	public float moveForce;
 	private Vector2 velocity;
-
-	[Header("Health")]
-	public int hp;
-	public int maxHP;
 
 	public void Start()
 	{

@@ -116,7 +116,9 @@ namespace Assets.Scripts.MapGeneration
 
 			foreach (Transform child in transform)
 			{
-				if (child.GetComponent<EnemyController>() && child.name.Contains("Enemy") && child.GetComponent<EnemyController>().hp > 0)
+				//if (child.GetComponent<EnemyController>() && child.name.Contains("Enemy") && child.GetComponent<EnemyController>().hp > 0)
+				//checking for HasHP should return true for all child subclasses that inherit from the abstract class
+				if (child.GetComponent<HasHP>() && child.GetComponent<HasHP>().hp > 0)
 				{
 					enem.Add(child.gameObject);
 				}

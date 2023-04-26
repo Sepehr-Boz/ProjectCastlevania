@@ -24,6 +24,7 @@ public class Focuser : MonoBehaviour
 			room.SetActive(true);
 
 			//enable exits if the enemies list isnt empty
+			//StartCoroutine(room.GetComponent<AddRoom>().TriggerExits());
 			room.GetComponent<AddRoom>().TriggerExits();
 		}
 	}
