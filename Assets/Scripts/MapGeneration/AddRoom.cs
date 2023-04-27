@@ -16,6 +16,7 @@ namespace Assets.Scripts.MapGeneration
 	{
 		private RoomTemplates templates;
 		private ExtensionMethods extensions;
+		private MapCreation mapCreation;
 
 		private GameObject focus;
 		public GameObject exits;
@@ -35,6 +36,7 @@ namespace Assets.Scripts.MapGeneration
 
 			extensions = GameManager.Instance.extensions;
 			templates = GameManager.Instance.templates;
+			mapCreation = GameManager.Instance.mapCreation;
 
 
 			//spawn exits but disable them for now
@@ -48,6 +50,7 @@ namespace Assets.Scripts.MapGeneration
 			//the focus is linked to the room so that whenever its triggered the room is enabled
 			//thus the processing power SHOULD BE reduced by quite a bit as now only n number of colliders are kept active as well as 1/2 rooms
 			focus = Instantiate(templates.focus);
+			focus.transform.parent = mapCreation.focusParent;
 			focus.transform.SetPositionAndRotation(transform.position, transform.rotation);
 			focus.GetComponent<Focuser>().room = gameObject;
 			focus.SetActive(true);

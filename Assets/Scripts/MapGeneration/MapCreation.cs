@@ -6,6 +6,7 @@ public class MapCreation : MonoBehaviour
 	private RoomTemplates templates;
 
 	public Transform mapParent;
+	public Transform focusParent; //focusparent is purely used to group together the Focus gameobjects so that they hierarchy feels more organised
 	public int mapSize = 10;
 
 
