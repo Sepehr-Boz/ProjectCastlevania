@@ -17,32 +17,23 @@ public class ShotController : MonoBehaviour
 
     public float shootSpeed = 1f;
 
-    private void Start()
+    private void OnEnable()
     {
-        //set the shoot inactive when not visible so it doesnt damage enemies when not in view
+        Invoke(nameof(EnableSelf), delay);
+    }
+
+    private void EnableSelf()
+	{
+		GetComponent<Renderer>().enabled = true;
+		GetComponent<Collider2D>().enabled = true;
+	}
+
+	private void Update()
+    {
         if (!GetComponent<Renderer>().isVisible)
         {
             gameObject.SetActive(false);
         }
-        else
-        {
-			StartCoroutine(EnableShot());
-		}
-    }
-
-    private void Update()
-    {
-        if (!GetComponent<Renderer>().isVisible)
-        {
-            gameObject.SetActive(false);
-        }
-    }
-
-    private IEnumerator EnableShot()
-    {
-        GetComponent<Collider2D>().enabled = false;
-        yield return new WaitForSeconds(delay);
-        GetComponent<Collider2D>().enabled = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

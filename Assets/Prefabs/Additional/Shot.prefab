@@ -122,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   delay: 1
+  shootSpeed: 3
 --- !u!58 &-3617435908771043867
 CircleCollider2D:
   m_ObjectHideFlags: 0

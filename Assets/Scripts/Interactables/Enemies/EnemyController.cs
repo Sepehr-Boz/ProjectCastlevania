@@ -65,7 +65,7 @@ namespace Assets.Scripts.Interactables.Enemies
 		public void ShootPlayer()
 		{
 			Vector2 target = LookForPlayer();
-			StartCoroutine(ShootXTimes(5, target));
+			StartCoroutine(ShootXTimes(2, target));
 		}
 
 		private IEnumerator ShootXTimes(int num, Vector2 target)
@@ -76,13 +76,15 @@ namespace Assets.Scripts.Interactables.Enemies
 				//get projectile
 				GameObject tmp = ProjectilePool.Instance.GetProjectile("Shot");
 				tmp.transform.position = transform.position;
+				tmp.GetComponent<Collider2D>().enabled = false;
+				//tmp.GetComponent<Renderer>().enabled = false;
 				tmp.SetActive(true);
 
 				//add velocity towards target
 				Vector2 move = target - (Vector2)transform.position;
 				tmp.GetComponent<Rigidbody2D>().velocity = Vector2.ClampMagnitude(move, tmp.GetComponent<ShotController>().shootSpeed);
 
-				yield return new WaitForSeconds(0.5f);
+				yield return new WaitForSeconds(1f);
 			}
 		}
 		#endregion

@@ -18,6 +18,9 @@ namespace Assets.Scripts.Interactables.Enemies
 			{
 				//spawn portal after a delay to allow the coins to be picked up first
 				GameObject tmp = Instantiate(portal);
+				//parent the portal to the room
+				tmp.transform.parent = transform.parent;
+
 				tmp.GetComponent<Renderer>().enabled = false;
 				tmp.GetComponent<Collider2D>().enabled = false;
 			}

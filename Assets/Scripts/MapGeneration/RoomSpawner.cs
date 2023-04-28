@@ -47,7 +47,8 @@ public class RoomSpawner : MonoBehaviour
 		//must destroy instead of setting inactive as the rooms will continue to spawn on top of each other even when set inactive
 		Destroy(gameObject, waitTime);
 
-		Invoke(nameof(Spawn), openingDirection / 50f);
+		//Invoke(nameof(Spawn), openingDirection / 50f);
+		Invoke(nameof(Spawn), 0.1f);
 	}
 
 	//spawning the next room
@@ -148,7 +149,38 @@ public class RoomSpawner : MonoBehaviour
 		{
 			return templates.closedRoom;
 		}
+
 		return currentRoom;
+
+
+		///STOP TRYING TO MAKE CHANGEROOM WORK IT WONT EVER WORK I HAVE TRIED TO MAKE THIS FUNCTION WORK PROPERLY ABOUT 10 TIMES BY NOW
+		///IT WONT WORKKKKKKKKKKKKKKKKK SO STOP MAKING ME CRY ME
+		//string newName = "UDLR";
+
+		//if (adjRooms["TOP"] != null && !adjRooms["TOP"].name.Contains("D"))
+		//{
+		//	newName = newName.Replace("U", "");
+		//}
+		//if (adjRooms["BOTTOM"] != null && !adjRooms["BOTTOM"].name.Contains("U"))
+		//{
+		//	newName = newName.Replace("D", "");
+		//}
+		//if (adjRooms["LEFT"] != null && !adjRooms["LEFT"].name.Contains("R"))
+		//{
+		//	newName = newName.Replace("L", "");
+		//}
+		//if (adjRooms["RIGHT"] != null && !adjRooms["RIGHT"].name.Contains("L"))
+		//{
+		//	newName = newName.Replace("R", "");
+		//}
+
+
+		//print(newName);
+
+		//if (newName != currentRoom.name && newName != "UDLR")
+		//{
+		//	return templates.GetRoom(newName);
+		//}
 	}
 
 
@@ -176,6 +208,7 @@ public class RoomSpawner : MonoBehaviour
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
 					Invoke(nameof(SpawnClosedRoom), openingDirection / 50f);
+					//Invoke(nameof(SpawnClosedRoom), 0.1f);
 				}
 				spawned = true;
 			}
