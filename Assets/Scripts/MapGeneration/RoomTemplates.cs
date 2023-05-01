@@ -16,7 +16,6 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject[] bossRooms;
 	public GameObject[] allRooms; //used when spawning rooms from rooms data
 	public GameObject focus;
-	public GameObject exits;
 
 
 	//substitute for room pool so room pool can be removed from the scenes and room templates can be used instead as rooms will be instantiated instead of pooled

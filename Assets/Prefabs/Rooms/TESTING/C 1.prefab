@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8446237715080663515}
   - component: {fileID: 2176636007079382044}
   - component: {fileID: 5382821963564047754}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1073,7 +1073,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 0, g: 1, b: 0.3019608, a: 1}
+  m_Color: {r: 1, g: 0.8235294, b: 0, a: 1}
   m_Origin: {x: -5, y: -5, z: 0}
   m_Size: {x: 10, y: 10, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -1153,9 +1153,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6879353643547589666}
-  - component: {fileID: 6091773869828587755}
   - component: {fileID: 4428279011734880708}
-  m_Layer: 0
+  - component: {fileID: -1670002410580436355}
+  m_Layer: 3
   m_Name: C 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1179,18 +1179,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!156049354 &6091773869828587755
-Grid:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544681882197819549}
-  m_Enabled: 1
-  m_CellSize: {x: 1, y: 1, z: 0}
-  m_CellGap: {x: 0, y: 0, z: 0}
-  m_CellLayout: 0
-  m_CellSwizzle: 0
 --- !u!114 &4428279011734880708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1203,7 +1191,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95a731035c4bdd4d9867fb1396a291b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  extended: 0
+--- !u!156049354 &-1670002410580436355
+Grid:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544681882197819549}
+  m_Enabled: 1
+  m_CellSize: {x: 1, y: 1, z: 1}
+  m_CellGap: {x: 0, y: 0, z: 0}
+  m_CellLayout: 0
+  m_CellSwizzle: 0
 --- !u!1 &2811792847818139784
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,7 +1212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914502446879837154}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpawnPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1247,7 +1246,7 @@ GameObject:
   - component: {fileID: 967985685537056943}
   - component: {fileID: 1219059974812173934}
   - component: {fileID: 7838828853994216553}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: East
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1429,7 +1428,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 0, g: 1, b: 0.3019608, a: 1}
+  m_Color: {r: 1, g: 0.8235294, b: 0, a: 1}
   m_Origin: {x: -5, y: -6, z: 0}
   m_Size: {x: 11, y: 12, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -1528,7 +1527,7 @@ GameObject:
   - component: {fileID: 7351234648225714625}
   - component: {fileID: 5691609405597220203}
   - component: {fileID: 1443175418428402877}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: North
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1710,7 +1709,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 0, g: 1, b: 0.29823017, a: 1}
+  m_Color: {r: 1, g: 0.8235294, b: 0, a: 1}
   m_Origin: {x: -6, y: -5, z: 0}
   m_Size: {x: 12, y: 11, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -1809,7 +1808,7 @@ GameObject:
   - component: {fileID: 6769657077982043777}
   - component: {fileID: 4761182735623633799}
   - component: {fileID: 3103608637698513001}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: South
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1991,7 +1990,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 0, g: 1, b: 0.3019608, a: 1}
+  m_Color: {r: 1, g: 0.8235294, b: 0, a: 1}
   m_Origin: {x: -6, y: -6, z: 0}
   m_Size: {x: 12, y: 11, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -2090,7 +2089,7 @@ GameObject:
   - component: {fileID: 479177195444830935}
   - component: {fileID: 3920693404531688401}
   - component: {fileID: 5138363170117809040}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: West
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2272,7 +2271,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 0, g: 1, b: 0.3019608, a: 1}
+  m_Color: {r: 1, g: 0.8235294, b: 0, a: 1}
   m_Origin: {x: -6, y: -6, z: 0}
   m_Size: {x: 11, y: 12, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -2369,7 +2368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8886912554229920774}
   - component: {fileID: 6653210838542065102}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -7,7 +7,9 @@ public class MapCreation : MonoBehaviour
 
 	public Transform mapParent;
 	public Transform focusParent; //focusparent is purely used to group together the Focus gameobjects so that they hierarchy feels more organised
-	public int mapSize = 10;
+	
+	public int maxMapSize = 20;
+	public int minMapSize = 10;
 
 
 	private void Start()
@@ -55,12 +57,12 @@ public class MapCreation : MonoBehaviour
 			int end = mapParent.childCount;
 
 			//check if map is within mapsize bounds and if not regenerate it
-			if (end > mapSize)
+			if (end > maxMapSize)
 			{
 				CreateMap();
 			}
 
-			if (start == end)
+			if (start == end && minMapSize <= end && end <= maxMapSize)
 			{
 				//map is finished
 				//extend the map
@@ -71,7 +73,11 @@ public class MapCreation : MonoBehaviour
 				//disable all the rooms so that the focus gameobjects do their job
 				//invoke after a delay so that closed rooms can extend
 				//DisableRooms();
+
+
 				//Invoke(nameof(DisableRooms), 3f);
+				//Invoke(nameof(EnableLastRoom), 3.5f);
+
 
 				//stop coroutine
 				StopCoroutine(IsMapFinished());
@@ -104,6 +110,15 @@ public class MapCreation : MonoBehaviour
 		{
 			child.gameObject.SetActive(false);
 		}
+	}
+
+	private void EnableLastRoom()
+	{
+		//get the last room in map parent
+		//GameObject room = mapParent.GetChild(mapParent.childCount - 1).gameObject;
+		//get the last focus in focus parent
+		GameObject focus = focusParent.GetChild(focusParent.childCount - 1).gameObject;
+		focus.GetComponent<Focuser>().OnTriggerEnter2D(PlayerManager.Instance.currentPlayer.GetComponent<Collider2D>());
 	}
 
 }

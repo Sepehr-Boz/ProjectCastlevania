@@ -30,6 +30,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Area5.unity
     guid: c738336437e951441aa58fd39d1afdaf
   - enabled: 1
+    path: Assets/Scenes/Using/MenuScene.unity
+    guid: 526113a87cf40304cb3823589e003831
+  - enabled: 1
     path: Assets/Scenes/Using/StartScene.unity
     guid: c617253b4e432fb4b86374f68f33d5a1
   - enabled: 1

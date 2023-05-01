@@ -58,7 +58,7 @@ public class ExtensionMethods : MonoBehaviour
 				room = room.transform.parent.gameObject;
 			}
 
-			if (room == null && !room.name.Contains("Boss") && !room.name.Contains("--") && !room.name.Contains("Exit") && !room.name.Equals("Focus"))
+			if (room == null || room.name.Contains("Boss") || room.name.Contains("--") || room.name.Contains("Exit") || room.name.Equals("Focus"))
 			{
 				continue;
 			}
@@ -68,6 +68,48 @@ public class ExtensionMethods : MonoBehaviour
 			}
 		}
 		return adjRooms;
+	}
+
+	public Dictionary<string, GameObject> GetAdjacentRoomsUnfiltered(Vector2 currentPos)
+	{
+		Dictionary<string, GameObject> adjRooms = new(9)
+		{
+			{"TOPLEFT", null },  {"TOP", null }, {"TOPRIGHT", null },
+			{"LEFT", null }, {"CENTRE", null }, {"RIGHT", null },
+			{"BOTTOMLEFT", null }, {"BOTTOM", null }, {"BOTTOMRIGHT", null }
+		};
+
+		Vector2 newPos;
+		GameObject room = null;
+		for (int i = 0; i < 9; i++)
+		{
+			newPos = currentPos + directions[i];
+
+			try
+			{
+				room = Physics2D.OverlapCircle(newPos, 5f, LayerMask.GetMask("Room")).gameObject;
+			}
+			catch
+			{
+				continue;
+			}
+
+			while (room.transform.parent != null && room.transform.parent.name != "Map")
+			{
+				room = room.transform.parent.gameObject;
+			}
+
+			if (room == null)
+			{
+				continue;
+			}
+			else
+			{
+				adjRooms[adjRooms.ElementAt(i).Key] = room;
+			}
+		}
+		return adjRooms;
+
 	}
 
 

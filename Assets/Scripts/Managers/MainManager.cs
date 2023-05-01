@@ -28,6 +28,6 @@ public class MainManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("StartScene");
     }
 }

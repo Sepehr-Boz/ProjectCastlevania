@@ -40,10 +40,11 @@ namespace Assets.Scripts.MapGeneration
 
 
 			//spawn exits but disable them for now
-			exits = Instantiate(templates.exits);
-			exits.transform.parent = transform;
-			exits.transform.position = transform.position;
-			exits.SetActive(false);
+			//only enable/disable exits is there are ones already added
+			try
+			{
+				exits.SetActive(false);
+			}catch{}
 
 
 			//add a focus gameobject that IS NOT A CHILD OF THE ROOM
@@ -54,6 +55,11 @@ namespace Assets.Scripts.MapGeneration
 			focus.transform.SetPositionAndRotation(transform.position, transform.rotation);
 			focus.GetComponent<Focuser>().room = gameObject;
 			focus.SetActive(true);
+			//if its the first/boss room then scale the focus to 2 so that it fits the bigger room
+			if (name.Contains("Boss"))
+			{
+				focus.transform.localScale = new Vector3(2.25f, 2.25f, 1);
+			}
 
 
 			name = name.Replace("(Clone)", "");
@@ -62,20 +68,24 @@ namespace Assets.Scripts.MapGeneration
 				Invoke(nameof(ExtendRoom), 1f);
 			}
 
-			//disable all rooms after a delay when the map is finished
-			Invoke(nameof(DisableSelf), 7f);
+			////disable all rooms after a delay when the map is finished
+			//Invoke(nameof(DisableSelf), 5f);
 		}
 
-		private void DisableSelf()
-		{
-			gameObject.SetActive(false);
-		}
+		//private void DisableSelf()
+		//{
+		//	gameObject.SetActive(false);
+		//}
 
 		public void OnDestroy()
 		{
 			//destroy self as well as focus
-			Destroy(focus);
-			Destroy(exits);
+			//nest inside a try catch as only some rooms will have an exits added to it
+			try
+			{
+				Destroy(focus);
+				Destroy(exits);
+			}catch{}
 		}
 
 

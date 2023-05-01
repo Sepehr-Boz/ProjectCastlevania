@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
 	public int currentLevel = 1;
 	public int coins = 0;
 
+	//FOR TESTING
+	public bool seeRooms = false;
+
 	#region singleton
 	private static GameManager _instance;
 
@@ -76,6 +79,11 @@ public class GameManager : MonoBehaviour
 		{
 			Time.timeScale = 1;
 		}
+
+		//foreach (Transform child in mapCreation.mapParent)
+		//{
+		//	child.gameObject.SetActive(seeRooms);
+		//}
 	}
 
 	//load the new scene

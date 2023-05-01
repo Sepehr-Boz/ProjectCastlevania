@@ -207,8 +207,8 @@ public class RoomSpawner : MonoBehaviour
 			{
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
-					Invoke(nameof(SpawnClosedRoom), openingDirection / 50f);
-					//Invoke(nameof(SpawnClosedRoom), 0.1f);
+					//Invoke(nameof(SpawnClosedRoom), openingDirection / 50f);
+					Invoke(nameof(SpawnClosedRoom), 0.1f);
 				}
 				spawned = true;
 			}
