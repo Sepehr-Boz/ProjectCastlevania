@@ -7,7 +7,7 @@ public class MapCreation : MonoBehaviour
 
 	public Transform mapParent;
 	public Transform focusParent; //focusparent is purely used to group together the Focus gameobjects so that they hierarchy feels more organised
-	
+
 	public int maxMapSize = 20;
 	public int minMapSize = 10;
 
@@ -21,8 +21,6 @@ public class MapCreation : MonoBehaviour
 		}
 
 		templates = GetComponent<RoomTemplates>();
-
-
 
 		CreateMap();
 	}
@@ -38,9 +36,8 @@ public class MapCreation : MonoBehaviour
 
 		//get a random boss room from templates
 		int rand = Random.Range(0, templates.bossRooms.Length);
-		GameObject start = templates.bossRooms[rand];
-		//instantiate and move to origin
-		start = Instantiate(start);
+		GameObject start = Instantiate(templates.bossRooms[rand]);
+		//instantiate and move to random position
 		start.transform.parent = mapParent;
 		start.transform.position = Vector2.zero;
 
@@ -62,19 +59,22 @@ public class MapCreation : MonoBehaviour
 				CreateMap();
 			}
 
-			if (start == end && minMapSize <= end && end <= maxMapSize)
+			if (start == end)
 			{
+				if (end < minMapSize || end > maxMapSize)
+				{
+					CreateMap();
+					StopCoroutine(IsMapFinished());
+					break;
+				}
 				//map is finished
-				//extend the map
+				//extend the map UNSURE IF WANT EXTENSTIONS OR NOT
 				//extensions.extendFunction.Invoke((Vector2)GetRandomRoom().transform.position);
 				//move player
 				PlayerManager.Instance.MovePlayer();
 
 				//disable all the rooms so that the focus gameobjects do their job
 				//invoke after a delay so that closed rooms can extend
-				//DisableRooms();
-
-
 				//Invoke(nameof(DisableRooms), 3f);
 				//Invoke(nameof(EnableLastRoom), 3.5f);
 
@@ -106,17 +106,20 @@ public class MapCreation : MonoBehaviour
 
 	private void DisableRooms()
 	{
+		//loop through each room
 		foreach (Transform child in mapParent)
 		{
+			//set rooms inactive
 			child.gameObject.SetActive(false);
+
+			//destroy spawnpoints
+			Destroy(child.Find("SpawnPoints").gameObject);
 		}
 	}
 
 	private void EnableLastRoom()
 	{
-		//get the last room in map parent
-		//GameObject room = mapParent.GetChild(mapParent.childCount - 1).gameObject;
-		//get the last focus in focus parent
+		//get the last focus in focus parent and trigger its function to activate and pass in the player so it does trigger as it should
 		GameObject focus = focusParent.GetChild(focusParent.childCount - 1).gameObject;
 		focus.GetComponent<Focuser>().OnTriggerEnter2D(PlayerManager.Instance.currentPlayer.GetComponent<Collider2D>());
 	}

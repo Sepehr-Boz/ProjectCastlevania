@@ -55,11 +55,6 @@ namespace Assets.Scripts.MapGeneration
 			focus.transform.SetPositionAndRotation(transform.position, transform.rotation);
 			focus.GetComponent<Focuser>().room = gameObject;
 			focus.SetActive(true);
-			//if its the first/boss room then scale the focus to 2 so that it fits the bigger room
-			if (name.Contains("Boss"))
-			{
-				focus.transform.localScale = new Vector3(2.25f, 2.25f, 1);
-			}
 
 
 			name = name.Replace("(Clone)", "");
@@ -67,15 +62,7 @@ namespace Assets.Scripts.MapGeneration
 			{
 				Invoke(nameof(ExtendRoom), 1f);
 			}
-
-			////disable all rooms after a delay when the map is finished
-			//Invoke(nameof(DisableSelf), 5f);
 		}
-
-		//private void DisableSelf()
-		//{
-		//	gameObject.SetActive(false);
-		//}
 
 		public void OnDestroy()
 		{
@@ -121,6 +108,22 @@ namespace Assets.Scripts.MapGeneration
 			{
 				extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
 			}
+			else if (adjRooms["TOP"])
+			{
+				extensions.DisableVerticalWalls(adjRooms["TOP"], gameObject);
+			}
+			else if (adjRooms["BOTTOM"])
+			{
+				extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
+			}
+			else if (adjRooms["LEFT"])
+			{
+				extensions.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
+			}
+			else if (adjRooms["RIGHT"])
+			{
+				extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
+			}
 		}
 
 		private List<GameObject> GetEnemiesInRoom()
@@ -129,7 +132,6 @@ namespace Assets.Scripts.MapGeneration
 
 			foreach (Transform child in transform)
 			{
-				//if (child.GetComponent<EnemyController>() && child.name.Contains("Enemy") && child.GetComponent<EnemyController>().hp > 0)
 				//checking for HasHP should return true for all child subclasses that inherit from the abstract class
 				if (child.GetComponent<HasHP>() && child.GetComponent<HasHP>().hp > 0)
 				{

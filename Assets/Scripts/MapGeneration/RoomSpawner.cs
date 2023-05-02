@@ -23,7 +23,6 @@ public class RoomSpawner : MonoBehaviour
 	[SerializeField] private int newEntryChance = 1;
 
 	[Header("References")]
-	//private RoomPool roomPool;
 	private RoomTemplates templates;
 	private MapCreation mapCreation;
 	private ExtensionMethods extensions;
@@ -47,8 +46,8 @@ public class RoomSpawner : MonoBehaviour
 		//must destroy instead of setting inactive as the rooms will continue to spawn on top of each other even when set inactive
 		Destroy(gameObject, waitTime);
 
-		//Invoke(nameof(Spawn), openingDirection / 50f);
-		Invoke(nameof(Spawn), 0.1f);
+		//stagger the spawn times otherwise the game lags quite a bit
+		Invoke(nameof(Spawn), openingDirection / 50f);
 	}
 
 	//spawning the next room
@@ -94,7 +93,7 @@ public class RoomSpawner : MonoBehaviour
 				//move the room to the new position and set it active
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
-				switch (openingDirection)
+				switch (openingDirection) //need this otherwise rooms are spawned behind into previous room
 				{
 					case 1:
 						Destroy(room.transform.Find("SpawnPoints").Find("DOWN").gameObject);
@@ -110,20 +109,16 @@ public class RoomSpawner : MonoBehaviour
 						break;
 				}
 
-
-
 				room.SetActive(true);
 			}
-
 			spawned = true;
-
-			//Time.timeScale = 0f;
 		}
 	}
 
 	private GameObject ChangeRoom(GameObject currentRoom)
 	{
-		var adjRooms = extensions.GetAdjacentRooms(transform.position);
+		//need to get unfiltered room as this function checks for corridors and GetAdjacentRooms() regular doesn't pass in corridors
+		var adjRooms = extensions.GetAdjacentRoomsUnfiltered(transform.position);
 
 		if (adjRooms["TOP"] && adjRooms["BOTTOM"])
 		{
@@ -133,7 +128,7 @@ public class RoomSpawner : MonoBehaviour
 		{
 			return templates.closedRoom;
 		}
-		else if (adjRooms["TOP"] && adjRooms["TOP"].name.Equals("LR--")) //these 4 additional tests are used to close rooms so that there wont be open exits to corridors
+		else if (adjRooms["TOP"] && adjRooms["TOP"].name.Equals("LR--")) //check for specific corridors as if theres any corridors then there shouldnt be any openings to it
 		{
 			return templates.closedRoom;
 		}
@@ -151,36 +146,6 @@ public class RoomSpawner : MonoBehaviour
 		}
 
 		return currentRoom;
-
-
-		///STOP TRYING TO MAKE CHANGEROOM WORK IT WONT EVER WORK I HAVE TRIED TO MAKE THIS FUNCTION WORK PROPERLY ABOUT 10 TIMES BY NOW
-		///IT WONT WORKKKKKKKKKKKKKKKKK SO STOP MAKING ME CRY ME
-		//string newName = "UDLR";
-
-		//if (adjRooms["TOP"] != null && !adjRooms["TOP"].name.Contains("D"))
-		//{
-		//	newName = newName.Replace("U", "");
-		//}
-		//if (adjRooms["BOTTOM"] != null && !adjRooms["BOTTOM"].name.Contains("U"))
-		//{
-		//	newName = newName.Replace("D", "");
-		//}
-		//if (adjRooms["LEFT"] != null && !adjRooms["LEFT"].name.Contains("R"))
-		//{
-		//	newName = newName.Replace("L", "");
-		//}
-		//if (adjRooms["RIGHT"] != null && !adjRooms["RIGHT"].name.Contains("L"))
-		//{
-		//	newName = newName.Replace("R", "");
-		//}
-
-
-		//print(newName);
-
-		//if (newName != currentRoom.name && newName != "UDLR")
-		//{
-		//	return templates.GetRoom(newName);
-		//}
 	}
 
 
@@ -207,8 +172,7 @@ public class RoomSpawner : MonoBehaviour
 			{
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
-					//Invoke(nameof(SpawnClosedRoom), openingDirection / 50f);
-					Invoke(nameof(SpawnClosedRoom), 0.1f);
+					Invoke(nameof(SpawnClosedRoom), openingDirection / 50f);
 				}
 				spawned = true;
 			}
