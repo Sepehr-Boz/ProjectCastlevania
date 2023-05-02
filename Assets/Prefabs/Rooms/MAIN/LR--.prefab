@@ -1502,6 +1502,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95a731035c4bdd4d9867fb1396a291b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exits: {fileID: 0}
+  enemies: []
 --- !u!156049354 &-7300566306429532092
 Grid:
   m_ObjectHideFlags: 0
