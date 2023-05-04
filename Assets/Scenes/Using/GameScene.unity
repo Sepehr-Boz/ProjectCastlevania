@@ -281,7 +281,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 465978816}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -6326.9917}
+  m_LocalPosition: {x: 0, y: 0, z: -6716.9917}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -379,7 +379,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1271903867315916381, guid: 502d6246821e6df409bf5b0efb85638d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6426.9917
+      value: -6806.9917
       objectReference: {fileID: 0}
     - target: {fileID: 1271903867315916381, guid: 502d6246821e6df409bf5b0efb85638d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -419,7 +419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1271903867315916450, guid: 502d6246821e6df409bf5b0efb85638d, type: 3}
       propertyPath: orthographic size
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1271903867573091164, guid: 502d6246821e6df409bf5b0efb85638d, type: 3}
       propertyPath: m_Lens.OrthographicSize
@@ -620,7 +620,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1573488310}
   - component: {fileID: 1573488309}
-  - component: {fileID: 1573488308}
   - component: {fileID: 1573488307}
   m_Layer: 0
   m_Name: Minimap Camera
@@ -662,14 +661,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!81 &1573488308
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1573488306}
-  m_Enabled: 1
 --- !u!20 &1573488309
 Camera:
   m_ObjectHideFlags: 0
@@ -1024,6 +1015,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1471927076619359595, guid: 31e3cf56434eec441b71aca06093d987, type: 3}
+      propertyPath: newEntryChance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943570389828170801, guid: 31e3cf56434eec441b71aca06093d987, type: 3}
+      propertyPath: closedRoom
+      value: 
+      objectReference: {fileID: 1544681882197819549, guid: 275db89031b297849922bc62e083b131, type: 3}
     - target: {fileID: 2943570389828170801, guid: 31e3cf56434eec441b71aca06093d987, type: 3}
       propertyPath: allRooms.Array.size
       value: 40
@@ -1083,23 +1082,23 @@ PrefabInstance:
     - target: {fileID: 2943570389828170801, guid: 31e3cf56434eec441b71aca06093d987, type: 3}
       propertyPath: allRooms.Array.data[35]
       value: 
-      objectReference: {fileID: 5265224608547941003, guid: 2b5a61983df8b2d46a2995990af8eeac, type: 3}
+      objectReference: {fileID: 5265224608547941003, guid: ffd6d6af2d973aa4a9e9e0e09d11091b, type: 3}
     - target: {fileID: 2943570389828170801, guid: 31e3cf56434eec441b71aca06093d987, type: 3}
       propertyPath: allRooms.Array.data[36]
       value: 
-      objectReference: {fileID: 6436207954922627208, guid: f119ed6a34bf5a84487de6e776785d0a, type: 3}
+      objectReference: {fileID: 6436207954922627208, guid: ab18c5463f7fb064190993ad3b2faa9e, type: 3}
     - target: {fileID: 2943570389828170801, guid: 31e3cf56434eec441b71aca06093d987, type: 3}
       propertyPath: allRooms.Array.data[37]
       value: 
-      objectReference: {fileID: 4804346389570161791, guid: 45d90d3d66f0db247bdf09d5a7e1d76e, type: 3}
+      objectReference: {fileID: 4804346389570161791, guid: 201987b79c9762641b883cbe25cba3d6, type: 3}
     - target: {fileID: 2943570389828170801, guid: 31e3cf56434eec441b71aca06093d987, type: 3}
       propertyPath: allRooms.Array.data[38]
       value: 
-      objectReference: {fileID: 5154890260955177838, guid: 9a37b63a9812a4246b35cd2c5c0c6e8a, type: 3}
+      objectReference: {fileID: 5154890260955177838, guid: 44d8d94c73f92f84781665e06fb4d932, type: 3}
     - target: {fileID: 2943570389828170801, guid: 31e3cf56434eec441b71aca06093d987, type: 3}
       propertyPath: allRooms.Array.data[39]
       value: 
-      objectReference: {fileID: 7161991503107603654, guid: f989641e741b98b4982edb79a8a960e0, type: 3}
+      objectReference: {fileID: 7161991503107603654, guid: b4143697b79a48449ad547dca58083d0, type: 3}
     - target: {fileID: 2943570389828170801, guid: 31e3cf56434eec441b71aca06093d987, type: 3}
       propertyPath: bossRooms.Array.data[0]
       value: 
@@ -1216,6 +1215,10 @@ PrefabInstance:
       propertyPath: mapParent
       value: 
       objectReference: {fileID: 753456108}
+    - target: {fileID: 5502375285261834733, guid: 31e3cf56434eec441b71aca06093d987, type: 3}
+      propertyPath: maxMapSize
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 5502375285261834733, guid: 31e3cf56434eec441b71aca06093d987, type: 3}
       propertyPath: focusParent
       value: 

@@ -41,11 +41,15 @@ public class RoomSpawner : MonoBehaviour
 		mapCreation = GameManager.Instance.mapCreation;
 		extensions = GameManager.Instance.extensions;
 
-		newEntryChance = extensions.newEntryChance;
+		//newEntryChance = extensions.newEntryChance; //NO CHANCE TO SPAWN A STUPID OPEN ROOM IF WANT TO SPAWN IN OPEN ROOM CHECK SURROUNDINGS FIRST TO SEE WHICH DIRECTIONS ARE VALID THEN DO SO
 
 		//must destroy instead of setting inactive as the rooms will continue to spawn on top of each other even when set inactive
 		Destroy(gameObject, waitTime);
 
+		//if (mapCreation.mapParent.childCount >= mapCreation.maxMapSize -1)
+		//{
+		//	return;
+		//}
 		//stagger the spawn times otherwise the game lags quite a bit
 		Invoke(nameof(Spawn), openingDirection / 50f);
 	}
@@ -53,7 +57,9 @@ public class RoomSpawner : MonoBehaviour
 	//spawning the next room
 	void Spawn(){
 		if(spawned == false){
-			if(openingDirection == 1){
+			spawned = true;
+
+			if (openingDirection == 1){
 				// Need to spawn a room with a BOTTOM door.
 				rand = Random.Range(0, templates.bottomRooms.Length);
 				room = templates.bottomRooms[rand];
@@ -81,72 +87,66 @@ public class RoomSpawner : MonoBehaviour
 				//have chance to replace the room with an open room which will enable the map to extend further as the current open room (UDRL) has 4 exits
 
 				//keep this to make large-ish rooms but dont use it if rooms are wanted to be kept small(like 10-20ish rooms)
-				int rand = Random.Range(0, 100);
-				if (rand <= newEntryChance)
-				{
-					room = templates.openRoom;
-				}
-				room = ChangeRoom(room);
+				//room = ChangeRoom(room);
 				//instantiate new room and remove the clone from its name
 				room = Instantiate(room);
 				room.transform.parent = mapCreation.mapParent;
 				//move the room to the new position and set it active
 				room.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
-				switch (openingDirection) //need this otherwise rooms are spawned behind into previous room
-				{
-					case 1:
-						Destroy(room.transform.Find("SpawnPoints").Find("DOWN").gameObject);
-						break;
-					case 2:
-						Destroy(room.transform.Find("SpawnPoints").Find("UP").gameObject);
-						break;
-					case 3:
-						Destroy(room.transform.Find("SpawnPoints").Find("LEFT").gameObject);
-						break;
-					case 4:
-						Destroy(room.transform.Find("SpawnPoints").Find("RIGHT").gameObject);
-						break;
-				}
+				//switch (openingDirection) //need this otherwise rooms are spawned behind into previous room
+				//{
+				//	case 1:
+				//		Destroy(room.transform.Find("SpawnPoints").Find("DOWN").gameObject);
+				//		break;
+				//	case 2:
+				//		Destroy(room.transform.Find("SpawnPoints").Find("UP").gameObject);
+				//		break;
+				//	case 3:
+				//		Destroy(room.transform.Find("SpawnPoints").Find("LEFT").gameObject);
+				//		break;
+				//	case 4:
+				//		Destroy(room.transform.Find("SpawnPoints").Find("RIGHT").gameObject);
+				//		break;
+				//}
 
 				room.SetActive(true);
 			}
-			spawned = true;
 		}
 	}
 
-	private GameObject ChangeRoom(GameObject currentRoom)
-	{
-		//need to get unfiltered room as this function checks for corridors and GetAdjacentRooms() regular doesn't pass in corridors
-		var adjRooms = extensions.GetAdjacentRoomsUnfiltered(transform.position);
+	//private GameObject ChangeRoom(GameObject currentRoom)
+	//{
+	//	//need to get unfiltered room as this function checks for corridors and GetAdjacentRooms() regular doesn't pass in corridors
+	//	var adjRooms = extensions.GetAdjacentRoomsUnfiltered(transform.position);
 
-		if (adjRooms["TOP"] && adjRooms["BOTTOM"])
-		{
-			return templates.closedRoom;
-		}
-		else if (adjRooms["LEFT"] && adjRooms["RIGHT"])
-		{
-			return templates.closedRoom;
-		}
-		else if (adjRooms["TOP"] && adjRooms["TOP"].name.Equals("LR--")) //check for specific corridors as if theres any corridors then there shouldnt be any openings to it
-		{
-			return templates.closedRoom;
-		}
-		else if (adjRooms["BOTTOM"] && adjRooms["BOTTOM"].name.Equals("LR--"))
-		{
-			return templates.closedRoom;
-		}
-		else if (adjRooms["LEFT"] && adjRooms["LEFT"].name.Equals("UD--"))
-		{
-			return templates.closedRoom;
-		}
-		else if (adjRooms["RIGHT"] && adjRooms["RIGHT"].name.Equals("UD--"))
-		{
-			return templates.closedRoom;
-		}
+	//	if (adjRooms["TOP"] && adjRooms["BOTTOM"])
+	//	{
+	//		return templates.closedRoom;
+	//	}
+	//	else if (adjRooms["LEFT"] && adjRooms["RIGHT"])
+	//	{
+	//		return templates.closedRoom;
+	//	}
+	//	else if (adjRooms["TOP"] && adjRooms["TOP"].name.Equals("LR--")) //check for specific corridors as if theres any corridors then there shouldnt be any openings to it
+	//	{
+	//		return templates.closedRoom;
+	//	}
+	//	else if (adjRooms["BOTTOM"] && adjRooms["BOTTOM"].name.Equals("LR--"))
+	//	{
+	//		return templates.closedRoom;
+	//	}
+	//	else if (adjRooms["LEFT"] && adjRooms["LEFT"].name.Equals("UD--"))
+	//	{
+	//		return templates.closedRoom;
+	//	}
+	//	else if (adjRooms["RIGHT"] && adjRooms["RIGHT"].name.Equals("UD--"))
+	//	{
+	//		return templates.closedRoom;
+	//	}
 
-		return currentRoom;
-	}
+	//	return currentRoom;
+	//}
 
 
 	private GameObject SpawnClosedRoom()
@@ -164,6 +164,57 @@ public class RoomSpawner : MonoBehaviour
 		return room;
 	}
 
+	private void SpawnConnectRoom(GameObject other)
+	{
+		//instead of spawning a closed room get the direction that the 2 points that triggered each other and spawn a room that connects the 2
+		int dir1 = openingDirection;
+		int dir2 = other.GetComponent<RoomSpawner>().openingDirection;
+
+		string newName = "";
+
+		//top down right left
+		switch (dir1)
+		{
+			case 1:
+				newName += "U";
+				break;
+			case 2:
+				newName += "D";
+				break;
+			case 3:
+				newName += "R";
+				break;
+			case 4:
+				newName += "L";
+				break;
+
+		}
+
+		switch (dir2)
+		{
+			case 1:
+				newName += "U";
+				break;
+			case 2:
+				newName += "D";
+				break;
+			case 3:
+				newName += "R";
+				break;
+			case 4:
+				newName += "L";
+				break;
+
+		}
+
+		GameObject room = Instantiate(templates.GetRoom(newName));
+		room.transform.parent = mapCreation.mapParent;
+
+		room.transform.position = transform.position;
+		room.SetActive(true);
+
+	}
+
 
 	void OnTriggerEnter2D(Collider2D other){
 		//occurs when 2 rooms attempt to spawn a room at the same area
@@ -172,11 +223,13 @@ public class RoomSpawner : MonoBehaviour
 			{
 				if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
 				{
-					Invoke(nameof(SpawnClosedRoom), openingDirection / 50f);
+					//Invoke(nameof(SpawnClosedRoom), openingDirection / 50f);
+					SpawnConnectRoom(other.gameObject);
 				}
-				spawned = true;
 			}
 			catch{}
+
+			spawned = true;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.MapGeneration;
 using Assets.Scripts.Pools;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RoomTemplates : MonoBehaviour 
@@ -14,13 +15,16 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject openRoom;
 
 	public GameObject[] bossRooms;
-	public GameObject[] allRooms; //used when spawning rooms from rooms data
+	public GameObject[] allRooms;
 	public GameObject focus;
 
 
 	//substitute for room pool so room pool can be removed from the scenes and room templates can be used instead as rooms will be instantiated instead of pooled
 	public GameObject GetRoom(string roomName = null)
 	{
+		//roomName = roomName.Replace("Trap", "");
+		//roomName = roomName.Replace("1", "");
+		//roomName = roomName.RemoveConsecutiveCharacters(' ');
 		//loop through all rooms and return the prefab that is needed
 		foreach (GameObject room in allRooms)
 		{
