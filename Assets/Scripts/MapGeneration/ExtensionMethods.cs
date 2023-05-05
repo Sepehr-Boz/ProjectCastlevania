@@ -20,11 +20,6 @@ public class ExtensionMethods : MonoBehaviour
 
 	public UnityEvent<Vector2> extendFunction = new();
 
-	//NEVER ENABLE THIS AGAIN GET RID OF IT THE MAIN PROBLEM OF ROOM GENERATION WAS THIS FREAKING THING MAN 
-	//[Range(0, 100)]
-	//public int newEntryChance = 1;
-
-
 
 	#region getting rooms
 
@@ -47,49 +42,7 @@ public class ExtensionMethods : MonoBehaviour
 
 			try
 			{
-				room = Physics2D.OverlapCircle(newPos, 1f, LayerMask.GetMask("Room")).gameObject;
-			}
-			catch
-			{
-				continue;
-			}
-
-			while (room.transform.parent != null && room.transform.parent.name != "Map")
-			{
-				room = room.transform.parent.gameObject;
-			}
-
-			//if (room == null || room.name.Contains("Boss") || room.name.Contains("--") || room.name.Contains("Exit") || room.name.Equals("Focus"))
-			if (room == null)
-			{
-				continue;
-			}
-			else
-			{
-				adjRooms[adjRooms.ElementAt(i).Key] = room;
-			}
-		}
-		return adjRooms;
-	}
-
-	public Dictionary<string, GameObject> GetAdjacentRoomsUnfiltered(Vector2 currentPos)
-	{
-		Dictionary<string, GameObject> adjRooms = new(9)
-		{
-			{"TOPLEFT", null },  {"TOP", null }, {"TOPRIGHT", null },
-			{"LEFT", null }, {"CENTRE", null }, {"RIGHT", null },
-			{"BOTTOMLEFT", null }, {"BOTTOM", null }, {"BOTTOMRIGHT", null }
-		};
-
-		Vector2 newPos;
-		GameObject room = null;
-		for (int i = 0; i < 9; i++)
-		{
-			newPos = currentPos + directions[i];
-
-			try
-			{
-				room = Physics2D.OverlapCircle(newPos, 5f, LayerMask.GetMask("Room")).gameObject;
+				room = Physics2D.OverlapCircle(newPos, 3f, LayerMask.GetMask("Room")).gameObject;
 			}
 			catch
 			{
@@ -104,9 +57,7 @@ public class ExtensionMethods : MonoBehaviour
 			adjRooms[adjRooms.ElementAt(i).Key] = room;
 		}
 		return adjRooms;
-
 	}
-
 
 	public int CountEmptyRooms(Dictionary<string, GameObject> adjRooms)
 	{

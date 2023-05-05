@@ -60,12 +60,6 @@ namespace Assets.Scripts.MapGeneration
 			focus.transform.SetPositionAndRotation(transform.position, transform.rotation);
 			focus.GetComponent<Focuser>().room = gameObject;
 			focus.SetActive(true);
-
-
-			//if (name.Equals("C"))
-			//{
-			//	Invoke(nameof(ExtendRoom), 1f);
-			//}
 		}
 
 		public void OnDestroy()
@@ -78,58 +72,6 @@ namespace Assets.Scripts.MapGeneration
 				Destroy(exits);
 			}catch{}
 		}
-
-
-		//private void ExtendRoom()
-		//{
-		//	//get surrounding rooms
-		//	var adjRooms = extensions.GetAdjacentRooms(transform.position);
-
-		//	//extend vertically or horizontally if there are rooms in both directions
-		//	if (adjRooms["TOP"] && adjRooms["BOTTOM"])
-		//	{
-		//		extensions.DisableVerticalWalls(adjRooms["TOP"], gameObject);
-		//		extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
-		//	}
-		//	else if (adjRooms["LEFT"] && adjRooms["RIGHT"])
-		//	{
-		//		extensions.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
-		//		extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
-		//	}//otherwise only extend in one direction //also add extra cgeck statement so that it doesnt extend towards a corridor
-		//	else if (adjRooms["TOP"] && adjRooms["TOP"].name.Contains("D") && !adjRooms["TOP"].name.Contains("--"))
-		//	{
-		//		extensions.DisableVerticalWalls(adjRooms["TOP"], gameObject);
-		//	}
-		//	else if (adjRooms["BOTTOM"] && adjRooms["BOTTOM"].name.Contains("U") && !adjRooms["BOTTOM"].name.Contains("--"))
-		//	{
-		//		extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
-		//	}
-		//	else if (adjRooms["LEFT"] && adjRooms["LEFT"].name.Contains("R") && !adjRooms["LEFT"].name.Contains("--"))
-		//	{
-		//		extensions.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
-		//	}
-		//	else if (adjRooms["RIGHT"] && adjRooms["RIGHT"].name.Contains("L") && !adjRooms["RIGHT"].name.Contains("--"))
-		//	{
-		//		extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
-		//	}
-		//	else if (adjRooms["TOP"])
-		//	{
-		//		extensions.DisableVerticalWalls(adjRooms["TOP"], gameObject);
-		//	}
-		//	else if (adjRooms["BOTTOM"])
-		//	{
-		//		extensions.DisableVerticalWalls(gameObject, adjRooms["BOTTOM"]);
-		//	}
-		//	else if (adjRooms["LEFT"])
-		//	{
-		//		extensions.DisableHorizontalWalls(adjRooms["LEFT"], gameObject);
-		//	}
-		//	else if (adjRooms["RIGHT"])
-		//	{
-		//		extensions.DisableHorizontalWalls(gameObject, adjRooms["RIGHT"]);
-		//	}
-		//}
-
 		private List<GameObject> GetEnemiesInRoom()
 		{
 			List<GameObject> enem = new();

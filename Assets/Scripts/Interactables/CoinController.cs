@@ -11,6 +11,14 @@ public class CoinController : MonoBehaviour
         val = Random.Range(1, 20);
     }
 
+    private void Update()
+    {
+        if (!GetComponent<Renderer>().isVisible)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
