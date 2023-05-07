@@ -9,7 +9,17 @@ public class LaserTrap : TrapController
 
     private void Start()
     {
-        InvokeRepeating(nameof(Shoot), startDelay, shootInterval);
+        StartCoroutine(RepeatShooting()); //have shooting as a coruotine as an invokerepeating still invokes even when the gameobject is deactivated however a coruotine wont
+    }
+
+    private IEnumerator RepeatShooting()
+    {
+        yield return new WaitForSeconds(startDelay);
+        while (true)
+        {
+            Shoot();
+            yield return new WaitForSeconds(shootInterval);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
