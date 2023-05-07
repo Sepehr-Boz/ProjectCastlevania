@@ -12,7 +12,8 @@ namespace Assets.Scripts.Interactables.Enemies
 {
 	public class EnemyController : HasHP, IDamageable
 	{
-		public float moveSpeed;
+		[SerializeField] private EnemyData data;
+		[SerializeField] private float moveSpeed;
 
 		public UnityEvent behaviour = new();
 		[SerializeField] private float time = 5f;
@@ -20,7 +21,9 @@ namespace Assets.Scripts.Interactables.Enemies
 
 		protected void Start()
 		{
-			hp = maxHP;
+			maxHP = data.maxHP;
+			hp = data.hp;
+			moveSpeed = data.moveSpeed;
 		}
 
 

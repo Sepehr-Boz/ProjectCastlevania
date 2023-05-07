@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [SerializeField]
-
 public abstract class HasHP: MonoBehaviour
 {
     public int hp;

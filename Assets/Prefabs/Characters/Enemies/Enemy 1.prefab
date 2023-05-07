@@ -138,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 10
   maxHP: 10
+  data: {fileID: 11400000, guid: 837b62903b1067148b59f4b8380fbcf5, type: 2}
   moveSpeed: 2
   behaviour:
     m_PersistentCalls:
@@ -155,3 +156,4 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  time: 5

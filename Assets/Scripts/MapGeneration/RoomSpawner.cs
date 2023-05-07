@@ -1,15 +1,10 @@
-﻿using Assets.Scripts.MapGeneration;
-using Assets.Scripts.Pools;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
-using static Unity.Burst.Intrinsics.X86.Avx;
 using Random = UnityEngine.Random;
 
 public class RoomSpawner : MonoBehaviour 
@@ -107,11 +102,11 @@ public class RoomSpawner : MonoBehaviour
 		var adjRooms = extensions.GetAdjacentRooms(transform.position);
 		string name = currentRoom.name;
 
-		if (adjRooms["TOP"] && adjRooms["TOP"].name.Equals("LR--"))
+		if (adjRooms["UP"] && adjRooms["UP"].name.Equals("LR--"))
 		{
 			name = name.Replace("U", "");
 		}
-		if (adjRooms["BOTTOM"] && adjRooms["BOTTOM"].name.Equals("LR--"))
+		if (adjRooms["DOWN"] && adjRooms["DOWN"].name.Equals("LR--"))
 		{
 			name = name.Replace("D", "");
 		}
@@ -126,7 +121,7 @@ public class RoomSpawner : MonoBehaviour
 
 		if (name != currentRoom.name)
 		{
-			name = name.Replace("Trap", "").Replace(" 1", "");
+			name = name.Replace("Trap", "").Replace("Enemy", "").Replace(" ", "");
 			return templates.GetRoom(name);
 		}
 

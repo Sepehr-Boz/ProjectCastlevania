@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.MapGeneration;
-using Assets.Scripts.Pools;
-using Unity.VisualScripting;
+﻿using Unity.VisualScripting;
 using UnityEngine;
 
 public class RoomTemplates : MonoBehaviour 

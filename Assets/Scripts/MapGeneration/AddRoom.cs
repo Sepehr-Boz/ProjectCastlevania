@@ -1,12 +1,6 @@
-﻿using Assets.Scripts.Interactables.Enemies;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Xml.Serialization;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -46,8 +40,12 @@ namespace Assets.Scripts.MapGeneration
 
 			//spawn exits but disable them for now
 			//only enable/disable exits is there are ones already added
+			//exits are added as a prefab so only instantiate them if they are added - ensures that not all rooms have exits
 			try
 			{
+				exits = Instantiate(exits);
+				exits.transform.parent = transform;
+				exits.transform.position = transform.position;
 				exits.SetActive(false);
 			}catch{}
 
