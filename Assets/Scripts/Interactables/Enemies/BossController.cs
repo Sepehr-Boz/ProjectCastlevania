@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Interactables.Enemies
 {
@@ -11,19 +12,20 @@ namespace Assets.Scripts.Interactables.Enemies
 	{
 		public GameObject portal;
 
-
-		private void FixedUpdate()
+		private new void Update()
 		{
 			if (hp <= 0)
 			{
-				//spawn portal
+				//spawn portal after a delay to allow the coins to be picked up first
 				GameObject tmp = Instantiate(portal);
-				tmp.transform.position = transform.parent.position;
+				//parent the portal to the room
+				tmp.transform.parent = transform.parent;
 
-
-				//destroy self
-				Destroy(gameObject);
+				tmp.GetComponent<Renderer>().enabled = false;
+				tmp.GetComponent<Collider2D>().enabled = false;
 			}
+
+			base.Update();
 		}
 	}
 }

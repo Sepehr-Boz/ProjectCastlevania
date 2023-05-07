@@ -9,20 +9,16 @@ public class TriggerScript : MonoBehaviour
 	[SerializeField] private ParticleSystem interactEffect;
 
 
-
-	private new Collider2D collider;
-
-	private void Start()
-	{
-		collider = GetComponent<Collider2D>();
-	}
-
-
 	private void OnTriggerEnter2D(Collider2D collision)
     {
+		if (collision.GetComponent<IDamageable>() == null)
+		{
+			return;
+		}
+
 		//if pressed then play the particle effect at the collider location
 		ParticleSystem newEffect = Instantiate(interactEffect);
-		newEffect.transform.position = (Vector2)transform.position + collider.offset; //+offset moves the effect to where the collider would be
+		newEffect.transform.position = (Vector2)transform.position + GetComponent<Collider2D>().offset; //+offset moves the effect to where the collider would be
 		newEffect.Play();
 
 		//loop through all the attachs traps and trigger their shoot function

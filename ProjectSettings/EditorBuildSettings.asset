@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MapTesting.unity
     guid: 89598f1d23a61bf4b9de1148e73e38df
   - enabled: 0
-    path: Assets/Scenes/ObjectTesting.unity
+    path: Assets/Scenes/Using/ObjectTesting.unity
     guid: ec3a2c8cd140b84489e89a47fddf81f3
   - enabled: 0
     path: Assets/Scenes/Area1.unity
@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Area5.unity
     guid: c738336437e951441aa58fd39d1afdaf
+  - enabled: 1
+    path: Assets/Scenes/Using/MenuScene.unity
+    guid: 526113a87cf40304cb3823589e003831
   - enabled: 1
     path: Assets/Scenes/Using/StartScene.unity
     guid: c617253b4e432fb4b86374f68f33d5a1

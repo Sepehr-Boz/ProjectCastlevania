@@ -1,4 +1,3 @@
-using Assets.Scripts.MapGeneration;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +17,7 @@ public class ExtensionMethods : MonoBehaviour
 	};
 
 
-	//public UnityEvent<Dictionary<string, GameObject>> extendFunction = new();
 	public UnityEvent<Vector2> extendFunction = new();
-
-	[Range(0, 100)]
-	public int newEntryChance = 1;
-
 
 
 	#region getting rooms
@@ -34,9 +28,9 @@ public class ExtensionMethods : MonoBehaviour
 		//check for any rooms above, below, to the right, left, and diagonally of the current room
 		Dictionary<string, GameObject> adjRooms = new(9)
 		{
-			{"TOPLEFT", null },  {"TOP", null }, {"TOPRIGHT", null },
+			{"UPLEFT", null },  {"UP", null }, {"UPRIGHT", null },
 			{"LEFT", null }, {"CENTRE", null }, {"RIGHT", null },
-			{"BOTTOMLEFT", null }, {"BOTTOM", null }, {"BOTTOMRIGHT", null }
+			{"DOWNLEFT", null }, {"DOWN", null }, {"DOWNRIGHT", null }
 		};
 
 		Vector2 newPos;
@@ -47,7 +41,7 @@ public class ExtensionMethods : MonoBehaviour
 
 			try
 			{
-				room = Physics2D.OverlapCircle(newPos, 1f, LayerMask.GetMask("Room")).gameObject;
+				room = Physics2D.OverlapCircle(newPos, 3f, LayerMask.GetMask("Room")).gameObject;
 			}
 			catch
 			{
@@ -59,18 +53,10 @@ public class ExtensionMethods : MonoBehaviour
 				room = room.transform.parent.gameObject;
 			}
 
-			if (room == null && !room.name.Contains("Boss") && !room.name.Contains("--") && !room.name.Contains("Exit"))
-			{
-				continue;
-			}
-			else
-			{
-				adjRooms[adjRooms.ElementAt(i).Key] = room;
-			}
+			adjRooms[adjRooms.ElementAt(i).Key] = room;
 		}
 		return adjRooms;
 	}
-
 
 	public int CountEmptyRooms(Dictionary<string, GameObject> adjRooms)
 	{
@@ -218,10 +204,10 @@ public class ExtensionMethods : MonoBehaviour
 			return;
 		}
 
-		//disable the north walls between the 2 rooms
+		//disable the UP walls between the 2 rooms
 		//remove the walls enum from each room
-		a.transform.Find("Walls").Find("South").gameObject.SetActive(false);
-		b.transform.Find("Walls").Find("North").gameObject.SetActive(false);
+		a.transform.Find("Walls").Find("DOWN").gameObject.SetActive(false);
+		b.transform.Find("Walls").Find("UP").gameObject.SetActive(false);
 	}
 	public void DisableHorizontalWalls(GameObject a, GameObject b)
 	{
@@ -231,8 +217,64 @@ public class ExtensionMethods : MonoBehaviour
 		}
 
 		//set the walls inactive
-		a.transform.Find("Walls").Find("East").gameObject.SetActive(false);
-		b.transform.Find("Walls").Find("West").gameObject.SetActive(false);
+		a.transform.Find("Walls").Find("RIGHT").gameObject.SetActive(false);
+		b.transform.Find("Walls").Find("LEFT").gameObject.SetActive(false);
+	}
+
+	public void ExtendClosedRoom(GameObject room)
+	{
+		//get surrounding rooms
+		var adjRooms = GetAdjacentRooms(room.transform.position);
+
+		//extend vertically or horizontally if there are rooms in both directions
+		if (adjRooms["UP"] && adjRooms["DOWN"])
+		{
+			DisableVerticalWalls(adjRooms["UP"], room);
+			DisableVerticalWalls(room, adjRooms["DOWN"]);
+			return;
+		}
+		else if (adjRooms["LEFT"] && adjRooms["RIGHT"])
+		{
+			DisableHorizontalWalls(adjRooms["LEFT"], room);
+			DisableHorizontalWalls(room, adjRooms["RIGHT"]);
+			return;
+		}//otherwise only extend in one direction //also add extra cgeck statement so that it doesnt extend towards a corridor
+		else if (adjRooms["UP"] && adjRooms["UP"].name.Contains("D") && !adjRooms["UP"].name.Contains("--"))
+		{
+			DisableVerticalWalls(adjRooms["UP"], room);
+			return;
+		}
+		else if (adjRooms["DOWN"] && adjRooms["DOWN"].name.Contains("U") && !adjRooms["DOWN"].name.Contains("--"))
+		{
+			DisableVerticalWalls(room, adjRooms["DOWN"]);
+			return;
+		}
+		else if (adjRooms["LEFT"] && adjRooms["LEFT"].name.Contains("R") && !adjRooms["LEFT"].name.Contains("--"))
+		{
+			DisableHorizontalWalls(adjRooms["LEFT"], room);
+			return;
+		}
+		else if (adjRooms["RIGHT"] && adjRooms["RIGHT"].name.Contains("L") && !adjRooms["RIGHT"].name.Contains("--"))
+		{
+			DisableHorizontalWalls(room, adjRooms["RIGHT"]);
+			return;
+		}
+		if (adjRooms["UP"])
+		{
+			DisableVerticalWalls(adjRooms["UP"], room);
+		}
+		if (adjRooms["DOWN"])
+		{
+			DisableVerticalWalls(room, adjRooms["DOWN"]);
+		}
+		if (adjRooms["LEFT"])
+		{
+			DisableHorizontalWalls(adjRooms["LEFT"], room);
+		}
+		if (adjRooms["RIGHT"])
+		{
+			DisableHorizontalWalls(room, adjRooms["RIGHT"]);
+		}
 	}
 
 	#endregion

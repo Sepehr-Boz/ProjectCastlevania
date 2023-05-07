@@ -1,25 +1,31 @@
+using Assets.Scripts.MapGeneration;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
-public class Bouncer : MonoBehaviour
+public class Bouncer : HasHP, IDamageable
 {
     [SerializeField] private Vector2 dir;
 
     //tried to make dirs const but in C# const arrays aren't possible. Readonly should deliver the same function I want however.
     private readonly Vector2[] dirs = new Vector2[4]
     {
-        Vector2.up,
-        Vector2.right,
-        Vector2.down,
-        Vector2.left,
+        new Vector2(0, 1),
+		new Vector2(1, 0),
+		new Vector2(0, -1),
+		new Vector2(-1, 0)
 	};
 
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        dir = dir == null ? new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)) : dir;
+        hp = maxHP;
+
+        dir = dir == Vector2.zero ? new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)) : dir;
     }
 
     private void FixedUpdate()
@@ -27,6 +33,22 @@ public class Bouncer : MonoBehaviour
         transform.position += (Vector3)dir / 35f;
     }
 
+    private void Update()
+    {
+		if (hp <= 0)
+		{
+			//get and spawn coin from coinpool
+			GameObject tmp = CoinPool.Instance.GetPooledObject();
+			tmp.transform.position = transform.position;
+
+            //StartCoroutine(GetComponentInParent<AddRoom>().TriggerExits());
+            GetComponentInParent<AddRoom>().TriggerExits();
+
+
+			//if hp is less than or 0 destroy gameobject
+			Destroy(gameObject);
+		}
+	}
 
     //collisions between 2 objects NEED at least one of the objects to have a rigidbody otherwise the collision wont trigger
     private void OnCollisionEnter2D(Collision2D collision)
@@ -38,16 +60,27 @@ public class Bouncer : MonoBehaviour
             {
                 //get the second collider from a raycast from centre outwards
                 //get second hit as first will be the gameobject itself
-                RaycastHit2D hit = Physics2D.RaycastAll(transform.position, castDir, 0.6f)[1];
+                RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, castDir, 0.6f);
 
-                //check that it something thats valid
-                if (hit.transform.root.GetComponent<IIndestructable>() != null)
+                foreach (RaycastHit2D hit in hits)
                 {
-					//draw a line to see where it hits - FOR TESTING
-					Debug.DrawLine(transform.position, hit.point, Color.red, 5f);
+					//check that it something thats valid
+					if (hit.transform.root.GetComponent<IIndestructable>() != null || hit.transform.GetComponent<IDamageable>() != null)
+					{
+						//draw a line to see where it hits - FOR TESTING
+						Debug.DrawLine(transform.position, hit.point, Color.red, 5f);
 
-					//if hit then decrement the dir the gameobject moves in by castDir to make it 'bounce'/'reflect'
-					dir -= castDir;
+						//if hit then decrement the dir the gameobject moves in by castDir to make it 'bounce'/'reflect'
+						//dir -= castDir;
+                        if (castDir.x != 0)
+                        {
+                            dir.x = -dir.x;
+                        }
+                        else if (castDir.y != 0)
+                        {
+                            dir.y = -dir.y;
+                        }
+					}
 				}
             }
             catch
@@ -57,4 +90,9 @@ public class Bouncer : MonoBehaviour
             }
         }
 	}
+
+    public void Damage(int damage)
+    {
+        hp -= damage;
+    }
 }

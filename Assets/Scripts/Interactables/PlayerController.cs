@@ -9,27 +9,18 @@ using System;
 using UnityEngine.UIElements;
 using UnityEngine.Events;
 
-public class PlayerController : MonoBehaviour, IDamageable
+public class PlayerController : HasHP, IDamageable
 {
 	[Header("Components")]
 	[Space(2)]
-	public Rigidbody2D rigidBody;
-	public CircleCollider2D circleCollider;
 	private PlayerInputActions playerInputActions;
 
 	[Header("Movement Variables")]
 	public float moveForce;
 	private Vector2 velocity;
 
-	[Header("Health")]
-	public int hp;
-	public int maxHP;
-
 	public void Start()
 	{
-		rigidBody = GetComponent<Rigidbody2D>();
-		circleCollider = GetComponent<CircleCollider2D>();
-
 		//add inputs
 		playerInputActions = new PlayerInputActions();
 
@@ -48,7 +39,20 @@ public class PlayerController : MonoBehaviour, IDamageable
 		}
 
 
-		rigidBody.velocity = velocity * moveForce;
+		GetComponent<Rigidbody2D>().velocity = velocity * moveForce;
+	}
+
+	private void Update()
+	{
+		//get all nearby colliders
+		Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 5f);
+		foreach (Collider2D hit in hits)
+		{
+			if (hit.GetComponent<CoinController>())
+			{
+				hit.attachedRigidbody.velocity += (Vector2)(transform.position - hit.transform.position) / 5f;
+			}
+		}
 	}
 
 	#region movements

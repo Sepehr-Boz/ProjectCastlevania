@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class LaserTrap : TrapController
 {
-    private new Collider2D collider;
-
     [SerializeField] private float shootInterval;
 
 
     private void Start()
     {
-        collider = GetComponent<Collider2D>();
+        StartCoroutine(RepeatShooting()); //have shooting as a coruotine as an invokerepeating still invokes even when the gameobject is deactivated however a coruotine wont
+    }
 
-        InvokeRepeating(nameof(Shoot), startDelay, shootInterval);
+    private IEnumerator RepeatShooting()
+    {
+        yield return new WaitForSeconds(startDelay);
+        while (true)
+        {
+            Shoot();
+            yield return new WaitForSeconds(shootInterval);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

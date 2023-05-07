@@ -41,7 +41,12 @@ public class PlayerManager : MonoBehaviour
 	//called on playerdeath
 	public UnityEvent PlayerDeath()
 	{
-		SceneManager.LoadScene("ObjectTesting");
+		//update the player data stats from gamemanager
+		currentData.coins += GameManager.Instance.coins;
+		currentData.maxLevel = currentData.maxLevel < GameManager.Instance.currentLevel ? GameManager.Instance.currentLevel : currentData.maxLevel;
+
+		SceneManager.LoadScene("StartScene");
+
 
 		return null;
 	}

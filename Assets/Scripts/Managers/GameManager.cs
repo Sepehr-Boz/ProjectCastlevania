@@ -9,15 +9,16 @@ using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
-	//public AreaData thisArea;
-
 	public Cinemachine.CinemachineVirtualCamera virtualCamera;
-
 	public int targetFPS;
 
 	public RoomTemplates templates;
 	public MapCreation mapCreation;
 	public ExtensionMethods extensions;
+
+
+	public int currentLevel = 1;
+	public int coins = 0;
 
 	#region singleton
 	private static GameManager _instance;
@@ -39,23 +40,18 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		GameObject room = GameObject.FindGameObjectWithTag("Rooms");
-		templates = room.GetComponent<RoomTemplates>();
-		mapCreation = room.GetComponent<MapCreation>();
-		extensions = room.GetComponent<ExtensionMethods>();
-
-
-		SceneManager.activeSceneChanged += SceneChanged;
+		//add the references if they havent already been manually added
+		if (templates == null || mapCreation == null || extensions == null)
+		{
+			GameObject room = GameObject.FindGameObjectWithTag("Rooms");
+			templates = room.GetComponent<RoomTemplates>();
+			mapCreation = room.GetComponent<MapCreation>();
+			extensions = room.GetComponent<ExtensionMethods>();
+		}
 
 		//set target fps
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = targetFPS;
-	}
-
-	private void SceneChanged(Scene current, Scene next)
-	{
-		//unload the resources from the previous scene to allow more memory and cpu/gpu power for the new scene
-		Resources.UnloadUnusedAssets();
 	}
 
 	private void OnApplicationQuit()
@@ -80,6 +76,7 @@ public class GameManager : MonoBehaviour
 		{
 			Time.timeScale = 1;
 		}
+
 	}
 
 	//load the new scene

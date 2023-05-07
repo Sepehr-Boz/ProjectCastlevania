@@ -1,0 +1,173 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7998144566813640894
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4441967236411848633}
+  - component: {fileID: 2943570389828170801}
+  - component: {fileID: 1471927076619359595}
+  - component: {fileID: 5502375285261834733}
+  m_Layer: 0
+  m_Name: RoomManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4441967236411848633
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998144566813640894}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2943570389828170801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998144566813640894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4cc06f72d4f395498251132a4123e15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bottomRooms:
+  - {fileID: 7289422100793448187, guid: a67f9e14e34336c4fbe015da4dc3c4ac, type: 3}
+  - {fileID: 7289422100793448187, guid: a67f9e14e34336c4fbe015da4dc3c4ac, type: 3}
+  - {fileID: 5933915601611941470, guid: c4aaa5ef892d06c47b8da6623aedef30, type: 3}
+  - {fileID: 5933915601611941470, guid: 3b12b2d9620332f4387dc233a4bb4c9e, type: 3}
+  - {fileID: 8179812656853620782, guid: 7804adf87c0d1654c886d6097ea880b7, type: 3}
+  - {fileID: 4232279584643191188, guid: 377f4e6a968d4004ca88a2397a365ef9, type: 3}
+  - {fileID: 3614746277353022348, guid: 92b1a00ee4309a34c8e8ca4ac76914ab, type: 3}
+  - {fileID: 3614746277353022348, guid: f28911ffb26f2ce4f8bd9920c4142c9d, type: 3}
+  topRooms:
+  - {fileID: 8809140591182885301, guid: 62cf592038767b54aa07437a30ad2c86, type: 3}
+  - {fileID: 8809140591182885301, guid: 62cf592038767b54aa07437a30ad2c86, type: 3}
+  - {fileID: 5933915601611941470, guid: c4aaa5ef892d06c47b8da6623aedef30, type: 3}
+  - {fileID: 5933915601611941470, guid: 3b12b2d9620332f4387dc233a4bb4c9e, type: 3}
+  - {fileID: 9000491924850306309, guid: dfe0021fab752144a8c9a890641f1eb3, type: 3}
+  - {fileID: 1060287152593398060, guid: abdf5eb7b01000840a4d033d38ba4e7e, type: 3}
+  leftRooms:
+  - {fileID: 5183547709966650049, guid: 8c8bb5f621e1d8345b7cc17c18230d34, type: 3}
+  - {fileID: 5183547709966650049, guid: 8c8bb5f621e1d8345b7cc17c18230d34, type: 3}
+  - {fileID: 8179812656853620782, guid: 5d2d641d93ef5cb4388e579c878f5954, type: 3}
+  - {fileID: 8179812656853620782, guid: c2a7452cc263a634081f5dd9fd68dcce, type: 3}
+  - {fileID: 8179812656853620782, guid: 7804adf87c0d1654c886d6097ea880b7, type: 3}
+  - {fileID: 1060287152593398060, guid: 67b20d94d352f874b865b69dde021877, type: 3}
+  - {fileID: 8179812656853620782, guid: 0acb2273a2d212f409fd698c7b495aa1, type: 3}
+  rightRooms:
+  - {fileID: 584921769552677541, guid: 1eaa050cb5477874f8e51d965ececea1, type: 3}
+  - {fileID: 584921769552677541, guid: 1eaa050cb5477874f8e51d965ececea1, type: 3}
+  - {fileID: 8179812656853620782, guid: 2f70300e7ade4c3459af14f5f5493291, type: 3}
+  - {fileID: 8179812656853620782, guid: c2a7452cc263a634081f5dd9fd68dcce, type: 3}
+  - {fileID: 9000491924850306309, guid: ed9332e3f404a2f45a491074ca29dd62, type: 3}
+  - {fileID: 4232279584643191188, guid: 8fb3663ee3a3e82479c167982808e264, type: 3}
+  closedRoom: {fileID: 1544681882197819549, guid: 275db89031b297849922bc62e083b131, type: 3}
+  openRoom: {fileID: 4804346389570161791, guid: aa130df544795204ba884b72ad41a36c, type: 3}
+  bossRooms:
+  - {fileID: 5265224608547941003, guid: ffd6d6af2d973aa4a9e9e0e09d11091b, type: 3}
+  - {fileID: 6436207954922627208, guid: ab18c5463f7fb064190993ad3b2faa9e, type: 3}
+  - {fileID: 4804346389570161791, guid: 201987b79c9762641b883cbe25cba3d6, type: 3}
+  - {fileID: 5154890260955177838, guid: 44d8d94c73f92f84781665e06fb4d932, type: 3}
+  - {fileID: 7161991503107603654, guid: b4143697b79a48449ad547dca58083d0, type: 3}
+  allRooms:
+  - {fileID: 1544681882197819549, guid: 275db89031b297849922bc62e083b131, type: 3}
+  - {fileID: 7289422100793448187, guid: a67f9e14e34336c4fbe015da4dc3c4ac, type: 3}
+  - {fileID: 8179812656853620782, guid: 7804adf87c0d1654c886d6097ea880b7, type: 3}
+  - {fileID: 3614746277353022348, guid: c4726718f1da1fb499bd89041f7b728b, type: 3}
+  - {fileID: 5265224608547941003, guid: cccc95cb67eb70d45beed35704a40410, type: 3}
+  - {fileID: 4232279584643191188, guid: 377f4e6a968d4004ca88a2397a365ef9, type: 3}
+  - {fileID: 5183547709966650049, guid: 8c8bb5f621e1d8345b7cc17c18230d34, type: 3}
+  - {fileID: 8179812656853620782, guid: c2a7452cc263a634081f5dd9fd68dcce, type: 3}
+  - {fileID: 8179812656853620782, guid: 9369bc0fe0ed05341a582b1d1b4de799, type: 3}
+  - {fileID: 584921769552677541, guid: 1eaa050cb5477874f8e51d965ececea1, type: 3}
+  - {fileID: 8809140591182885301, guid: 62cf592038767b54aa07437a30ad2c86, type: 3}
+  - {fileID: 5933915601611941470, guid: 3b12b2d9620332f4387dc233a4bb4c9e, type: 3}
+  - {fileID: 5933915601611941470, guid: c4aaa5ef892d06c47b8da6623aedef30, type: 3}
+  - {fileID: 6436207954922627208, guid: f11831c2d0991f74d9831f2574934cae, type: 3}
+  - {fileID: 4804346389570161791, guid: aa130df544795204ba884b72ad41a36c, type: 3}
+  - {fileID: 5154890260955177838, guid: f1bc15b3c5d09144288172ad7411d609, type: 3}
+  - {fileID: 1060287152593398060, guid: 67b20d94d352f874b865b69dde021877, type: 3}
+  - {fileID: 7161991503107603654, guid: a60638b7d5c2bdc4282c1cb5c7069808, type: 3}
+  - {fileID: 9000491924850306309, guid: ed9332e3f404a2f45a491074ca29dd62, type: 3}
+  - {fileID: 3614746277353022348, guid: f28911ffb26f2ce4f8bd9920c4142c9d, type: 3}
+  - {fileID: 8179812656853620782, guid: 0acb2273a2d212f409fd698c7b495aa1, type: 3}
+  - {fileID: 8179812656853620782, guid: 2f70300e7ade4c3459af14f5f5493291, type: 3}
+  - {fileID: 584921769552677541, guid: 1b63d1b77ffa58948a02bef8b4df1da7, type: 3}
+  - {fileID: 4804346389570161791, guid: ac2847999472c694eb09d1b3a803cbfd, type: 3}
+  - {fileID: 5933915601611941470, guid: 2910337cce220b644a919f61cd8b5dd6, type: 3}
+  - {fileID: 5933915601611941470, guid: 65c8dcebba11aff498e35379a47adbe6, type: 3}
+  - {fileID: 5933915601611941470, guid: 02eb262dc37628345b84b65abef32b37, type: 3}
+  - {fileID: 1060287152593398060, guid: abdf5eb7b01000840a4d033d38ba4e7e, type: 3}
+  - {fileID: 8809140591182885301, guid: d70c2e50228aefe4aa081c4c4ca8843e, type: 3}
+  - {fileID: 3614746277353022348, guid: 92b1a00ee4309a34c8e8ca4ac76914ab, type: 3}
+  - {fileID: 4232279584643191188, guid: 8fb3663ee3a3e82479c167982808e264, type: 3}
+  - {fileID: 8179812656853620782, guid: 5d2d641d93ef5cb4388e579c878f5954, type: 3}
+  - {fileID: 5933915601611941470, guid: a265663fb0a720647bfa3ff083f4774f, type: 3}
+  - {fileID: 4804346389570161791, guid: f638a277e1a055a4581d22b97a0016a5, type: 3}
+  - {fileID: 9000491924850306309, guid: dfe0021fab752144a8c9a890641f1eb3, type: 3}
+  - {fileID: 5265224608547941003, guid: ffd6d6af2d973aa4a9e9e0e09d11091b, type: 3}
+  - {fileID: 6436207954922627208, guid: ab18c5463f7fb064190993ad3b2faa9e, type: 3}
+  - {fileID: 4804346389570161791, guid: 201987b79c9762641b883cbe25cba3d6, type: 3}
+  - {fileID: 5154890260955177838, guid: 44d8d94c73f92f84781665e06fb4d932, type: 3}
+  - {fileID: 7161991503107603654, guid: b4143697b79a48449ad547dca58083d0, type: 3}
+  focus: {fileID: 7937139181433770907, guid: 68a2b92d11fbc3241ac161f837effc86, type: 3}
+  exits: {fileID: 3574919807014965690, guid: 7c74170a28c22fb468fdf3e1efb4c45b, type: 3}
+--- !u!114 &1471927076619359595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998144566813640894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c4b96d9917b804abeaad7ae2227d62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  extendFunction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1471927076619359595}
+        m_TargetAssemblyTypeName: ExtensionMethods, Assembly-CSharp
+        m_MethodName: HorizontalExtend
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  newEntryChance: 25
+--- !u!114 &5502375285261834733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998144566813640894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a011b34cb783e4249958abc17897d539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapParent: {fileID: 0}
+  focusParent: {fileID: 0}
+  mapSize: 20

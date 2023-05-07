@@ -4,24 +4,14 @@ using UnityEngine;
 
 public class ObjectController : MonoBehaviour
 {
-    [SerializeField] private int coins;
-
     [SerializeField] private Sprite active;
     [SerializeField] private Sprite destroyed;
 
-    private new Collider2D collider;
-    private new SpriteRenderer renderer;
-
     private void Start()
     {
-        collider = GetComponent<Collider2D>();
-        renderer = GetComponent<SpriteRenderer>();
-
-        coins = Random.Range(1, 10);
-
        if (active != null)
         {
-            renderer.sprite = active;
+            GetComponent<SpriteRenderer>().sprite = active;
         }
     }
 
@@ -37,9 +27,13 @@ public class ObjectController : MonoBehaviour
             //change sprite to a destroyed one and disable collider
             if (destroyed != null)
             {
-                renderer.sprite = destroyed;
+                GetComponent<SpriteRenderer>().sprite = destroyed;
             }
-            collider.enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+
+            //spawn a coin
+            GameObject coin = CoinPool.Instance.GetPooledObject();
+            coin.transform.position = transform.position;
         }
     }
 }

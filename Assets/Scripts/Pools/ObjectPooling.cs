@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Pools
 {
+	//needs to be abstract as each pool needs to be a different singleton 
 	public abstract class ObjectPooling : MonoBehaviour
 	{
 		public List<GameObject> pooledObjects;
@@ -12,7 +13,7 @@ namespace Assets.Scripts.Pools
 
 		public int amountToPool;
 
-		public bool objectsPooled = false;
+		//public bool objectsPooled = false;
 
 		protected void Start()
 		{
@@ -27,33 +28,29 @@ namespace Assets.Scripts.Pools
 				tmp = Instantiate(objectsToPool[i % n]);
 				//sets the name to not have "(Clone)"
 				tmp.name = objectsToPool[i % n].name;
-				//tmp.transform.parent = transform;
+				tmp.transform.parent = transform;
 				tmp.SetActive(false);
 				pooledObjects.Add(tmp);
 			}
 
-			objectsPooled = true;
+			//objectsPooled = true;
 
 
 		}
 
-		public GameObject GetPooledObject(GameObject objectName = null)
+		public GameObject GetPooledObject()
 		{
-			GameObject tmp;
+			GameObject tmp = null;
 			//check the pooled objects list for the wanted room and return it
 			foreach (GameObject obj in pooledObjects)
 			{
-				if (objectName == obj && !obj.activeInHierarchy)
+				if (!obj.activeInHierarchy)
 				{
 					obj.SetActive(true);
 					return obj;
 				}
 			}
 			//if the room doesnt exist/ all instances are active already then make a new instance, add it to the list of pooled objects and return it
-			tmp = Instantiate(objectName);
-			pooledObjects.Add(tmp);
-			tmp.transform.parent = transform;
-			tmp.SetActive(true);
 			return tmp;
 		}
 	}
